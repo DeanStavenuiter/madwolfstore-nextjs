@@ -28,7 +28,7 @@ const addProduct = async (formData: FormData) => {
     },
   });
 
-  redirect('/');
+  redirect('/add-product');
 };
 
 const page = () => {
