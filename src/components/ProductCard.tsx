@@ -7,12 +7,15 @@ interface ProductCardProps {
   product: Product;
 }
 
+// Product card component
 const ProductCard = ({ product }: ProductCardProps) => {
+  // Check if product is new
   const isNew =
     Date.now() - new Date(product.createdAt).getTime() <
     1000 * 60 * 60 * 24 * 7;
 
   return (
+    // Link to product page
     <Link
       href={'/products/' + product.id}
       className='card w-full bg-base-100 transition-shadow hover:shadow-xl'

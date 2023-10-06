@@ -1,5 +1,5 @@
 import { Cart, CartItems, Prisma } from '@prisma/client';
-import prisma from './prisma';
+import {prisma} from './prisma';
 import { cookies } from 'next/headers';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -140,22 +140,35 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
 
   //we merge the local cart items into the user cart items
   await prisma.$transaction(async (tx) => {
+
+    //if the user cart exists, we merge the local cart items into it
     if (userCart) {
       const mergedCartItems = mergeCartItems(localCart.items, userCart.items);
 
+      //we delete the user cart items
       await tx.cartItems.deleteMany({
         where: {
           cartId: userCart.id,
         },
       });
 
-      await tx.cartItems.createMany({
-        data: mergedCartItems.map((item) => ({
-          cartId: userCart.id,
-          productId: item.productId,
-          quantity: item.quantity,
-        })),
+      // we create the merged cart items
+      await tx.cart.update({
+        where: {
+          id: userCart.id,
+        },
+        data: {
+          items: {
+            createMany: {
+              data: mergedCartItems.map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+              })),
+            },
+          },
+        },
       });
+
     } else {
       //if the user cart does not exist, we create it and add the local cart items to it
       await tx.cart.create({
@@ -178,7 +191,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       where: {
         id: localCart.id,
       },
-    });
+    })
 
     //  we delete the local cart cookie
     cookies().set('localCartId', '');

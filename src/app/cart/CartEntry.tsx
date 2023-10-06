@@ -11,12 +11,16 @@ interface CartEntryProps {
   setProductQuantity: (productId: string, quantity: number) => void;
 }
 
+// Cart entry component
 const CartEntry = ({
   cartItem: { product, quantity },
   setProductQuantity,
 }: CartEntryProps) => {
+
   const [isPending, startTransition] = useTransition();
   const quantityOptions: JSX.Element[] = [];
+
+  // Generate quantity options 
   for (let i = 1; i <= 99; i++) {
     quantityOptions.push(
       <option value={i} key={i}>

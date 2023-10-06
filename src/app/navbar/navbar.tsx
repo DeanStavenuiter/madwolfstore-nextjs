@@ -8,6 +8,7 @@ import UserMenuButton from './UserMenuButton';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 
+// Search products on submit
 const searchProdutcs = async (formData: FormData) => {
   'use server';
 
@@ -19,6 +20,7 @@ const searchProdutcs = async (formData: FormData) => {
 };
 
 const Navbar = async () => {
+  // Get cart and session
   const cart = await getCart();
   const session = await getServerSession(authOptions);
 

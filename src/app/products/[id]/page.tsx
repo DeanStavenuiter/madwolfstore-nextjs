@@ -1,5 +1,5 @@
 import PriceTag from '@/components/PriceTag';
-import prisma from '@/lib/db/prisma';
+import {prisma} from '@/lib/db/prisma';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -7,18 +7,7 @@ import { cache } from 'react';
 import AddToCartButton from './AddToCartButton';
 import { incrementProductQuantity } from './actions';
 
-interface ProductPageProps {
-  params: {
-    id: string;
-  };
-}
-
-const getProduct = cache(async (id: string) => {
-  const product = await prisma.product.findUnique({ where: { id } });
-  if (!product) notFound();
-  return product;
-});
-
+// Generate metadata for product page
 export async function generateMetadata({
   params: { id },
 }: ProductPageProps): Promise<Metadata> {
@@ -30,7 +19,22 @@ export async function generateMetadata({
   };
 }
 
-const page = async ({ params: { id } }: ProductPageProps) => {
+// Props for product page
+interface ProductPageProps {
+  params: {
+    id: string;
+  };
+}
+
+// Get product from database
+const getProduct = cache(async (id: string) => {
+  const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) notFound();
+  return product;
+});
+
+// Product page component
+const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await getProduct(id);
 
   return (
@@ -54,4 +58,4 @@ const page = async ({ params: { id } }: ProductPageProps) => {
   );
 };
 
-export default page;
+export default ProductPage;

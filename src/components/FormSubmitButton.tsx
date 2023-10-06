@@ -8,17 +8,21 @@ type FormSubmitButtonProps = {
   className?: string;
 } & ComponentProps<'button'>;
 
-const FormSubmitButton = ({ children, className, ...props }: FormSubmitButtonProps) => {
-  const { pending, } = useFormStatus();
+const FormSubmitButton = ({
+  children,
+  className,
+  ...props
+}: FormSubmitButtonProps) => {
+  const { pending } = useFormStatus();
 
   return (
     <button
-    {...props}
+      {...props}
       className={`btn btn-primary ${className}`}
       type='submit'
       aria-disabled={pending}
     >
-        {pending && <span className='loading loading-spinner'/>}
+      {pending && <span className='loading loading-spinner' />}
       {children}
     </button>
   );

@@ -9,7 +9,9 @@ interface UserMenuButtonProps {
   session: Session | null;
 }
 
+
 const UserMenuButton = ({ session }: UserMenuButtonProps) => {
+  // Get user from session 
   const user = session?.user;
 
   return (

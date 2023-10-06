@@ -1,5 +1,5 @@
 import FormSubmitButton from '@/components/FormSubmitButton';
-import prisma from '@/lib/db/prisma';
+import {prisma} from '@/lib/db/prisma';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '../api/auth/[...nextauth]/route';
@@ -19,16 +19,18 @@ const addProduct = async (formData: FormData) => {
     redirect('/api/auth/signin?callbackUrl=/add-product');
   }
 
-   
+  //get input data from form to create new product
   const name = formData.get('name')?.toString();
   const description = formData.get('description')?.toString();
   const imageUrl = formData.get('imageUrl')?.toString();
   const price = Number(formData.get('price') || 0);
 
+  //check for missing fields
   if (!name || !description || !imageUrl || !price) {
     throw Error('Missing required fields.');
   }
 
+  //create new product
   await prisma.product.create({
     data: {
       name,
@@ -49,6 +51,7 @@ const page = async() => {
   if(!session) {
     redirect('/api/auth/signin?callbackUrl=/add-product');
   }
+  
   return (
     <div>
       <h1 className='mb-3 text-lg font-bold'>Add Product</h1>

@@ -3,11 +3,13 @@
 import { useState, useTransition } from "react";
 import { incrementProductQuantity } from "./actions";
 
+
 interface AddToCartButtonProps {
   productId: string;
   incrementProductQuantity: (productId: string) => Promise<void>;
 }
 
+// Add to cart button component
 const AddToCartButton = ({ productId }: AddToCartButtonProps) => {
     const [isPending, startTransition] = useTransition();
     const [success, setSuccess] = useState(false);

@@ -1,43 +1,59 @@
 'use server';
 import { createCart, getCart } from '@/lib/db/cart';
-import prisma from '@/lib/db/prisma';
+import {prisma} from '@/lib/db/prisma';
 import { revalidatePath } from 'next/cache';
 
 const setProductQuantity = async (productId: string, quantity: number) => {
+  //  Get the cart from the database or create a new one
   const cart = (await getCart()) ?? (await createCart());
 
+  // Check if the product is already in the cart
   const articleInCart = cart.items.find((item) => item.productId === productId);
 
+  // If the quantity is 0, remove the product from the cart
   if (quantity === 0) {
     if (articleInCart) {
-      await prisma.cartItems.delete({
-        where: {
-          id: articleInCart.id,
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: {
+            delete: { id: articleInCart.id },
+          },
         },
       });
     }
+    
   } else {
+    // If the quantity is not 0, update the quantity
     if (articleInCart) {
-      await prisma.cartItems.update({
-        where: {
-          id: articleInCart.id,
-        },
+      await prisma.cart.update({
+        where: { id: cart.id },
         data: {
-          quantity,
+          items: {
+            update: {
+              where: { id: articleInCart.id },
+              data: { quantity },
+            },
+          },
         },
       });
     } else {
-        await prisma.cartItems.create({
-            data: {
-                cartId: cart.id,
-                productId,
-                quantity
-            }
-        })
+      // If the product is not in the cart, add it
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: {
+            create: {
+              productId,
+              quantity,
+            },
+          },
+        },
+      });
     }
   }
 
-  revalidatePath("/cart")
+  revalidatePath('/cart');
 };
 
 export default setProductQuantity;
