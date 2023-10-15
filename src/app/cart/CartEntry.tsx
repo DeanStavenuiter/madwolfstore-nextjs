@@ -16,11 +16,10 @@ const CartEntry = ({
   cartItem: { product, quantity },
   setProductQuantity,
 }: CartEntryProps) => {
-
   const [isPending, startTransition] = useTransition();
   const quantityOptions: JSX.Element[] = [];
 
-  // Generate quantity options 
+  // Generate quantity options
   for (let i = 1; i <= 99; i++) {
     quantityOptions.push(
       <option value={i} key={i}>
@@ -31,13 +30,13 @@ const CartEntry = ({
 
   return (
     <div>
-      <div className='flex flex-wrap items-center gap-3'>
+      <div className='flex flex-wrap items-center gap-6'>
         <Image
-          src={product.imageUrl}
+          src={product.imageUrl1}
           alt={product.name}
           width={200}
           height={200}
-          className='rounded-lg'
+          className='rounded-lg w-1/3 '
         />
         <div>
           <Link href={`/products/` + product.id} className='font-bold'>
@@ -57,7 +56,7 @@ const CartEntry = ({
                 });
               }}
             >
-                <option value={0}>0 (remove)</option>
+              <option value={0}>0 (remove)</option>
               {quantityOptions}
             </select>
           </div>

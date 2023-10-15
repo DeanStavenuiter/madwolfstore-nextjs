@@ -22,7 +22,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     >
       <figure className='card-image'>
         <Image
-          src={product.imageUrl}
+          src={product.imageUrl1}
           alt={product.name}
           width={800}
           height={400}

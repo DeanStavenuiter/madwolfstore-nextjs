@@ -7,26 +7,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum Role {
+  WOLF
+  USER
+}
+
+enum Type {
+  tshirt
+  sweater
+  hoodie
+  accessory
+  print
+}
+
 // product model
 model Product {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  description String
-  imageUrl    String
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
   name        String
+  description String
+  imageUrl1   String
+  imageUrl2   String?
+  imageUrl3   String?
+  imageUrl4   String?
   price       Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  type        Type
+  sizes       productSize[]
   CartItems   CartItems[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("products")
+}
+
+// Size model
+model productSize {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  size      Size
+  quantity  Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?  @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("productSizes")
 }
 
 // cart model
 model Cart {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
   items     CartItems[]
-  UserId    String?     @db.ObjectId
-  User      User?       @relation(fields: [userId], references: [id])
+  User      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?     @db.ObjectId
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -82,14 +121,34 @@ model Session {
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String    @unique
   emailVerified DateTime?
+  password      String?
   image         String?
+  role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
   Cart          Cart[]
+  Address       Address[]
+  createdAt     DateTime?  @default(now())
+  updatedAt     DateTime?  @updatedAt
 
   @@map("users")
+}
+
+model Address {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  street    String
+  city      String
+  state     String
+  zip       String
+  country   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("addresses")
 }
 
 // verification token model

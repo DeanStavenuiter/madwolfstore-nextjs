@@ -2,6 +2,9 @@ import { getCart } from '@/lib/db/cart';
 import CartEntry from './CartEntry';
 import setProductQuantity from './actions';
 import { formatPrice } from '@/lib/format';
+import { initiatePayment } from '@/lib/mollie/mollie';
+import CheckOutButton from './CheckOutButton';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Your Cart | MadWolf Store',
@@ -11,10 +14,22 @@ export const metadata = {
 const CartPage = async () => {
   // Get cart
   const cart = await getCart();
+
+  // Handle payment
+  // const handlePayment = async () => {
+  //   'use server';
+  //   try {
+  //     const paymentUrl = await initiatePayment();
+  //     // window.location.href = paymentUrl;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <div>
       <h1 className='mb-6 text-3xl font-bold'>Shopping Cart</h1>
-  
+
       {cart?.items.map((cartItem) => (
         <CartEntry
           cartItem={cartItem}
@@ -25,9 +40,17 @@ const CartPage = async () => {
       {!cart?.items.length && <p>Your Cart is empty.</p>}
       <div className='flex flex-col items-end sm:items-center'>
         <p className='mb-3 font-bold'>
-            Total: {formatPrice(cart?.subtotal || 0)}
+          Total: {formatPrice(cart?.subtotal || 0)}
         </p>
-        <button className='btn btn-primary sm:w-[200px]'>Checkout</button>
+        {/* <form action={handlePayment}>
+          <CheckOutButton className='btn-block'>Checkout</CheckOutButton>
+        </form> */}
+
+        <Link href={"/checkout"}>
+        <button className='btn btn-block btn-primary sm:w-[200px]'>
+          Chechout
+        </button>
+        </Link>
       </div>
     </div>
   );

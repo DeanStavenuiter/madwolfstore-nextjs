@@ -15,7 +15,7 @@ export async function generateMetadata({
   return {
     title: `${product.name} | MadWolf Store`,
     description: product.description,
-    openGraph: { images: [{ url: product.imageUrl }] },
+    openGraph: { images: [{ url: product.imageUrl1 }] },
   };
 }
 
@@ -40,7 +40,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   return (
     <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
       <Image
-        src={product.imageUrl}
+        src={product.imageUrl1}
         alt={product.name}
         width={500}
         height={500}

@@ -5,13 +5,14 @@ import {prisma} from '@/lib/db/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface HomeProps {
+export interface HomeProps {
   searchParams: {
     page: string;
   };
 }
 
 const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
+
   const currentPage = parseInt(page);
 
   const pageSize = 6;
@@ -33,11 +34,11 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
 
   return (
     <div className='flex flex-col items-center'>
-      {currentPage === 1 && (
+      {products && currentPage === 1 && (
         <div className='hero rounded-xl bg-base-200'>
           <div className='hero-content flex-col lg:flex-row'>
             <Image
-              src={products[0].imageUrl}
+              src={products[0].imageUrl1}
               alt={products[0].name}
               width={400}
               height={800}

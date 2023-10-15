@@ -3,7 +3,7 @@
 import React, { ComponentProps } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
-type FormSubmitButtonProps = {
+export type FormSubmitButtonProps = {
   children: React.ReactNode;
   className?: string;
 } & ComponentProps<'button'>;
@@ -13,12 +13,13 @@ const FormSubmitButton = ({
   className,
   ...props
 }: FormSubmitButtonProps) => {
-  const { pending } = useFormStatus();
+  const { pending, data } = useFormStatus();
 
+  console.log("data", data);
   return (
     <button
       {...props}
-      className={`btn btn-primary ${className}`}
+      className={`btn btn-primary ${className} `}
       type='submit'
       aria-disabled={pending}
     >

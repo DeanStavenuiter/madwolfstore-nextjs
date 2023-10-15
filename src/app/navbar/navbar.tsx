@@ -45,7 +45,9 @@ const Navbar = async () => {
             </div>
           </form>
           <ShoppingCartButton cart={cart} />
-          <UserMenuButton session={session} />
+          <UserMenuButton 
+          session={session} 
+          />
         </div>
       </div>
     </div>
