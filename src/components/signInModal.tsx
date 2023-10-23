@@ -1,4 +1,5 @@
-import { signIn } from "next-auth/react";
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 const SignInModal = () => {
   return (
@@ -27,7 +28,7 @@ const SignInModal = () => {
                   //   required
                   name='email'
                   type='email'
-                  autoComplete="true"
+                  autoComplete='true'
                   className='peer input input-bordered mb-3 w-full'
                 />
               </div>
@@ -41,24 +42,18 @@ const SignInModal = () => {
                   //   required
                   type='password'
                   name='password'
-                  autoComplete="true"
+                  autoComplete='true'
                   className='peer input input-bordered mb-3 w-full'
                 />
               </div>
             </div>
             <div className='flex flex-col gap-5'>
-              <button className='btn btn-primary' onClick={() => signIn()}>Sign In</button>
-              <button
-                onClick={() =>
-                  (
-                    document.getElementById('signUpModal') as HTMLDialogElement
-                  ).showModal()
-                }
-              >
-                Don&apos;t have an account yet?
+              <button className='btn btn-primary' onClick={() => signIn()}>
+                Sign In
               </button>
             </div>
           </form>
+          <Link href='auth/signup'>Don&apos;t have an account yet?</Link>
         </div>
       </div>
     </dialog>

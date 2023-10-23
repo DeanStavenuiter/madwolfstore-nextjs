@@ -16,8 +16,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
   // Get user from session
   const { data: sessionData, status } = useSession();
 
-  console.log('session', sessionData, "status", status);
-
+  console.log('session', sessionData, 'status', status);
   const user = session?.user;
 
   return (
@@ -57,15 +56,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
               Sign Out
             </button>
           ) : (
-            <button
-              onClick={() =>
-                (
-                  document.getElementById('signInModal') as HTMLDialogElement
-                ).showModal()
-              }
-            >
-              Sign In
-            </button>
+            <button onClick={() => signIn()}>Sign In</button>
           )}
           {/* // <button onClick={() => signIn()}>Sign In</button> */}
         </li>

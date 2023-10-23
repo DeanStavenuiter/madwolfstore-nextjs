@@ -1,4 +1,5 @@
 const SignUpModal = () => {
+
   const handleSignUp = async (
     // e: React.FormEvent<HTMLFormElement>,
     formData: FormData
@@ -40,7 +41,7 @@ const SignUpModal = () => {
       <div className='modal-box w-1/4 '>
         <h3 className='text-lg font-bold'>Sign Up!</h3>
         <div className='modal-action flex-col justify-normal'>
-          <form method='dialog' action={handleSignUp}>
+          <form action={handleSignUp}>
             <button
               className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
               onClick={() =>

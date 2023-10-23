@@ -13,12 +13,12 @@ import bcrypt from 'bcrypt';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma as PrismaClient) as Adapter,
   pages: {
-    // signIn: 'auth/signin',
+    signIn: '/auth/signIn',
   },
   providers: [
     CredentialsProvider({
-      id: 'user-account',
-      name: 'User Account',
+      id: 'credentials',
+      name: 'credentials',
       type: 'credentials',
       credentials: {
         email: {
@@ -36,8 +36,13 @@ export const authOptions: NextAuthOptions = {
         }
 
         const { email, password } = credentials;
-
+        console.log('credentials', credentials)
         try {
+
+          if (!email || !password) {
+            return null;
+          }
+
           const user = await prisma.user.findUnique({
             where: { email },
           });
@@ -58,6 +63,7 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
+          console.log('user', user);
           return {
             id: user.id,
             email: user.email,
@@ -86,7 +92,7 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-        //   id: user.id,
+          // id: user.id,
         },
       };
     },
