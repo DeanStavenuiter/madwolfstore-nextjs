@@ -2,7 +2,7 @@ import { mergeAnonymousCartIntoUserCart } from '@/lib/db/cart';
 import { prisma } from '@/lib/db/prisma';
 import { env } from '@/lib/env';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { NextAuthOptions } from 'next-auth';
 import { Adapter } from 'next-auth/adapters';
 import NextAuth from 'next-auth/next';
@@ -10,10 +10,19 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 
+declare module 'next-auth/adapters' {
+  interface AdapterUser {
+    id: string;
+    role: string;
+    randomKey: string;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma as PrismaClient) as Adapter,
   pages: {
     signIn: '/auth/signIn',
+    error: '/auth/signIn',
   },
   providers: [
     CredentialsProvider({
@@ -31,14 +40,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(
         credentials: Record<'email' | 'password', string> | undefined
       ) {
+        
         if (!credentials) {
-          return null;
+          return null
         }
 
         const { email, password } = credentials;
-        console.log('credentials', credentials)
-        try {
 
+        try {
           if (!email || !password) {
             return null;
           }
@@ -48,7 +57,6 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            // Return null if credentials are invalid
             return null;
           }
 
@@ -59,16 +67,14 @@ export const authOptions: NextAuthOptions = {
           const passwordValid = await bcrypt.compare(password, user.password);
 
           if (!passwordValid) {
-            // Return null if credentials are invalid
             return null;
           }
 
-          console.log('user', user);
           return {
-            id: user.id,
+            id: user.id + '',
             email: user.email,
-            // randomKey: 'Do you like madwolf?',
-          }; // Return user object if authentication succeeds
+            role: user.role,
+          };
         } catch (error) {
           console.log('error', error); // Handle any errors that occur during authentication
           return null;
@@ -84,32 +90,37 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   secret: env.NEXTAUTH_SECRET,
-//   debug: process.env.NODE_ENV === 'development',
-
   callbacks: {
-    session: ({ session, user }) => {
-      return {
+    async jwt({ token, user }) {
+      console.log('jwt callback', { token, user });
+      if (user) {
+        const u = user as unknown as any;
+        const updatedToken = {
+          ...token,
+          id: u.id,
+          role: u.role,
+        };
+        return Promise.resolve(updatedToken);
+      }
+      return Promise.resolve(token);
+    },
+    async session({ session, token }) {
+      console.log('session callback', { session, token });
+      const updatedSession = {
         ...session,
         user: {
           ...session.user,
-          // id: user.id,
+          id: token.id,
+          role: token.role,
+          error: token.error,
         },
       };
+
+      return Promise.resolve(updatedSession);
     },
-    // jwt: ({ token, user }) => {
-    //   if (user) {
-    //     const u = user as any;
-    //     return {
-    //       ...token,
-    //       id: u.id,
-    //       randomKey: u.randomKey,
-    //     };
-    //   }
-    //   return token;
-    // },
   },
   events: {
-    async signIn({ user }) {
+    async signIn({ user }: any) {
       await mergeAnonymousCartIntoUserCart(user.id);
     },
   },

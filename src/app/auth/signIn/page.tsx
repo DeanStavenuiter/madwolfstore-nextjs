@@ -1,8 +1,12 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { redirect, useRouter } from 'next/navigation';
 import { FormEventHandler } from 'react';
 import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Signin = () => {
   const [userInfo, setUserInfo] = useState({
@@ -10,27 +14,25 @@ const Signin = () => {
     password: '',
   });
 
-  // console.log('email', email, 'password', password)
-
+  const router = useRouter();
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    console.log('CLICKED');
     e.preventDefault();
-    console.log(
-      'OnSUBMIT',
-      'email',
-      userInfo.email,
-      'password',
-      userInfo.password
-    );
 
-    const result = await signIn('credentials', {
+    const response = (await signIn('credentials', {
       email: userInfo.email,
       password: userInfo.password,
-      redirect: true,
+      redirect: false,
       callbackUrl: '/',
-    });
+    })) as any;
 
-    console.log('result', result);
+    if (response.ok) {
+      toast.success('Logged in successfully');
+      window.location.replace('/')
+    } else {
+      toast.error('Invalid credentials');
+    }
+
+    console.log('Response', response);
   };
 
   return (
@@ -39,7 +41,7 @@ const Signin = () => {
         <div className='w-1/3 '>
           <h3 className='text-center text-lg font-bold'>Sign In!</h3>
           <div className='flex-col justify-normal'>
-            <form onSubmit={onSubmit} action="#">
+            <form onSubmit={onSubmit} action='#'>
               <div className='mb-3 flex w-full flex-col'>
                 {/* name */}
                 <div className='w-full'>
@@ -80,18 +82,38 @@ const Signin = () => {
                     className='peer input input-bordered mb-3 w-full'
                   />
                 </div>
+                <Toaster />
               </div>
               <div className='flex flex-col gap-5'>
-                <button
-                  className='btn btn-primary'
-                  // onClick={(event) => onSubmit}
-                  type='submit'
-                >
+                <button className='btn btn-primary' type='submit'>
                   Sign In
                 </button>
-                <button>Don&apos;t have an account yet?</button>
               </div>
             </form>
+            <div className='mb-3 mt-3 flex items-center'>
+              <hr className='w-1/2' /> <span className='ml-3 mr-3'> OR </span>{' '}
+              <hr className='w-1/2' />
+            </div>
+            <button
+              className='btn mb-3 w-full border border-slate-200 px-4 py-2 text-slate-700
+                  transition duration-150 hover:border-slate-400 hover:text-slate-900 dark:border-slate-700
+                  dark:bg-gray-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:text-slate-300'
+              onClick={() => signIn('google', {
+                callbackUrl: '/'
+              })}
+            >
+              <Image
+                className='h-6 w-6'
+                width={100}
+                height={50}
+                src='https://www.svgrepo.com/show/475656/google-color.svg'
+                alt='google logo'
+              />
+              <span>Login with Google</span>
+            </button>
+            <div className='flex justify-center'>
+              <Link href={'auth/signup'}>Don&apos;t have an account yet?</Link>
+            </div>
           </div>
         </div>
       </div>

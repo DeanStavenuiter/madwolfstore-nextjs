@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/db/prisma';
 import bcrypt from 'bcrypt';
-import { NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface SignupBody {

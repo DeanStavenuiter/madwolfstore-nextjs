@@ -4,8 +4,6 @@ import { Session } from 'next-auth';
 import Image from 'next/image';
 import profilePicPlaceHolder from '@/assets/profile-pic-placeholder.png';
 import { signIn, signOut } from 'next-auth/react';
-import SignInModal from '@/components/signInModal';
-import SignUpModal from '@/components/SignUpModal';
 import { useSession } from 'next-auth/react';
 
 interface UserMenuButtonProps {
@@ -17,7 +15,9 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
   const { data: sessionData, status } = useSession();
 
   console.log('session', sessionData, 'status', status);
+  
   const user = session?.user;
+  // console.log("User" ,user)
 
   return (
     <div className='dropdown dropdown-end'>
@@ -50,6 +50,18 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
         tabIndex={0}
         className='menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 bg-base-100 shadow'
       >
+        {user?.role === 'WOLF' ? (
+          <>
+            <li>
+              <button>Dashboard</button>
+            </li>
+            <li>
+              <button>Add product</button>
+            </li>
+          </>
+        ) : (
+          ''
+        )}
         <li>
           {user ? (
             <button onClick={() => signOut({ callbackUrl: '/' })}>
@@ -58,11 +70,8 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
           ) : (
             <button onClick={() => signIn()}>Sign In</button>
           )}
-          {/* // <button onClick={() => signIn()}>Sign In</button> */}
         </li>
       </ul>
-      <SignInModal />
-      <SignUpModal />
     </div>
   );
 };
