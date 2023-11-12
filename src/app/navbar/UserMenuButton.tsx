@@ -5,6 +5,7 @@ import Image from 'next/image';
 import profilePicPlaceHolder from '@/assets/profile-pic-placeholder.png';
 import { signIn, signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface UserMenuButtonProps {
   session: Session | null;
@@ -17,6 +18,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
   console.log('session', sessionData, 'status', status);
   
   const user = session?.user;
+  
   // console.log("User" ,user)
 
   return (
@@ -72,6 +74,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
           )}
         </li>
       </ul>
+      <Toaster />
     </div>
   );
 };

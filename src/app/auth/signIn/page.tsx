@@ -3,10 +3,10 @@
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
 import { FormEventHandler } from 'react';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { clearTimeout } from 'timers';
 
 const Signin = () => {
   const [userInfo, setUserInfo] = useState({
@@ -14,7 +14,6 @@ const Signin = () => {
     password: '',
   });
 
-  const router = useRouter();
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
@@ -22,24 +21,51 @@ const Signin = () => {
       email: userInfo.email,
       password: userInfo.password,
       redirect: false,
-      callbackUrl: '/',
+      // callbackUrl: '/',
     })) as any;
 
-    if (response.ok) {
-      toast.success('Logged in successfully');
-      window.location.replace('/')
-    } else {
-      toast.error('Invalid credentials');
-    }
-
+    toast.loading('Logging in...');
     console.log('Response', response);
+
+    if (response.ok) {
+      const timeout1 = setTimeout(() => {
+        toast.dismiss();
+      }, 1500);
+
+      const timeout2 = setTimeout(() => {
+        toast.success('Logged in successfully');
+      }, 1500);
+
+      const timeout3 = setTimeout(() => {
+        window.location.replace('/');
+      }, 2000);
+
+      return () => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+      };
+    } else {
+      const timeout1 = setTimeout(() => {
+        toast.dismiss();
+      }, 1500);
+
+      const timeout2 = setTimeout(() => {
+        toast.error('Invalid credentials, please try again.');
+      }, 1500);
+
+      return () => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+      };
+    }
   };
 
   return (
     <>
       <div className='flex h-[calc(100vh_-_328px)] items-center justify-center'>
         <div className='w-1/3 '>
-          <h3 className='text-center text-lg font-bold'>Sign In!</h3>
+          <h3 className='text-center text-lg font-bold'>Sign In</h3>
           <div className='flex-col justify-normal'>
             <form onSubmit={onSubmit} action='#'>
               <div className='mb-3 flex w-full flex-col'>
@@ -98,9 +124,11 @@ const Signin = () => {
               className='btn mb-3 w-full border border-slate-200 px-4 py-2 text-slate-700
                   transition duration-150 hover:border-slate-400 hover:text-slate-900 dark:border-slate-700
                   dark:bg-gray-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:text-slate-300'
-              onClick={() => signIn('google', {
-                callbackUrl: '/'
-              })}
+              onClick={() =>
+                signIn('google', {
+                  callbackUrl: '/',
+                })
+              }
             >
               <Image
                 className='h-6 w-6'
@@ -109,10 +137,13 @@ const Signin = () => {
                 src='https://www.svgrepo.com/show/475656/google-color.svg'
                 alt='google logo'
               />
-              <span>Login with Google</span>
+              <span>Google</span>
             </button>
+            <div className='mb-3 flex justify-center'>
+              <Link href={'/auth/signup'}>Don&apos;t have an account yet?</Link>
+            </div>
             <div className='flex justify-center'>
-              <Link href={'auth/signup'}>Don&apos;t have an account yet?</Link>
+              <Link href={'/auth/forgotPassword'}>Forgot your password?</Link>
             </div>
           </div>
         </div>

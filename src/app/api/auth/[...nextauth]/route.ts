@@ -40,7 +40,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(
         credentials: Record<'email' | 'password', string> | undefined
       ) {
-        
         if (!credentials) {
           return null
         }
@@ -49,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           if (!email || !password) {
-            return null;
+            return null
           }
 
           const user = await prisma.user.findUnique({
@@ -57,25 +56,26 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            return null;
+            return null
           }
 
           if (!password || !user.password) {
-            return null;
+            return null
           }
 
           const passwordValid = await bcrypt.compare(password, user.password);
 
           if (!passwordValid) {
-            return null;
+            return null
           }
 
           return {
             id: user.id + '',
             email: user.email,
             role: user.role,
+            emailVerified: user.emailVerified,
           };
-        } catch (error) {
+        } catch (error: any) {
           console.log('error', error); // Handle any errors that occur during authentication
           return null;
         }
@@ -99,6 +99,7 @@ export const authOptions: NextAuthOptions = {
           ...token,
           id: u.id,
           role: u.role,
+          emailVerified: u.emailVerified,
         };
         return Promise.resolve(updatedToken);
       }
@@ -112,7 +113,7 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: token.id,
           role: token.role,
-          error: token.error,
+          emailVerified: token.emailVerified,
         },
       };
 
