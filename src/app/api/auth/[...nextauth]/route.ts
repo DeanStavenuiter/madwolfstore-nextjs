@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
-      console.log('jwt callback', { token, user });
+      // console.log('jwt callback', { token, user });
       if (user) {
         const u = user as unknown as any;
         const updatedToken = {
@@ -106,7 +106,7 @@ export const authOptions: NextAuthOptions = {
       return Promise.resolve(token);
     },
     async session({ session, token }) {
-      console.log('session callback', { session, token });
+      // console.log('session callback', { session, token });
       const updatedSession = {
         ...session,
         user: {
