@@ -2,7 +2,6 @@ import { getCart } from '@/lib/db/cart';
 import CartEntry from './CartEntry';
 import setProductQuantity from './actions';
 import { formatPrice } from '@/lib/format';
-import { initiatePayment } from '@/lib/mollie/mollie';
 import CheckOutButton from './CheckOutButton';
 import Link from 'next/link';
 
@@ -14,17 +13,6 @@ export const metadata = {
 const CartPage = async () => {
   // Get cart
   const cart = await getCart();
-
-  // Handle payment
-  // const handlePayment = async () => {
-  //   'use server';
-  //   try {
-  //     const paymentUrl = await initiatePayment();
-  //     // window.location.href = paymentUrl;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <div>

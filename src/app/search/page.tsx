@@ -2,9 +2,10 @@ import ProductCard from "@/components/ProductCard";
 import {prisma} from "@/lib/db/prisma";
 import { Metadata } from "next";
 
-export function generateMetaData({
+
+const generateMetaData = ({
     searchParams: {query},
-}: SearchPageProps) : Metadata {   
+}: SearchPageProps) : Metadata => {   
     return {
         title: `Search: "${query}" | MadWolf Store`,
         description: `Search results for "${query}"`,
