@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from './navbar/navbar';
-import { Footer } from './Footer';
+import { Footer } from './footer/Footer';
 import SessionProvider from './SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });

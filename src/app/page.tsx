@@ -1,6 +1,7 @@
 import PaginationBar from '@/components/PaginationBar';
 import PriceTag from '@/components/PriceTag';
 import ProductCard from '@/components/ProductCard';
+import VideoPlayer from '@/components/videoplayer';
 import {prisma} from '@/lib/db/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,14 +38,15 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
       {products && currentPage === 1 && (
         <div className='hero rounded-xl bg-base-200'>
           <div className='hero-content flex-col lg:flex-row'>
-            <Image
+            {/* <Image
               src={products[0].imageUrl1}
               alt={products[0].name}
               width={400}
               height={800}
               className='w-full max-w-sm rounded-lg shadow-2xl'
               priority
-            />
+            /> */}
+            <VideoPlayer src={products[0].imageUrl1}/>
             <div>
               <h1 className='mb-3 text-5xl font-bold'>{products[0].name}</h1>
               <p className='py-6'>{products[0].description}</p>
