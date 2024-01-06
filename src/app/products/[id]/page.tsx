@@ -1,16 +1,12 @@
-import PriceTag from '@/components/PriceTag';
+
 import { prisma } from '@/lib/db/prisma';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import AddToCartButton from './AddToCartButton';
-import { incrementProductQuantity } from './actions';
 import VideoPlayer from '@/components/videoplayer';
 import Link from 'next/link';
 import logo from '@/assets/logo_wit.png';
-import SelectSizeButton from '../selectSizeButton';
-import sizeAndAddtoCartButton from '../sizeAndAddtoCartButton';
 import SizeAndAddtoCartButton from '../sizeAndAddtoCartButton';
 
 // Generate metadata for product page
@@ -48,12 +44,6 @@ const getProduct = cache(async (id: string) => {
 // Product page component
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await getProduct(id);
-
-  //   let selectedSize;
-  const handleSelectedSize = async (selectedSizeFromSelectButton: string) => {
-    'use server';
-    console.log('selected size in product page', selectedSizeFromSelectButton);
-  };
 
   return (
     <div className='lg:items-top flex flex-col gap-4 lg:flex-row'>

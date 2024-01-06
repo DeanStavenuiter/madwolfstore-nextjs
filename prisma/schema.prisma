@@ -7,14 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Size {
-  XS
-  S
-  M
-  L
-  XL
-  XXL
-}
+// enum Size {
+//   XS
+//   S
+//   M
+//   L
+//   XL
+//   XXL
+// }
 
 enum Role {
   WOLF
@@ -51,7 +51,7 @@ model Product {
 // Size model
 model productSize {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  size      Size
+  size      String?
   quantity  Int
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?  @db.ObjectId

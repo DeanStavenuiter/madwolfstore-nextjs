@@ -6,13 +6,8 @@ import AddToCartButton from './[id]/AddToCartButton';
 import { incrementProductQuantity } from './[id]/actions';
 
 const SizeAndAddtoCartButton = ({ product }: any) => {
-  //   console.log('product in sizeAndAddtoCartButton', product);
 
   const [selectedSize, setSelectedSize] = useState('');
-
-  //   const handleSelectedSize = (SelectedSizeFromSelectButton: any) => {
-  //     setSelectedSize(SelectedSizeFromSelectButton);
-  //   };
 
   useEffect(() => {
     console.log('selected size', selectedSize);

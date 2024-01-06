@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 interface SelectSizeButtonProps {
   size: any;
@@ -19,34 +19,39 @@ const SelectSizeButton = ({
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState('');
 
-  const [sizes, setSizes] = useState({
-    Xsmall: '',
-    Small: '',
-    Medium: '',
-    Large: '',
-    XLarge: '',
-    XXLarge: '',
-  });
+  const [sizes, setSizes] = useReducer(
+    (prev: any, next: any) => ({
+      ...prev,
+      ...next,
+    }),
+    {
+      Xsmall: '',
+      Small: '',
+      Medium: '',
+      Large: '',
+      XLarge: '',
+      XXLarge: '',
+    }
+  );
 
   //   console.log('sizes quantity', size.size + " " + size.quantity);
 
   useEffect(() => {
-    setSizes((prevData) => ({
-      ...prevData,
+    setSizes({
       Xsmall: size.size === 'XS' ? size.quantity : '',
       Small: size.size === 'S' ? size.quantity : '',
       Medium: size.size === 'M' ? size.quantity : '',
       Large: size.size === 'L' ? size.quantity : '',
       XLarge: size.size === 'XL' ? size.quantity : '',
       XXLarge: size.size === 'XXL' ? size.quantity : '',
-    }));
+    });
 
     setIsLoading(false);
-  }, [size.quantity, size.size]);
+  }, [size]);
 
   if (!isLoading) {
-    // console.log('selectedSize', selectedSize);
-    // console.log('this size is', size.size);
+    console.log('selectedSize', selectedSize);
+    console.log('this size is', size.size);
   }
 
   const handleSizeSelection = async (size: any) => {

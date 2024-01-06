@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 const LogoAnimation = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [setshowButton, setSetshowButton] = useState(false);
 
   const handleClick = () => {
     const screenHeight = window.innerHeight;
@@ -17,7 +18,13 @@ const LogoAnimation = () => {
     setTimeout(() => {
       setButtonClicked(true);
     }, 1000);
+
+    // clearTimeout();
   };
+
+  setTimeout(() => {
+    setSetshowButton(true);
+  }, 1300);
 
   // const handleScroll = () => {
   //   // Get the current scroll position
@@ -45,8 +52,8 @@ const LogoAnimation = () => {
   // }, []);
 
   return (
-    <div className={`${buttonClicked ? 'hidden' : ''} h-screen`}>
-      <div className='grid h-[calc(100%-5rem)] place-items-center'>
+    <div className={`${buttonClicked ? 'hidden' : ''} h-screen `}>
+      <div className='grid h-[calc(100%-9rem)] place-items-center'>
         <div className='animate-logoAnimation flex items-center justify-center'>
           <video
             autoPlay
@@ -55,14 +62,17 @@ const LogoAnimation = () => {
           />
         </div>
       </div>
-      <div
-        className='grid place-items-center hover:cursor-pointer'
-        onClick={handleClick}
-      >
-        <div className='flex h-16 w-16 -translate-x-1/2 transform animate-bounce items-center justify-center rounded-full border-2 border-solid border-gray-500'>
-          <span className='origin-center rotate-90 transform'>&#62;</span>
+
+      {setshowButton && (
+        <div
+          className='animate-Opacity grid place-items-center hover:cursor-pointer'
+          onClick={handleClick}
+        >
+          <div className='animate-bounceAnimation flex h-16 w-16 -translate-x-1/2 transform items-center justify-center rounded-full border-2 border-solid border-gray-500'>
+            <span className='origin-center rotate-90 transform'>&#62;</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
