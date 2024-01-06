@@ -18,7 +18,9 @@ const AddToCartButton = ({ productId, selectedSize }: AddToCartButtonProps) => {
     // console.log('selected size in add to cart button', selectedSize);
   return (
     <div className='flex items-center gap-2'>
+    
       <button className='btn btn-primary' 
+      disabled={!selectedSize}
       onClick={() => {
             setSuccess(false);
             startTransition(async() => { 

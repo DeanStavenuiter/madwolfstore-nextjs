@@ -1,7 +1,6 @@
 import { Product } from '@prisma/client';
 import Link from 'next/link';
 import PriceTag from './PriceTag';
-import Image from 'next/image';
 import VideoPlayer from './videoplayer';
 
 interface ProductCardProps {
@@ -30,7 +29,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           height={400}
           className='h-48 object-cover'
         /> */}
-          <VideoPlayer src={product.imageUrl1} width={'w-60'} height={''}/>
+          <VideoPlayer src={product.imageUrl1}/>
         </figure>
 
         <div className='card-body'>

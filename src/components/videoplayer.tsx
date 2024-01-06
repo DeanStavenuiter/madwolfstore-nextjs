@@ -53,10 +53,10 @@ const VideoPlayer: React.FC<{ src: string }> = ({
   };
 
   return (
-    <div className={`relative flex justify-center h-[600px] w-[350px]`}>
+    <div className={`relative w-full flex justify-center `}>
       <video
         ref={videoRef}
-        className={`w-full h-full`}
+        className={`w-[350px]`}
         src={src}
         onTimeUpdate={handleTimeUpdate}
         loop

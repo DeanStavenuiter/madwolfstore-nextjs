@@ -9,7 +9,7 @@ const config: Config = {
   plugins: [require('daisyui'), require('tailwindcss-3d')({ legacy: true })],
   theme: {
     extend: {
-      DarkTheme: {
+      dark: {
         primary: '#f4aa3a',
         secondary: '#f4f4a1',
         accent: '#1be885',

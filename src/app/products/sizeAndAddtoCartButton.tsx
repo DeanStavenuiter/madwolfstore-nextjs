@@ -13,7 +13,7 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
   }, [selectedSize]);
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col w-full'>
       <div className=' col mb-2 mt-2 flex flex-wrap gap-1 '>
         {product.sizes.map((size: any) => (
           <div key={size.id}>
