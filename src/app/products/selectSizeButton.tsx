@@ -42,7 +42,7 @@ const SelectSizeButton = ({
     }));
 
     setIsLoading(false);
-  }, []);
+  }, [size.quantity, size.size]);
 
   if (!isLoading) {
     // console.log('selectedSize', selectedSize);
