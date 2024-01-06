@@ -5,15 +5,30 @@ import PriceTag from '@/components/PriceTag';
 import AddToCartButton from './[id]/AddToCartButton';
 import { incrementProductQuantity } from './[id]/actions';
 
+interface Size {
+  id: string;
+  size: string;
+  quantity: number;
+  productId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 const SizeAndAddtoCartButton = ({ product }: any) => {
   const [selectedSize, setSelectedSize] = useState('');
 
-  useEffect(() => {
-    console.log('selected size', selectedSize);
-  }, [selectedSize]);
+  // useEffect(() => {
+  //   console.log('Product', product);
+  // }, [selectedSize]);
+
+  let allSoldOut: boolean = product.sizes.every(
+    (size: Size) => size.quantity === 0
+  );
+
+  console.log('allSoldOut', allSoldOut);
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex w-full flex-col'>
       <div className=' col mb-2 mt-2 flex flex-wrap gap-1 '>
         {product.sizes.map((size: any) => (
           <div key={size.id}>
@@ -26,8 +41,13 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
             />
           </div>
         ))}
+        {allSoldOut && (
+          <div className='text-sm text-red-500 mt-2'>
+            Sorry, this product is sold out
+          </div>
+        )}
       </div>
-      <PriceTag price={product.price} className='mt-4' />
+      <PriceTag price={product.price} className='mt-2' />
       <p className='py-6'>{product.description}</p>
 
       <AddToCartButton

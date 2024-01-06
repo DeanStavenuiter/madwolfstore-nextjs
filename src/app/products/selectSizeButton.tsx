@@ -49,15 +49,15 @@ const SelectSizeButton = ({
     setIsLoading(false);
   }, [size]);
 
-  if (!isLoading) {
-    console.log('selectedSize', selectedSize);
-    console.log('this size is', size.size);
-  }
+  // if (!isLoading) {
+  //   console.log('selectedSize', selectedSize);
+  //   console.log('this size is', size.size);
+  // }
 
   const handleSizeSelection = async (size: any) => {
     setSelectedSize((prevSize) => (prevSize === size ? '' : size));
     onSelectSize(size);
-    console.log('selected size in selectSizeButton', size);
+    // console.log('selected size in selectSizeButton', size);
   };
 
   const sizeMapping: any = {
