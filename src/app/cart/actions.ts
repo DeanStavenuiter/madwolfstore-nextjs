@@ -1,9 +1,14 @@
 'use server';
 import { createCart, getCart } from '@/lib/db/cart';
-import {prisma} from '@/lib/db/prisma';
+import { prisma } from '@/lib/db/prisma';
 import { revalidatePath } from 'next/cache';
 
-const setProductQuantity = async (productId: string, quantity: number) => {
+const setProductQuantity = async (
+  productId: string,
+  quantity: number,
+  // size: string,
+  // sizeQuantity: number
+) => {
   //  Get the cart from the database or create a new one
   const cart = (await getCart()) ?? (await createCart());
 
@@ -22,7 +27,6 @@ const setProductQuantity = async (productId: string, quantity: number) => {
         },
       });
     }
-    
   } else {
     // If the quantity is not 0, update the quantity
     if (articleInCart) {
@@ -32,7 +36,9 @@ const setProductQuantity = async (productId: string, quantity: number) => {
           items: {
             update: {
               where: { id: articleInCart.id },
-              data: { quantity },
+              data: { quantity, 
+                // size, sizeQuantity 
+              },
             },
           },
         },
@@ -46,6 +52,8 @@ const setProductQuantity = async (productId: string, quantity: number) => {
             create: {
               productId,
               quantity,
+              // size,
+              // sizeQuantity,
             },
           },
         },

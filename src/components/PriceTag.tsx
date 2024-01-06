@@ -8,7 +8,7 @@ interface PriceTagProps {
 // 
 const PriceTag = ({price, className} : PriceTagProps) => {
   return (
-    <span className={`badge ${className}`}>{formatPrice(price)}</span>
+    <span className={` ${className}`}>{formatPrice(price)}</span>
   )
 }
 

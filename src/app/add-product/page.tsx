@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/app/auth/auth';
 import { Type, Size } from '@prisma/client';
-import { NextResponse } from 'next/server';
 
 export const metadata = {
   title: 'Add Product | MadWolf Store',

@@ -17,30 +17,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     // Link to product page
-    // <Link
-    //   href={'/products/' + product.id}
-    //   className='card w-full bg-base-100 transition-shadow hover:shadow-xl'
-    // >
-    <>
-      <figure className='card-image'>
-        {/* <Image
+    <Link
+      href={'/products/' + product.id}
+      className='card w-full bg-base-100 transition-shadow hover:shadow-xl'
+    >
+      <>
+        <figure className='card-image'>
+          {/* <Image
           src={product.imageUrl1}
           alt={product.name}
           width={800}
           height={400}
           className='h-48 object-cover'
         /> */}
-        <VideoPlayer src={product.imageUrl1}/>
-      </figure>
+          <VideoPlayer src={product.imageUrl1} width={'w-60'} height={''}/>
+        </figure>
 
-      {/* <div className='card-body'>
-        <h2 className='card-title'>{product.name}</h2>
-        {isNew && <div className='badge badge-secondary'>NEW</div>}
-        <p>{product.description}</p>
-        <PriceTag price={product.price} className='mt-3' />
-      </div> */}
+        <div className='card-body'>
+          <h2 className='card-title'>{product.name}</h2>
+          {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
+          {/* <p>{product.description}</p> */}
+          <PriceTag price={product.price} className='mt-3' />
+        </div>
       </>
-    // </Link>
+    </Link>
   );
 };
 

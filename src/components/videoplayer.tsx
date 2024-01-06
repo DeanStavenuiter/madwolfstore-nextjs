@@ -1,8 +1,12 @@
-'use client'
+'use client';
 
 import { useRef, useState } from 'react';
 
-const VideoPlayer: React.FC<{ src: string }> = ({ src }) => {
+const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
+  src,
+  width,
+  height,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
@@ -31,7 +35,9 @@ const VideoPlayer: React.FC<{ src: string }> = ({ src }) => {
 
   const handleMouseMove = (event: React.MouseEvent) => {
     if (isDragging && progressBarRef.current) {
-      const percentage = (event.clientX - progressBarRef.current.getBoundingClientRect().left) / progressBarRef.current.offsetWidth;
+      const percentage =
+        (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
+        progressBarRef.current.offsetWidth;
       if (videoRef.current) {
         videoRef.current.currentTime = percentage * videoRef.current.duration;
       }
@@ -40,25 +46,27 @@ const VideoPlayer: React.FC<{ src: string }> = ({ src }) => {
 
   const handleTimeUpdate = () => {
     if (videoRef.current && progressBarFillRef.current) {
-      const percentage = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      const percentage =
+        (videoRef.current.currentTime / videoRef.current.duration) * 100;
       progressBarFillRef.current.style.width = `${percentage}%`;
     }
   };
 
   return (
-    <div className="relative w-60">
+    <div className={`relative ${width} ${height}`}>
       <video
         ref={videoRef}
-        className="w-60"
+        className={`${width} ${height}`}
         src={src}
         onTimeUpdate={handleTimeUpdate}
         loop
+        muted
       >
         Your browser does not support the video tag.
       </video>
       <div
         ref={progressBarRef}
-        className="absolute bottom-0 left-0 w-full h-full bg-gray-300 cursor-pointer"
+        className='absolute bottom-0 left-0 h-full w-full cursor-pointer bg-gray-300'
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onMouseDown={handleMouseDown}
@@ -66,7 +74,11 @@ const VideoPlayer: React.FC<{ src: string }> = ({ src }) => {
         onMouseMove={handleMouseMove}
         style={{ background: 'transparent' }}
       >
-        <div ref={progressBarFillRef} className="h-full bg-green-500 z-10" style={{ background: 'transparent' }}></div>
+        <div
+          ref={progressBarFillRef}
+          className='z-10 h-full bg-green-500'
+          style={{ background: 'transparent' }}
+        ></div>
       </div>
     </div>
   );

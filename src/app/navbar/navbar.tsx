@@ -27,7 +27,7 @@ const Navbar = async () => {
 
   return (
     <div className='bg-base-100'>
-      <div className='navbar m-auto max-w-7xl flex-col gap-2 sm:flex-row'>
+      <div className='navbar m-auto max-w-8xl flex-col gap-2 sm:flex-row'>
         <div className='flex-1'>
           <Link href='/' className='flex items-center gap-3 text-xl'>
             <Image src={logo} height={60} width={60} alt='Madwolf logo' priority/>

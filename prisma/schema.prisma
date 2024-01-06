@@ -61,46 +61,22 @@ model productSize {
   @@map("productSizes")
 }
 
-// cart model
-model Cart {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  items     CartItems[]
-  User      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String?     @db.ObjectId
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@map("carts")
-}
-
-// cart items model
-model CartItems {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  productId String  @db.ObjectId
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity  Int
-  cartId    String  @db.ObjectId
-  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-
-  @@map("cartItems")
-}
-
 // google account model
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String    @db.ObjectId
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
+  refresh_token     String?   @db.String
+  access_token      String?   @db.String
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.String
+  id_token          String?   @db.String
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Address           Address[]
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -120,8 +96,10 @@ model Session {
 // user model
 model User {
   id                  String             @id @default(auto()) @map("_id") @db.ObjectId
-  name                String?
+  firstName           String?
+  lastName            String?
   email               String             @unique
+  phone               String?
   verificationToken   VerificationToken? @relation(fields: [verificationTokenId], references: [id])
   emailVerified       Boolean            @default(false)
   password            String?
@@ -130,27 +108,74 @@ model User {
   accounts            Account[]
   sessions            Session[]
   Cart                Cart[]
-  Address             Address[]
   createdAt           DateTime?          @default(now())
   updatedAt           DateTime?          @updatedAt
   verificationTokenId String?            @db.ObjectId
+  Address             Address[]
+  Order               Order[]
 
   @@map("users")
 }
 
 model Address {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  street    String
-  city      String
-  state     String
-  zip       String
-  country   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  street      String?
+  houseNumber String?
+  city        String?
+  postCode    String?
+  state       String?
+  country     String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Account     Account? @relation(fields: [accountId], references: [id])
+  userId      String   @db.ObjectId
+  accountId   String?  @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("addresses")
+}
+
+// order model
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderNo   String      @unique
+  items     CartItems[]
+  user      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String      @db.ObjectId
+  status    String      @default("pending")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+// cart model
+model Cart {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  items     CartItems[]
+  User      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?     @db.ObjectId
+  status    String      @default("active")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("carts")
+}
+
+// cart items model
+model CartItems {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  productId    String  @db.ObjectId
+  product      Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity     Int
+  size         String?
+  sizeQuantity Int?
+  cartId       String  @db.ObjectId
+  orderId      String? @db.ObjectId
+  order        Order?  @relation(fields: [orderId], references: [id])
+  Cart         Cart    @relation(fields: [cartId], references: [id])
+
+  @@map("cartItems")
 }
 
 // verification token model

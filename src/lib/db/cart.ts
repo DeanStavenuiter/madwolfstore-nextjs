@@ -1,8 +1,7 @@
 import { Cart, CartItems, Prisma } from '@prisma/client';
-import {prisma} from './prisma';
+import { prisma } from './prisma';
 import { cookies } from 'next/headers';
 import { getServerSession } from 'next-auth';
-// import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { authOptions } from '@/app/auth/auth';
 
 export type CartWithProducts = Prisma.CartGetPayload<{
@@ -45,7 +44,13 @@ export async function getCart(): Promise<ShoppingCart | null> {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc', // You can change 'createdAt' to another field if needed
+      },
+      take: 1,
     });
+  
+    // console.log('Cart in getCart', cart);
   } else {
     //if the user is not logged in, we fetch the cart from the cookie
     const localCartId = cookies().get('localCartId')?.value;
@@ -66,7 +71,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
   }
 
   if (!cart) {
-    return null;
+    return null
   }
 
   return {
@@ -83,7 +88,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
 export async function createCart(): Promise<ShoppingCart> {
   //we fetch the session
   const session = await getServerSession(authOptions);
-
+  
   let newCart: Cart;
 
   //if the user is logged in, we create a cart for them
@@ -141,7 +146,6 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
 
   //we merge the local cart items into the user cart items
   await prisma.$transaction(async (tx) => {
-
     //if the user cart exists, we merge the local cart items into it
     if (userCart) {
       const mergedCartItems = mergeCartItems(localCart.items, userCart.items);
@@ -169,7 +173,6 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
           },
         },
       });
-
     } else {
       //if the user cart does not exist, we create it and add the local cart items to it
       await tx.cart.create({
@@ -192,7 +195,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       where: {
         id: localCart.id,
       },
-    })
+    });
 
     //  we delete the local cart cookie
     cookies().set('localCartId', '');

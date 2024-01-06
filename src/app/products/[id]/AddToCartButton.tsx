@@ -6,21 +6,23 @@ import { incrementProductQuantity } from "./actions";
 
 interface AddToCartButtonProps {
   productId: string;
-  incrementProductQuantity: (productId: string) => Promise<void>;
+  selectedSize: string;
+  incrementProductQuantity: (productId: string, selectedSize:string ) => Promise<void>;
 }
 
 // Add to cart button component
-const AddToCartButton = ({ productId }: AddToCartButtonProps) => {
+const AddToCartButton = ({ productId, selectedSize }: AddToCartButtonProps) => {
     const [isPending, startTransition] = useTransition();
     const [success, setSuccess] = useState(false);
 
+    // console.log('selected size in add to cart button', selectedSize);
   return (
     <div className='flex items-center gap-2'>
       <button className='btn btn-primary' 
       onClick={() => {
             setSuccess(false);
             startTransition(async() => { 
-                await incrementProductQuantity(productId);
+                await incrementProductQuantity(productId, selectedSize);
                 setSuccess(true);
             })
       }}>

@@ -1,10 +1,10 @@
 import PaginationBar from '@/components/PaginationBar';
+import PriceTag from '@/components/PriceTag';
 import ProductCard from '@/components/ProductCard';
+import VideoPlayer from '@/components/videoplayer';
 import { prisma } from '@/lib/db/prisma';
-
-import LogoAnimation from './home/logoAnimation';
-import Navbar from './navbar/navbar';
-import { Footer } from './footer/Footer';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export interface HomeProps {
   searchParams: {
@@ -12,7 +12,9 @@ export interface HomeProps {
   };
 }
 
-const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
+const Store = async (
+    { searchParams: { page = '1' } }: HomeProps
+    ) => {
   const currentPage = parseInt(page);
 
   const pageSize = 6;
@@ -33,23 +35,18 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
   });
 
   return (
-    <>
-      <LogoAnimation />
-      <Navbar />
-      <div className='flex flex-col items-center'>
-        <div className='my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
-          {(currentPage === 1 ? products : products).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {totalPages > 1 && (
-          <PaginationBar currentPage={currentPage} totalPages={totalPages} />
-        )}
+    <div className='flex flex-col items-center'>
+      <div className='my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+        {(currentPage === 1 ? products : products).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
-      <Footer />
-    </>
+
+      {totalPages > 1 && (
+        <PaginationBar currentPage={currentPage} totalPages={totalPages} />
+      )}
+    </div>
   );
 };
 
-export default HomePage;
+export default Store;
