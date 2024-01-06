@@ -1,4 +1,3 @@
-
 import { prisma } from '@/lib/db/prisma';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -47,15 +46,15 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
 
   return (
     <div className='lg:items-top flex flex-col gap-4 lg:flex-row'>
-      <figure className='card-image w-2/3'>
+      <figure className='card-image flex w-full items-center justify-center sm:justify-normal'>
         <VideoPlayer
           src={product.imageUrl1}
-          width={'w-[450px]'}
-          height={'w-[400px]'}
+          width={'w-[350px] lg:w-[450px]'}
+          height={'w-[350px] lg:w-[400px]'}
         />
       </figure>
 
-      <div className='w-1/3'>
+      <div className='p-4 pb-6 sm:w-full lg:w-1/3 '>
         <div className='mb-2'>
           <Link href='/' className='flex items-center gap-3 text-xl'>
             <Image

@@ -35,15 +35,11 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <body className={`${inter.className} h-full w-[100%]`}>
+      <body className={`${inter.className} h-full w-full`}>
         <SessionProvider>
           {/* {referer && referer[referer.length-1] !== '/' && <Navbar />} */}
           <Navbar />
-          <main
-            className='
-          margin-auto flex min-h-screen flex-col
-          '
-          >
+          <main className='margin-auto flex min-h-screen flex-col lg:p-4'>
             {children}
           </main>
           {/* {referer && referer[referer.length-1] !== '/' && <Footer />} */}

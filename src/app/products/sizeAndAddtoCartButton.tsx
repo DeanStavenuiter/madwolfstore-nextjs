@@ -6,7 +6,6 @@ import AddToCartButton from './[id]/AddToCartButton';
 import { incrementProductQuantity } from './[id]/actions';
 
 const SizeAndAddtoCartButton = ({ product }: any) => {
-
   const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
@@ -14,8 +13,8 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
   }, [selectedSize]);
 
   return (
-    <div>
-      <div className='col mb-2 mt-2 flex flex-wrap gap-1'>
+    <div className='flex flex-col'>
+      <div className=' col mb-2 mt-2 flex flex-wrap gap-1 '>
         {product.sizes.map((size: any) => (
           <div key={size.id}>
             <SelectSizeButton

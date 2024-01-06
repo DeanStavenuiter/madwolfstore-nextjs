@@ -53,7 +53,7 @@ const LogoAnimation = () => {
 
   return (
     <div className={`${buttonClicked ? 'hidden' : ''} h-screen `}>
-      <div className='grid h-[calc(100%-9rem)] place-items-center'>
+      <div className='grid h-[calc(100%-10rem)] place-items-center'>
         <div className='animate-logoAnimation flex items-center justify-center'>
           <video
             autoPlay

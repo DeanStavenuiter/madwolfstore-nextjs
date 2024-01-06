@@ -53,7 +53,7 @@ const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
   };
 
   return (
-    <div className={`relative ${width} ${height}`}>
+    <div className={`relative w-full flex justify-center`}>
       <video
         ref={videoRef}
         className={`${width} ${height}`}
