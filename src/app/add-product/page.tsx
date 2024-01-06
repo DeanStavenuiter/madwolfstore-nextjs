@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db/prisma';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/app/auth/auth';
-import { Type, Size } from '@prisma/client';
+import { Type } from '@prisma/client';
 
 export const metadata = {
   title: 'Add Product | MadWolf Store',
