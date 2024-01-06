@@ -46,11 +46,11 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
 
   return (
     <div className='lg:items-top flex flex-col gap-4 lg:flex-row'>
-      <figure className='card-image flex w-full items-center justify-center sm:justify-normal'>
+      <figure className='card-image flex items-center justify-center sm:justify-normal'>
         <VideoPlayer
           src={product.imageUrl1}
-          width={'w-[350px] lg:w-[450px]'}
-          height={'w-[350px] lg:w-[400px]'}
+          // width={'w-[350px] lg:w-[450px]'}
+          // height={'w-[600px] lg:w-[400px]'}
         />
       </figure>
 

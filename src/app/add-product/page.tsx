@@ -21,12 +21,12 @@ const addProduct = async (formData: FormData) => {
   }
 
   //get input data from form to create new product
-  const name = formData.get('name')?.toString();
-  const description = formData.get('description')?.toString();
-  const imageUrl1 = formData.get('imageUrl1')?.toString();
-  const imageUrl2 = formData.get('imageUrl2')?.toString();
-  const imageUrl3 = formData.get('imageUrl3')?.toString();
-  const imageUrl4 = formData.get('imageUrl4')?.toString();
+  const name = formData.get('name')?.toString() || '';
+  const description = formData.get('description')?.toString() || '';
+  const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
+  const imageUrl2 = formData.get('imageUrl2')?.toString() || '';
+  const imageUrl3 = formData.get('imageUrl3')?.toString() || '';
+  const imageUrl4 = formData.get('imageUrl4')?.toString() || '';
   const price = Number(formData.get('price') || 0);
   const type = formData.get('type')?.toString();
   const XS = Number(formData.get('XS') || 0);
@@ -35,32 +35,6 @@ const addProduct = async (formData: FormData) => {
   const L = Number(formData.get('L') || 0);
   const XL = Number(formData.get('XL') || 0);
   const XXL = Number(formData.get('XXL') || 0);
-
-  //check for missing fields
-
-  if (!name) {
-    throw new Error('Missing product name');
-  } else if (!description) {
-    throw new Error('Missing product description');
-  } else if (!imageUrl1) {
-    throw new Error('Missing product image');
-  } else if (!price) {
-    throw new Error('Missing product price');
-  } else if (!type) {
-    throw new Error('Missing product type');
-  } else if (!XS) {
-    throw new Error('Missing product size XS');
-  } else if (!S) {
-    throw new Error('Missing product size S');
-  } else if (!M) {
-    throw new Error('Missing product size M');
-  } else if (!L) {
-    throw new Error('Missing product size L');
-  } else if (!XL) {
-    throw new Error('Missing product size XL');
-  } else if (!XXL) {
-    throw new Error('Missing product size XXL');
-  }
 
   //create new product
   await prisma.product.create({
@@ -146,9 +120,9 @@ const page = async () => {
             placeholder='Description'
             className='textarea textarea-bordered mb-3 w-full text-base'
           ></textarea>
-                <span className='mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'>
-              Please enter a description of the product
-            </span>
+          <span className='mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'>
+            Please enter a description of the product
+          </span>
         </div>
 
         {/* image urls */}

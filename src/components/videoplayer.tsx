@@ -2,16 +2,16 @@
 
 import { useRef, useState } from 'react';
 
-const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
+const VideoPlayer: React.FC<{ src: string }> = ({
   src,
-  width,
-  height,
+  // width,
+  // height,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
 
-  const [isDragging, setIsDragging] = useState(false);
+  // const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseOver = () => {
     if (videoRef.current?.paused) {
@@ -25,24 +25,24 @@ const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
     }
   };
 
-  const handleMouseDown = () => {
-    setIsDragging(true);
-  };
+  // const handleMouseDown = () => {
+  //   setIsDragging(true);
+  // };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
+  // const handleMouseUp = () => {
+  //   setIsDragging(false);
+  // };
 
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (isDragging && progressBarRef.current) {
-      const percentage =
-        (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
-        progressBarRef.current.offsetWidth;
-      if (videoRef.current) {
-        videoRef.current.currentTime = percentage * videoRef.current.duration;
-      }
-    }
-  };
+  // const handleMouseMove = (event: React.MouseEvent) => {
+  //   if (isDragging && progressBarRef.current) {
+  //     const percentage =
+  //       (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
+  //       progressBarRef.current.offsetWidth;
+  //     if (videoRef.current) {
+  //       videoRef.current.currentTime = percentage * videoRef.current.duration;
+  //     }
+  //   }
+  // };
 
   const handleTimeUpdate = () => {
     if (videoRef.current && progressBarFillRef.current) {
@@ -53,10 +53,10 @@ const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
   };
 
   return (
-    <div className={`relative w-full flex justify-center`}>
+    <div className={`relative flex justify-center h-[600px] w-[350px]`}>
       <video
         ref={videoRef}
-        className={`${width} ${height}`}
+        className={`w-full h-full`}
         src={src}
         onTimeUpdate={handleTimeUpdate}
         loop
@@ -69,9 +69,9 @@ const VideoPlayer: React.FC<{ src: string; width: string; height: string }> = ({
         className='absolute bottom-0 left-0 h-full w-full cursor-pointer bg-gray-300'
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
+        // onMouseDown={handleMouseDown}
+        // onMouseUp={handleMouseUp}
+        // onMouseMove={handleMouseMove}
         style={{ background: 'transparent' }}
       >
         <div

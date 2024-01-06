@@ -28,7 +28,7 @@ const Navbar = async () => {
   return (
     <div className='animate-navbarAnimation flex justify-center bg-base-100'>
       <div className='navbar max-w-7xl gap-2 sm:flex-row sm:justify-center '>
-        <Link href='/' className='w-1/4'>
+        <Link href='/' className='w-1/4 sm:w-1/2'>
           <div className='flex items-center gap-3 text-xl'>
             <Image
               src={logo}
@@ -42,19 +42,41 @@ const Navbar = async () => {
             </div>
           </div>
         </Link>
-        <div className='flex w-3/4 items-center gap-2 sm:justify-end'>
+        <div className='flex w-3/4 items-center justify-between gap-2 sm:justify-end'>
           <form action={searchProdutcs}>
-            <div className='form-control '>
+            <div className='md: form-control hidden lg:block'>
+              <svg
+                className='pointer-events-none absolute z-10 my-3.5 ms-4 stroke-current text-base-content opacity-60'
+                width='16'
+                height='16'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                ></path>
+              </svg>
               <input
                 type='text'
                 name='searchQuery'
-                placeholder='search'
-                className='input input-bordered w-full min-w-[100px]'
+                placeholder='Search...'
+                className='input input-bordered w-full min-w-[100px] pl-12'
               />
+              <div className='dropdown dropdown-end'>
+                <div className='card dropdown-content card-compact z-30 mt-3 w-52 bg-base-100 shadow'>
+                  <div className='card-body'></div>
+                </div>
+              </div>
             </div>
           </form>
-          <ShoppingCartButton cart={cart} />
-          <UserMenuButton session={session} />
+          <div className='flex'>
+            <ShoppingCartButton cart={cart} />
+            <UserMenuButton session={session} />
+          </div>
         </div>
       </div>
     </div>
