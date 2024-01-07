@@ -42,13 +42,13 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
           </div>
         ))}
         {allSoldOut && (
-          <div className='text-sm text-red-500 mt-2'>
+          <div className='text-sm text-red-500 mt-2 ml-1'>
             Sorry, this product is sold out
           </div>
         )}
       </div>
-      <PriceTag price={product.price} className='mt-2' />
-      <p className='py-6'>{product.description}</p>
+      <PriceTag price={product.price} className='mt-2 ml-1' />
+      <p className='py-4 ml-1'>{product.description}</p>
 
       <AddToCartButton
         productId={product.id}

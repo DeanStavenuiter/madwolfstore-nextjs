@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
 
+const colors = require('tailwindcss/colors');
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,9 +10,15 @@ const config: Config = {
   ],
   plugins: [require('daisyui'), require('tailwindcss-3d')({ legacy: true })],
   theme: {
+    colors: {
+      primary: '#f4aa3a',
+    },
     extend: {
+    colors:{
+      ...colors,
+    },
       dark: {
-        primary: '#f4aa3a',
+        'primary': '#f4aa3a',
         secondary: '#f4f4a1',
         accent: '#1be885',
         neutral: '#272136',
@@ -31,12 +39,10 @@ const config: Config = {
         logoAnimation: {
           '0%': {
             transform: 'translateY(-500px) ',
-            // transform: 'translateX(600px) ',
             opacity: '0',
           },
           '100%': {
             transform: 'translateY(0px) ',
-            // transform: 'translateX(0px) ',
             opacity: '1',
           },
         },

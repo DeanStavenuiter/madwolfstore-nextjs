@@ -11,7 +11,7 @@ const VideoPlayer: React.FC<{ src: string }> = ({
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
 
-  // const [isDragging, setIsDragging] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseOver = () => {
     if (videoRef.current?.paused) {
@@ -25,24 +25,24 @@ const VideoPlayer: React.FC<{ src: string }> = ({
     }
   };
 
-  // const handleMouseDown = () => {
-  //   setIsDragging(true);
-  // };
+  const handleMouseDown = () => {
+    setIsDragging(true);
+  };
 
-  // const handleMouseUp = () => {
-  //   setIsDragging(false);
-  // };
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
-  // const handleMouseMove = (event: React.MouseEvent) => {
-  //   if (isDragging && progressBarRef.current) {
-  //     const percentage =
-  //       (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
-  //       progressBarRef.current.offsetWidth;
-  //     if (videoRef.current) {
-  //       videoRef.current.currentTime = percentage * videoRef.current.duration;
-  //     }
-  //   }
-  // };
+  const handleMouseMove = (event: React.MouseEvent) => {
+    if (isDragging && progressBarRef.current) {
+      const percentage =
+        (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
+        progressBarRef.current.offsetWidth;
+      if (videoRef.current) {
+        videoRef.current.currentTime = percentage * videoRef.current.duration;
+      }
+    }
+  };
 
   const handleTimeUpdate = () => {
     if (videoRef.current && progressBarFillRef.current) {
@@ -61,17 +61,18 @@ const VideoPlayer: React.FC<{ src: string }> = ({
         onTimeUpdate={handleTimeUpdate}
         loop
         muted
+        playsInline
       >
         Your browser does not support the video tag.
       </video>
       <div
         ref={progressBarRef}
-        className='absolute bottom-0 left-0 h-full w-full cursor-pointer bg-gray-300'
+        className='absolute bottom-0 h-full cursor-pointer bg-gray-300 w-[350px] '
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
-        // onMouseDown={handleMouseDown}
-        // onMouseUp={handleMouseUp}
-        // onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
         style={{ background: 'transparent' }}
       >
         <div

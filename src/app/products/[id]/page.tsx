@@ -64,26 +64,9 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           </Link>
         </div>
 
-        <h1 className='mb-1 text-5xl font-bold'>{product.name}</h1>
+        <h1 className='mb-1 text-5xl font-bold ml-1'>{product.name}</h1>
 
         <SizeAndAddtoCartButton product={product} />
-
-        {/* <div className='col mb-2 mt-2 flex flex-wrap gap-1'>
-          {product.sizes.map((size) => (
-            <div key={size.id}>
-              <SelectSizeButton size={size} 
-              onSelectSize={handleSelectedSize}
-              />
-            </div>
-          ))}
-        </div>
-        <PriceTag price={product.price} className='mt-4' />
-        <p className='py-6'>{product.description}</p>
-
-        <AddToCartButton
-          productId={product.id}
-          incrementProductQuantity={incrementProductQuantity}
-        /> */}
       </div>
     </div>
   );

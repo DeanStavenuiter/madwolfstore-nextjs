@@ -35,8 +35,8 @@ const CartPage = async () => {
         </form> */}
 
         <Link href={"/checkout"}>
-        <button className='btn btn-block btn-primary sm:w-[200px]'>
-          Chechout
+        <button className='btn btn-block bg-sky-600 sm:w-[200px]'>
+          Checkout
         </button>
         </Link>
       </div>
