@@ -60,15 +60,8 @@ const LogoAnimation = () => {
             muted
             playsInline
             preload='auto'
-            // src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
+            src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
           />
-          <source
-            src={'ttps://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
-            type='video/mp4; codecs="hvc1"'
-          />
-          <source 
-          src={'https://madwolfstore.s3.amazonaws.com/logo_animation.webm'}
-          type='video/webm'/>
         </div>
       </div>
 
