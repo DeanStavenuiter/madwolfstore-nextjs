@@ -45,12 +45,16 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await getProduct(id);
 
   return (
-    <div className='max-w-7xl lg:items-top justify-center flex flex-col gap-4 lg:flex-row'>
-      <figure className='card-image w-full flex items-center justify-center sm:justify-normal'>
-        <VideoPlayer src={product.imageUrl1} />
+    <div className='lg:items-top flex max-w-7xl flex-col justify-center gap-4 lg:flex-row'>
+      <figure className='card-image flex w-full items-center justify-center sm:justify-normal'>
+        {!product ? (
+          <div className='skeleton h-[622px] w-[350px]'></div>
+        ) : (
+          <VideoPlayer src={product.imageUrl1} />
+        )}
       </figure>
 
-      <div className='p-4 pb-6 lg:min-w-[368px] w-full  lg:w-[40%]'>
+      <div className='w-full p-4 pb-6 lg:w-[40%]  lg:min-w-[368px]'>
         <div className='mb-2'>
           <Link href='/' className='flex items-center gap-3 text-xl'>
             <Image
@@ -64,8 +68,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           </Link>
         </div>
 
-        <h1 className='mb-1 text-5xl font-bold ml-1'>{product.name}</h1>
-
+        <h1 className='mb-1 ml-1 text-5xl font-bold'>{product.name}</h1>
         <SizeAndAddtoCartButton product={product} />
       </div>
     </div>
