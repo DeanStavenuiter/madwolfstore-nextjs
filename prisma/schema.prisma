@@ -170,10 +170,10 @@ model CartItems {
   quantity     Int
   size         String?
   sizeQuantity Int?
-  cartId       String  @db.ObjectId
   orderId      String? @db.ObjectId
   order        Order?  @relation(fields: [orderId], references: [id])
-  Cart         Cart    @relation(fields: [cartId], references: [id])
+  Cart         Cart?   @relation(fields: [cartId], references: [id])
+  cartId       String? @db.ObjectId
 
   @@map("cartItems")
 }

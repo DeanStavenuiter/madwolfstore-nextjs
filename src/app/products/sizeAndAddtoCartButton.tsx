@@ -25,7 +25,7 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
     (size: Size) => size.quantity === 0
   );
 
-  console.log('allSoldOut', allSoldOut);
+  // console.log('allSoldOut', allSoldOut);
 
   return (
     <div className='flex w-full flex-col'>

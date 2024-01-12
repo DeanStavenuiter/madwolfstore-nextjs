@@ -2,11 +2,12 @@
 
 import { useRef, useState } from 'react';
 
-const VideoPlayer: React.FC<{ src: string }> = ({
-  src,
-  // width,
-  // height,
-}) => {
+const VideoPlayer: React.FC<{
+  src: string;
+  width: string;
+  height: string;
+  justifyContent: string;
+}> = ({ src, width, height, justifyContent }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
@@ -53,10 +54,10 @@ const VideoPlayer: React.FC<{ src: string }> = ({
   };
 
   return (
-    <div className={`relative w-full flex justify-center `}>
+    <div className={`relative flex w-[50%] justify-${justifyContent} `}>
       <video
         ref={videoRef}
-        className={`w-[350px]`}
+        className={`${width} ${height}`}
         src={src}
         onTimeUpdate={handleTimeUpdate}
         loop
@@ -67,7 +68,9 @@ const VideoPlayer: React.FC<{ src: string }> = ({
       </video>
       <div
         ref={progressBarRef}
-        className='absolute bottom-0 h-full cursor-pointer bg-gray-300 w-[350px] '
+        className={`absolute bottom-0 h-full cursor-pointer bg-gray-300
+         ${width}
+         `}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onMouseDown={handleMouseDown}

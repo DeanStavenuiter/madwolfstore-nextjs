@@ -18,10 +18,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
     // Link to product page
     <Link
       href={'/products/' + product.id}
-      className='card w-full bg-base-100 transition-shadow hover:shadow-xl'
+      className='card w-full flex justify-center bg-base-100 transition-shadow hover:shadow-xl'
     >
       <>
-        <figure className='card-image'>
+        <figure className='card-image '>
           {/* <Image
           src={product.imageUrl1}
           alt={product.name}
@@ -29,10 +29,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
           height={400}
           className='h-48 object-cover'
         /> */}
-          <VideoPlayer src={product.imageUrl1}/>
+          <VideoPlayer
+            src={product.imageUrl1}
+            width={'w-full'}
+            height={'h-full'}
+            justifyContent={'start'}
+          />
         </figure>
 
-        <div className='card-body'>
+        <div className='card-body flex items-center'>
           <h2 className='card-title'>{product.name}</h2>
           {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
           {/* <p>{product.description}</p> */}

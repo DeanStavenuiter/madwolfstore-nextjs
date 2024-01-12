@@ -163,11 +163,11 @@ export const PUT = async (request: Request) => {
       // create a new address
       const newAddress = await prisma.address.create({
         data: {
-          street: street,
-          houseNumber: `${houseNumber}${suffix}`,
-          city: formData.city,
-          postCode: formData.postCode,
-          country: formData.country,
+          street: street.trim(),
+          houseNumber: `${houseNumber?.trim()}${suffix?.trim()}`,
+          city: formData.city.trim(),
+          postCode: formData.postCode.trim(),
+          country: formData.country.trim(),
           user: {
             connect: {
               id: user.id,

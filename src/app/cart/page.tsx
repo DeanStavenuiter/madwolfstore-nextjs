@@ -14,8 +14,9 @@ const CartPage = async () => {
   // Get cart
   const cart = await getCart();
 
+
   return (
-    <div>
+    <div className='w-[35%] '>
       <h1 className='mb-6 text-3xl font-bold'>Shopping Cart</h1>
 
       {cart?.items.map((cartItem) => (
@@ -35,7 +36,7 @@ const CartPage = async () => {
         </form> */}
 
         <Link href={"/checkout"}>
-        <button className='btn btn-block bg-sky-600 sm:w-[200px]'>
+        <button className='btn btn-block bg-sky-600 text-coolGray-100 sm:w-[200px]'>
           Checkout
         </button>
         </Link>

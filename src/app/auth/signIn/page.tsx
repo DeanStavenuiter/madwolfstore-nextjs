@@ -45,6 +45,7 @@ const Signin = () => {
         clearTimeout(timeout2);
         clearTimeout(timeout3);
       };
+
     } else {
       const timeout1 = setTimeout(() => {
         toast.dismiss();
@@ -63,7 +64,7 @@ const Signin = () => {
 
   return (
     <>
-      <div className='flex h-[calc(100vh_-_328px)] items-center justify-center'>
+      <div className='flex h-[calc(100vh_-_328px)] w-2/3 items-center justify-center'>
         <div className='w-1/3 '>
           <h3 className='text-center text-lg font-bold'>Sign In</h3>
           <div className='flex-col justify-normal'>

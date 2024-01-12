@@ -12,30 +12,20 @@ export const incrementProductQuantity = async (
   const cart = (await getCart()) ?? (await createCart());
 
   // Check if the product is already in the cart
-  const articleInCart = cart.items.find((item) => item.productId === productId);
-
+  const articleInCart = cart.items.find((item) => item.productId === productId && item.size === selectedSize);
   // If the product is already in the cart, increment the quantity
   if (articleInCart) {
-   const updateCart = await prisma.cart.update({
-      where: { id: cart.id },
+    const updateCart = await prisma.cartItems.update({
+      where: { id: articleInCart.id },
       data: {
-        items: {
-          update: {
-            where: { id: articleInCart.id },
-            data: {
-              quantity: { increment: 1 },
-              size: selectedSize,
-              sizeQuantity: { increment: 1 },
-            },
-          },
-        },
+        quantity: { increment: 1 },
+        sizeQuantity: { increment: 1 },
       },
     });
     console.log(' updateCart ', updateCart);
-    
   } else {
     // If the product is not in the cart, add it
-   const addProduct =  await prisma.cart.update({
+    const addProduct = await prisma.cart.update({
       where: { id: cart.id },
       data: {
         items: {

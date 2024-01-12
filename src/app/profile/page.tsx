@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
       console.log('response', response);
 
-      // console.log('response user info', response);
+      console.log('response user info', response[0].data.street, response[0].data.houseNumber);
 
       setFormData((prevData) => ({
         ...prevData,

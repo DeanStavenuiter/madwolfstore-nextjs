@@ -11,6 +11,8 @@ interface ShoppingCartButtonProps {
 // Shopping cart button component
 const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
   // Close dropdown function
+
+  console.log('cart', cart);
   const CloseDropdown = () => {
     const dropdown = document.activeElement as HTMLElement;
 

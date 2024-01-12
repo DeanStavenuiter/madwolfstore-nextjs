@@ -31,6 +31,8 @@ export async function getCart(): Promise<ShoppingCart | null> {
 
   let cart: CartWithProducts | null = null;
 
+  console.log('cart in session', cart);
+
   //if the user is logged in, we fetch the cart from the database
   if (session) {
     cart = await prisma.cart.findFirst({
@@ -40,7 +42,11 @@ export async function getCart(): Promise<ShoppingCart | null> {
       include: {
         items: {
           include: {
-            product: true,
+            product: {
+              include: {
+                sizes: true,
+              },
+            },
           },
         },
       },
@@ -49,7 +55,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
       },
       take: 1,
     });
-  
+
     // console.log('Cart in getCart', cart);
   } else {
     //if the user is not logged in, we fetch the cart from the cookie
@@ -62,7 +68,11 @@ export async function getCart(): Promise<ShoppingCart | null> {
           include: {
             items: {
               include: {
-                product: true,
+                product: {
+                  include: {
+                    sizes: true,
+                  },
+                },
               },
             },
           },
@@ -71,7 +81,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
   }
 
   if (!cart) {
-    return null
+    return null;
   }
 
   return {
@@ -88,7 +98,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
 export async function createCart(): Promise<ShoppingCart> {
   //we fetch the session
   const session = await getServerSession(authOptions);
-  
+
   let newCart: Cart;
 
   //if the user is logged in, we create a cart for them
@@ -125,10 +135,20 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
           id: localCartId,
         },
         include: {
-          items: true,
+          items: {
+            include: {
+              product: {
+                include: {
+                  sizes: true,
+                },
+              },
+            },
+          },
         },
       })
     : null;
+
+    console.log('localCart', localCart);
 
   if (!localCart) {
     return;
@@ -140,25 +160,40 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       userId: userId,
     },
     include: {
-      items: true,
+      items: {
+        include: {
+          product: {
+            include: {
+              sizes: true,
+            },
+          },
+        },
+      },
     },
   });
+
+  console.log('userCart', userCart);
 
   //we merge the local cart items into the user cart items
   await prisma.$transaction(async (tx) => {
     //if the user cart exists, we merge the local cart items into it
+    console.log('userCart', userCart);
     if (userCart) {
       const mergedCartItems = mergeCartItems(localCart.items, userCart.items);
+      console.log('mergedCartItems', mergedCartItems);
+
 
       //we delete the user cart items
-      await tx.cartItems.deleteMany({
+     const deleteCartItems = await tx.cartItems.deleteMany({
         where: {
           cartId: userCart.id,
         },
       });
 
+      console.log('deleteCartItems', deleteCartItems);
+
       // we create the merged cart items
-      await tx.cart.update({
+      const mergeCart = await tx.cart.update({
         where: {
           id: userCart.id,
         },
@@ -168,14 +203,18 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
               data: mergedCartItems.map((item) => ({
                 productId: item.productId,
                 quantity: item.quantity,
+                size: item.size,
+                sizeQuantity: item.sizeQuantity,
               })),
             },
           },
         },
       });
+
+      console.log('createMergedCartItems', mergeCart);
     } else {
       //if the user cart does not exist, we create it and add the local cart items to it
-      await tx.cart.create({
+      const createNewCartAndMerge = await tx.cart.create({
         data: {
           userId,
           items: {
@@ -183,11 +222,14 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
               data: localCart.items.map((item) => ({
                 productId: item.productId,
                 quantity: item.quantity,
+                size: item.size,
+                sizeQuantity: item.sizeQuantity,
               })),
             },
           },
         },
       });
+      console.log('createNewCartAndMerge', createNewCartAndMerge);
     }
 
     //we delete the local cart
@@ -202,23 +244,32 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
   });
 };
 
-function mergeCartItems(...cartItems: CartItems[][]) {
-  //we merge the cart items by productId
-  return cartItems.reduce((acc, items) => {
-    //we loop through the items
-    items.forEach((item) => {
-      const existingItem = acc.find((i) => i.productId === item.productId);
+function mergeCartItems(...cartItems: CartItems[][]): CartItems[] {
+  const mergedItems: Record<string, CartItems> = {};
 
-      //if the item already exists, we add the quantity
-      if (existingItem) {
-        existingItem.quantity += item.quantity;
+  cartItems.forEach((items) => {
+    items.forEach((item) => {
+      const key = `${item.productId}-${item.size || 'default'}`;
+
+      if (mergedItems[key]) {
+        // If the item already exists, update the quantities
+        mergedItems[key].quantity += item.quantity;
+
+        // Check and update sizes and size quantities
+        if (item.size && item.sizeQuantity) {
+          mergedItems[key].sizeQuantity =
+            (mergedItems[key].sizeQuantity || 0) + item.sizeQuantity;
+        }
       } else {
-        //if the item does not exist, we add it to the array
-        acc.push(item);
+        // If the item does not exist, add it to the merged items
+        mergedItems[key] = {
+          ...item,
+        };
       }
     });
+  });
 
-    return acc;
-    //we initialize the accumulator with an empty array
-  }, [] as CartItems[]);
+  console.log("Object.values(mergedItems)", Object.values(mergedItems));
+
+  return Object.values(mergedItems);
 }

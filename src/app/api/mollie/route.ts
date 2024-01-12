@@ -66,42 +66,35 @@ export async function POST(request: Request) {
 
       if (userSession) {
         const cartItems = userSession.Cart.flatMap((cart) =>
-          cart.items.map(
-            (item: any) => (
-              console.log('item in cartItems', item.id),
-              {
-                id: item.id,
-                // productId: item.product.id,
-                // quantiy: item.quantity,
-                // orderId: orderNumber || null,
-              }
-            )
-          )
+          cart.items.map((item) => ({
+            id: item.id,
+            productId: item.productId,
+            quantity: item.quantity,
+            size: item.size,
+            sizeQuantity: item.sizeQuantity,
+            orderId: item.orderId,
+          }))
         );
-        try {
-          // create order in db with cart items and order number
-          const createOrder = await prisma.order.create({
-            data: {
-              orderNo: orderNumber,
-              items: {
-                connect: cartItems,
-              },
-              user: {
-                connect: {
-                  id: userSession.id,
-                },
-              },
-            },
-            include: {
-              items: {
-                include: {
-                  product: true,
-                },
-              },
-            },
-          });
 
-          console.log('order in db: ', createOrder);
+        console.log('cartItems', cartItems);
+
+        try {
+          // // create order in db with cart items and order number
+          // const createOrder = await prisma.order.create({
+          //   data: {
+          //     orderNo: orderNumber,
+          //     items: {
+          //       product: cartItems,
+          //     },
+          //     user: {
+          //       connect: {
+          //         id: userSession.id,
+          //       },
+          //     },
+          //   },
+          // });
+
+          // console.log('order in db: ', createOrder);
         } catch (error) {
           console.log(error);
           return NextResponse.json({

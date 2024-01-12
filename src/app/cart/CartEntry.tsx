@@ -1,5 +1,6 @@
 'use client';
 
+import VideoPlayer from '@/components/videoplayer';
 import { CartItemWithProduct } from '@/lib/db/cart';
 import { formatPrice } from '@/lib/format';
 import Image from 'next/image';
@@ -30,19 +31,27 @@ const CartEntry = ({
 
   return (
     <div>
-      <div className='flex flex-wrap items-center gap-6'>
-        <Image
+      <div className='flex items-center '>
+        {/* <Image
           src={product.imageUrl1}
           alt={product.name}
           width={200}
           height={200}
           className='rounded-lg w-1/3 '
+        /> */}
+
+        <VideoPlayer
+          src={product.imageUrl1}
+          width={'w-[150px]'}
+          height={'h-auto'}
+          justifyContent={'start'}
         />
-        <div>
+        <div className='w-[50%]'>
           <Link href={`/products/` + product.id} className='font-bold'>
             {product.name}
           </Link>
           <div>Price: {formatPrice(product.price)}</div>
+          <div>Size: {product.size}</div>
           <div className='my-1 flex items-center gap-2'>
             Quantity:
             <select
