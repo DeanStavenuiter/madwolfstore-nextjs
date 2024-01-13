@@ -3,21 +3,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { countries } from '@/lib/countries';
+import Image from 'next/image';
+import { formatPrice } from '@/lib/format';
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
-  // const session = await getServerSession(authOptions);
-
-  // if (session) {
-  //   const id = session.user.id;
-
-  //   if (id) {
-  //     const user = await getUserWithAddress();
-
-  //     console.log('address', user?.Address);
-  //   }
-  // }
+  const [message, setMessage] = useState('');
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -30,9 +23,13 @@ const ProfilePage = () => {
 
       const response = await Promise.all(promiseArray);
 
-      console.log('response', response);
+      // console.log('response', response[1].data);
 
-      console.log('response user info', response[0].data.street, response[0].data.houseNumber);
+      const orderArray = response[1].data.ordersWithItems;
+
+      console.log('order', orderArray);
+
+      // console.log('response user info', response[0].data.street, response[0].data.houseNumber);
 
       setFormData((prevData) => ({
         ...prevData,
@@ -40,13 +37,13 @@ const ProfilePage = () => {
         firstName: response[0].data.firstName,
         lastName: response[0].data.lastName,
         email: response[0].data.email,
-        address: response[0].data.street + response[0].data.houseNumber,
+        address: response[0].data.street + " " + response[0].data.houseNumber,
         postCode: response[0].data.postCode,
         city: response[0].data.city,
         country: response[0].data.country,
       }));
 
-      setOrders(response[1].data);
+      setOrders(orderArray);
 
       setIsLoading(false);
     };
@@ -102,16 +99,34 @@ const ProfilePage = () => {
       [name]: value,
     }));
   };
-  // const HandleSubmit = async(event) => {
 
-  //     event.preventDefault();
-  // }
+  const HandleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    setIsLoading(true);
+    setMessage('');
+
+    const response = await axios.put('/api/account', {
+      formData: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        address: formData.address,
+        postCode: formData.postCode,
+        city: formData.city,
+        country: formData.country,
+      },
+    });
+
+    setMessage(response.data.message);
+    setIsLoading(false);
+  };
 
   return (
     <>
-      <div className='flex gap-4'>
+      <div className='flex gap-4 '>
         <div className='flex flex-col gap-4 sm:w-2/3 '>
-          <div className='form-control rounded-md bg-neutral p-4'>
+          <div className='bg-neutral form-control rounded-md p-4'>
             <h1 className='text-xl font-bold'>Fill in your details</h1>
             <div className='divider'></div>
             <div className='flex flex-col gap-4 sm:flex-row'>
@@ -164,7 +179,7 @@ const ProfilePage = () => {
                 )}
               </div>
             </div>
-            <div>
+            <div className='w-1/2'>
               {/* email */}
               <label className='label'>
                 <span className='label-text'>Email</span>
@@ -187,12 +202,12 @@ const ProfilePage = () => {
               )}
             </div>
           </div>
-          <div className='form-control rounded-md bg-neutral p-4'>
+          <div className='bg-neutral form-control rounded-md p-4 '>
             <h1 className='text-xl font-bold'>
               Where would you like your order to be delivered?
             </h1>
             <div className='divider'></div>
-            <div className='flex flex-col gap-4 sm:flex-row'>
+            <div className='flex flex-col gap-4 sm:flex-row '>
               {/* address */}
               <div className='sm:w-3/4'>
                 <label className='label'>
@@ -305,41 +320,99 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
+          {message && (
+            <div className='ml-4 flex-1 text-success'>
+              <label>{message}</label>
+            </div>
+          )}
           <div>
-            <button className='btn btn-primary'>Save</button>
+            <button
+              className='btn ml-4 w-[150px] bg-sky-600 text-coolGray-200 hover:bg-sky-700'
+              onClick={HandleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className='loading loading-spinner loading-md bg-sky-600' />
+              ) : (
+                'Save'
+              )}
+            </button>
           </div>
         </div>
-        <div className='w-1/3 rounded-md bg-neutral p-4'>
+        <div className='bg-neutral w-1/3 rounded-md p-4'>
           <h1 className='text-xl font-bold'>Orders</h1>
           <div className='divider' />
-          <div className='collapse collapse-arrow bg-neutral'>
-            {!isLoading && orders && orders.length > 0 ? (
-              orders.map((order: any) => (
-                <div key={order.id}>
+          {isLoading ? (
+            <div className='flex justify-center'>
+              <span className='loading loading-lg' />
+            </div>
+          ) : orders && orders.length > 0 ? (
+            orders.map((order: any) => (
+              <div
+                key={order.orderNo}
+                className='bg-neutral collapse collapse-arrow mb-1'
+              >
+                <div className='collapse collapse-arrow bg-base-200'>
                   <input
                     type='radio'
-                    name='my-accordion'
-                    id={`order-radio-${order.id}`}
+                    name='my-accordion-2'
+                    checked={order === selectedOrder}
+                    onChange={() => setSelectedOrder(order)}
                   />
-                  <label
-                    className='collapse-title text-xl font-medium'
-                    htmlFor={`order-radio-${order.id}`}
-                  >
-                    {order.id}
-                  </label>
+                  <div className='collapse-title flex flex-col text-xl font-medium'>
+                    <span className='text-sm'>Order No: {order.orderNo}</span>
+                  </div>
                   <div className='collapse-content'>
-                    <p>hello</p>
-                    {/* Add logic to display order details or items here */}
+                    <div className='divider mt-0' />
+                    <span className='text-sm'>
+                      Product{order.items.length > 1 ? 's' : ''}:{' '}
+                    </span>
+
+                    {order.items.map((item: any) => (
+                      <div
+                        key={item.product.name + item.size + order.orderNo}
+                        className='flex flex-col gap-4 sm:flex-row'
+                      >
+                        <div className='w-1/4'>
+                          <video
+                            src={item.product.imageUrl1}
+                            height={100}
+                            width={50}
+                          />
+                        </div>
+                        <div className='flex w-3/4 flex-col justify-center'>
+                          <div className='flex  pr-2 text-sm'>
+                            <span className='w-1/2'>Name:</span>
+                            <span className='w-1/2'>{item.product.name}</span>
+                          </div>
+                          <div className='flex  pr-2 text-sm'>
+                            <span className='w-1/2'>Quantity:</span>
+                            <span className='w-1/2'>{item.quantity}</span>
+                          </div>
+                          <div className='flex  pr-2 text-sm'>
+                            <span className='w-1/2'>Size:</span>
+                            <span className='w-1/2'>{item.size}</span>
+                          </div>
+                          <div className='flex  pr-2 text-sm'>
+                            <span className='w-1/2'>Price:</span>
+                            <span className='w-1/2'>{formatPrice(item.product.price)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className='divider' />
+                    <div className='flex justify-between text-sm'>
+                      <span className='w-1/2'>Total: </span>
+                      <span className='w-1/2 text-end'>{order.total}</span>
+                    </div>
                   </div>
                 </div>
-                
-              ))
-            ) : (
-              <div>You did not make any orders yet.</div>
-            )}
-
-            
-          </div>
+              </div>
+            ))
+          ) : (
+            <div>You did not make any orders yet.</div>
+          )}
         </div>
       </div>
     </>

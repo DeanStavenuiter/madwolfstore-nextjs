@@ -145,7 +145,7 @@ model Order {
   status    String      @default("pending")
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
-
+  total     String
   @@map("orders")
 }
 

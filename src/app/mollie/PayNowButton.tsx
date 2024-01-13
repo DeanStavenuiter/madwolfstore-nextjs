@@ -41,7 +41,7 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
         method: paymentMethod,
         formData: formData,
         userWithAddress: userWithAddress,
-        redirectUrl: 'http://localhost:3000/checkout/success',
+        // redirectUrl: 'http://localhost:3000/checkout/success',
       });
 
       if (response.data.status === 201) {

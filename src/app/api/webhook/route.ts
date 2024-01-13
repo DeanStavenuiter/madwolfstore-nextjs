@@ -26,7 +26,7 @@ export async function POST(req: Request, res: Response) {
 
     // console.log('Paymentstatus in webhook api', paymentStatus);
     // console.log('PaymentId in webhook api', paymentId);
-    // console.log(`Payment status is ${response.data.status}`);
+    console.log(`Payment status is ${response.data.status}`);
 
     if (response.data.status === 'paid') {
       // console.log(`Payment status is ${response.data.status}`);

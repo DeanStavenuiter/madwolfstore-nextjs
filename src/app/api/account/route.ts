@@ -84,7 +84,7 @@ export const GET = async () => {
     const user = await getUser();
 
     if (user) {
-      console.log('user in account get', user.email);
+      // console.log('user in account get', user.email);
 
       return NextResponse.json({
         message: 'User found',
@@ -95,8 +95,8 @@ export const GET = async () => {
         city: user.Address[0].city,
         country: user.Address[0].country,
         postCode: user.Address[0].postCode,
-        street: user.Address[0].street,
-        houseNumber: user.Address[0].houseNumber,
+        street: user.Address[0].street?.trim(),
+        houseNumber: user.Address[0].houseNumber?.trim(),
         status: 200,
       });
     }
@@ -117,6 +117,7 @@ export const PUT = async (request: Request) => {
 
   // console.log('userFromSession', user);
   // console.log('formData', formData);
+  // console.log('address from form', formData.address);
 
   // Function to parse the address and separate house number and street
   const parseAddress = (address: string) => {
@@ -143,6 +144,7 @@ export const PUT = async (request: Request) => {
     }
   };
 
+  // console.log('address from form', formData.address);
   const { street, houseNumber, suffix } = parseAddress(formData.address);
 
   // console.log('street', street, 'houseNumber', houseNumber, 'suffix', suffix);
@@ -157,6 +159,7 @@ export const PUT = async (request: Request) => {
         data: {
           firstName: formData.firstName,
           lastName: formData.lastName,
+          email: formData.email,
         },
       });
 
@@ -192,7 +195,6 @@ export const PUT = async (request: Request) => {
     }
   } else {
     if (user && user.Address[0]) {
-
       //update firstname and lastname
       const updatedUser = await prisma.user.update({
         where: {
@@ -201,6 +203,7 @@ export const PUT = async (request: Request) => {
         data: {
           firstName: formData.firstName,
           lastName: formData.lastName,
+          email: formData.email,
         },
       });
 
@@ -222,7 +225,7 @@ export const PUT = async (request: Request) => {
         // console.log('updatedAddress', updatedAddress);
 
         return NextResponse.json({
-          message: 'Address updated',
+          message: 'Your details have been updated',
           status: 201,
         });
       } catch (error) {

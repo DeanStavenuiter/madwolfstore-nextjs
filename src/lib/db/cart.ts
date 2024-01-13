@@ -31,7 +31,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
 
   let cart: CartWithProducts | null = null;
 
-  console.log('cart in session', cart);
+  // console.log('cart in session', cart);
 
   //if the user is logged in, we fetch the cart from the database
   if (session) {
@@ -148,7 +148,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       })
     : null;
 
-    console.log('localCart', localCart);
+    // console.log('localCart', localCart);
 
   if (!localCart) {
     return;
@@ -172,15 +172,15 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
     },
   });
 
-  console.log('userCart', userCart);
+  // console.log('userCart', userCart);
 
   //we merge the local cart items into the user cart items
   await prisma.$transaction(async (tx) => {
     //if the user cart exists, we merge the local cart items into it
-    console.log('userCart', userCart);
+    // console.log('userCart', userCart);
     if (userCart) {
       const mergedCartItems = mergeCartItems(localCart.items, userCart.items);
-      console.log('mergedCartItems', mergedCartItems);
+      // console.log('mergedCartItems', mergedCartItems);
 
 
       //we delete the user cart items
@@ -190,7 +190,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
         },
       });
 
-      console.log('deleteCartItems', deleteCartItems);
+      // console.log('deleteCartItems', deleteCartItems);
 
       // we create the merged cart items
       const mergeCart = await tx.cart.update({
@@ -211,7 +211,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
         },
       });
 
-      console.log('createMergedCartItems', mergeCart);
+      // console.log('createMergedCartItems', mergeCart);
     } else {
       //if the user cart does not exist, we create it and add the local cart items to it
       const createNewCartAndMerge = await tx.cart.create({
@@ -229,7 +229,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
           },
         },
       });
-      console.log('createNewCartAndMerge', createNewCartAndMerge);
+      // console.log('createNewCartAndMerge', createNewCartAndMerge);
     }
 
     //we delete the local cart
@@ -249,6 +249,7 @@ function mergeCartItems(...cartItems: CartItems[][]): CartItems[] {
 
   cartItems.forEach((items) => {
     items.forEach((item) => {
+      // Create a unique key for each item based on the product ID and size
       const key = `${item.productId}-${item.size || 'default'}`;
 
       if (mergedItems[key]) {
@@ -269,7 +270,7 @@ function mergeCartItems(...cartItems: CartItems[][]): CartItems[] {
     });
   });
 
-  console.log("Object.values(mergedItems)", Object.values(mergedItems));
+  // console.log("Object.values(mergedItems)", Object.values(mergedItems));
 
   return Object.values(mergedItems);
 }

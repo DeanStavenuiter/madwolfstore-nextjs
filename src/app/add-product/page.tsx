@@ -4,19 +4,28 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/app/auth/auth';
 import { Type } from '@prisma/client';
+import { signOut } from 'next-auth/react';
 
 export const metadata = {
   title: 'Add Product | MadWolf Store',
   description: 'Add a new product to the store.',
 };
 
-const addProduct = async (formData: FormData) => {
+export const addProduct = async (formData: FormData) => {
   'use server';
 
   const session = await getServerSession(authOptions);
 
+  console.log('session', session);
+
   //check for admin
   if (!session) {
+    signOut();
+    redirect('/api/auth/signin?callbackUrl=/add-product');
+  }
+
+  if (session && session.user.role !== 'WOLF') {
+    signOut();
     redirect('/api/auth/signin?callbackUrl=/add-product');
   }
 
@@ -64,12 +73,14 @@ const addProduct = async (formData: FormData) => {
       sizes: true, // This includes the created ProductSizes in the response
     },
   });
-
-  redirect('/add-product');
+  return {
+    message: 'Product added successfully',
+    // redirect('/add-product');
+  };
 };
 
 const page = async () => {
-  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
   const quantityOptions: JSX.Element[] = [];
 
@@ -81,13 +92,21 @@ const page = async () => {
       </option>
     );
   }
+
+  //check for session
+  if (!session) {
+    signOut();
+    redirect('/api/auth/signin?callbackUrl=/add-product');
+  }
+
   //check for admin
-  // if (!session) {
-  //   redirect('/api/auth/signin?callbackUrl=/add-product');
-  // }
+  if (session && session.user.role !== 'WOLF') {
+    signOut();
+    redirect('/api/auth/signin?callbackUrl=/add-product');
+  }
 
   return (
-    <div className='bg form-control rounded-md bg-neutral p-4'>
+    <div className='bg bg-neutral form-control rounded-md p-4'>
       <h1 className='mb-3 text-lg font-bold'>Add Product</h1>
       <form action={addProduct}>
         <div className='flex'>
@@ -238,7 +257,11 @@ const page = async () => {
             <label className='label'>
               <span className='label-text'>Product type</span>
             </label>
-            <select required name='type' className='input select w-full'>
+            <select
+              required
+              name='type'
+              className='input select input-bordered  w-full'
+            >
               <option value='tshirt'>t-shirt</option>
               <option value='sweather'>sweater</option>
               <option value='hoodie'>hoodie</option>

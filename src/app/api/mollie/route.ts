@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   const response = await request.json();
   const userSession = await getUser();
 
-  console.log('UserSession in Mollie route', userSession);
+  // console.log('UserSession in Mollie route', userSession);
 
   const { subtotal, method, formData } = response;
 
@@ -76,25 +76,42 @@ export async function POST(request: Request) {
           }))
         );
 
-        console.log('cartItems', cartItems);
+        // console.log('cartItems', cartItems);
 
         try {
-          // // create order in db with cart items and order number
-          // const createOrder = await prisma.order.create({
-          //   data: {
-          //     orderNo: orderNumber,
-          //     items: {
-          //       product: cartItems,
-          //     },
-          //     user: {
-          //       connect: {
-          //         id: userSession.id,
-          //       },
-          //     },
-          //   },
-          // });
+          // create order in db with cart items and order number
+          const createOrder = await prisma.order.create({
+            data: {
+              orderNo: orderNumber,
+              status: 'pending',
+              total: `€${price}`,
+              items: {
+                create: cartItems.map((item) => ({
+                  product: {
+                    connect: { id: item.productId }, // Connect to the existing CartItems record
+                  },
+                  quantity: item.quantity,
+                  size: item.size,
+                  sizeQuantity: item.sizeQuantity,
+                })),
+              },
+              user: {
+                connect: {
+                  id: userSession.id,
+                },
+              },
+            },
+            include: {
+              items: {
+                include: {
+                  product: true,
+                },
+              },
+            },
+          });
 
-          // console.log('order in db: ', createOrder);
+          console.log('order in db: ', createOrder);
+
         } catch (error) {
           console.log(error);
           return NextResponse.json({
@@ -118,7 +135,7 @@ export async function POST(request: Request) {
         redirectUrl: 'http://localhost:3000/checkout/success',
         cancelUrl: 'http://localhost:3000/checkout',
         webhookUrl:
-          ' https://47b7-2a02-a46e-7f9e-0-a9a7-fa40-a88b-74af.ngrok-free.app/api/webhook',
+          ' https://6a96-2001-1c04-3605-7700-00-ff.ngrok-free.app/api/webhook',
         metadata: {
           user_id: userSession?.id,
           order_id: orderNumber,

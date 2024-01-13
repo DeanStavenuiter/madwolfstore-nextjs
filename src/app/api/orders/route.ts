@@ -9,56 +9,24 @@ export async function GET() {
     // console.log('user in route', user);
 
     if (user) {
-    //   const ordersWithItems = await prisma.order.findMany({
-    //     where: {
-    //       userId: user.id,
-    //       status: 'paid',
-    //     },
-    //     orderBy: {
-    //       createdAt: 'desc',
-    //     },
-    //     include: {
-    //       items: {
-    //         include: {
-    //           product: true,
-    //         },
-    //       },
-    //     },
-    //   });
+        const ordersWithItems = await prisma.order.findMany({
+          where: {
+            userId: user.id,
+            status: 'paid',
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          include: {
+            items: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        });
 
-    //   console.log('orders', ordersWithItems);
-    //   //   const orders = user.Order;
-
-    const ordersWithItems = await prisma.order.findMany({
-  where: {
-    userId: user.id,
-    status: 'paid',
-  },
-  orderBy: {
-    createdAt: 'desc',
-  },
-});
-
-// console.log('Orders:', ordersWithItems);
-
-// Manually fetch items for each order
-const ordersWithManualItems = await Promise.all(
-  ordersWithItems.map(async (order) => {
-    const items = await prisma.cartItems.findMany({
-      where: {
-        orderId: order.id,
-      },
-      include: {
-        product: true,
-      },
-    });
-
-    // return { ...order, items };
-    return items
-  })
-);
-
-console.log('Orders with manual items:', ordersWithManualItems);
+      console.log('Orders in route:', ordersWithItems);
 
       return NextResponse.json({
         message: 'Orders fetched successfully',
