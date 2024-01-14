@@ -75,6 +75,7 @@ const VideoPlayer: React.FC<{
         loop
         muted
         playsInline
+        preload='auto'
       >
         {/* <source src={webmFile} type='video/webm' /> */}
         <source src={movFile} type='video/quicktime'/>
