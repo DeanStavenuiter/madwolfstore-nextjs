@@ -23,7 +23,7 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    console.log('payment method: ', paymentMethod);
+    // console.log('payment method: ', paymentMethod);
   }, [paymentMethod]);
 
   const handlePayment = async () => {
@@ -34,7 +34,7 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
         userWithAddress: userWithAddress,
       });  
 
-      console.log('responseProfile', responseProfile);
+      // console.log('responseProfile', responseProfile);
 
       const response = await axios.post('/api/mollie', {
         subtotal: subtotal,
@@ -56,7 +56,7 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
         router.push('/checkout');
       }
 
-      console.log(response.data);
+      // console.log(response.data);
     }
   };
 

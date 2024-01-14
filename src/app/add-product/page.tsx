@@ -44,7 +44,7 @@ export const addProduct = async (formData: FormData) => {
   const L = Number(formData.get('L') || 0);
   const XL = Number(formData.get('XL') || 0);
   const XXL = Number(formData.get('XXL') || 0);
-
+  const stock = XS + S + M + L + XL + XXL;
   //create new product
   await prisma.product.create({
     data: {
@@ -68,6 +68,7 @@ export const addProduct = async (formData: FormData) => {
           ],
         },
       },
+      stock: stock,
     },
     include: {
       sizes: true, // This includes the created ProductSizes in the response
@@ -250,6 +251,21 @@ const page = async () => {
             </select>
           </label>
         </div>
+
+        {/* product stock
+        <div className='w-1/2'>
+          <label className='label'>
+            <span className='label-text'>Total stock </span>
+          </label>
+          <input
+            required
+            name='price'
+            placeholder='Price'
+            type='number'
+            disabled
+            className='input input-bordered mb-3 w-full  '
+          />
+        </div> */}
 
         <div className='mb-4 flex gap-4'>
           {/* product type */}

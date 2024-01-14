@@ -31,7 +31,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
 
   let cart: CartWithProducts | null = null;
 
-  // console.log('cart in session', cart);
+  console.log('cart in session', cart);
 
   //if the user is logged in, we fetch the cart from the database
   if (session) {

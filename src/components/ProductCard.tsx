@@ -16,35 +16,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     // Link to product page
-    <Link
-      href={'/products/' + product.id}
-      className='card w-full flex justify-center bg-base-100 transition-shadow hover:shadow-xl'
-    >
-      <>
-        <figure className='card-image '>
-          {/* <Image
+
+    <>
+      <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
+        {/* <Image
           src={product.imageUrl1}
           alt={product.name}
           width={800}
           height={400}
           className='h-48 object-cover'
         /> */}
-          <VideoPlayer
-            src={product.imageUrl1}
-            width={'w-full'}
-            height={'h-full'}
-            justifyContent={'start'}
-          />
-        </figure>
+        <VideoPlayer
+          src={product.imageUrl1}
+          width={'w-full'}
+          height={'h-full'}
+          justifyContent={'start'}
+        />
 
-        <div className='card-body flex items-center'>
-          <h2 className='card-title'>{product.name}</h2>
-          {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
-          {/* <p>{product.description}</p> */}
-          <PriceTag price={product.price} className='mt-3' />
-        </div>
-      </>
-    </Link>
+        <Link
+          href={'/products/' + product.id}
+          className='card flex w-full justify-center bg-base-100 transition-shadow hover:shadow-xl'
+        >
+          <div className='card-body flex items-center'>
+            <h2 className='card-title'>{product.name}</h2>
+            {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
+            {/* <p>{product.description}</p> */}
+            <PriceTag price={product.price} className='mt-3' />
+          </div>
+        </Link>
+      </figure>
+    </>
   );
 };
 

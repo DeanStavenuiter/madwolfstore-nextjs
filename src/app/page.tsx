@@ -1,10 +1,8 @@
 import PaginationBar from '@/components/PaginationBar';
 import ProductCard from '@/components/ProductCard';
 import { prisma } from '@/lib/db/prisma';
-
 import LogoAnimation from './home/logoAnimation';
-import Navbar from './navbar/navbar';
-import { Footer } from './footer/Footer';
+
 
 export interface HomeProps {
   searchParams: {
@@ -14,7 +12,7 @@ export interface HomeProps {
 
 const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
   const currentPage = parseInt(page);
-
+  
   const pageSize = 6;
   const heroItemCount = 0;
 
@@ -27,10 +25,14 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
     orderBy: {
       id: 'desc',
     },
+    include: {
+      sizes: true,
+    },
     skip:
       (currentPage - 1) * pageSize + (currentPage === 1 ? 0 : heroItemCount),
     take: pageSize + (currentPage === 1 ? heroItemCount : 0),
   });
+
 
   return (
     <div className='max-w-8xl h-full flex-grow'>

@@ -63,7 +63,7 @@ const Signin = () => {
   };
 
   return (
-    <>
+    <div className='flex justify-center'>
       <div className='flex h-[calc(100vh_-_328px)] w-2/3 items-center justify-center'>
         <div className='w-1/3 '>
           <h3 className='text-center text-lg font-bold'>Sign In</h3>
@@ -149,7 +149,7 @@ const Signin = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

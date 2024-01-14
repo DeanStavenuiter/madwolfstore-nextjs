@@ -1,5 +1,6 @@
 'use client';
 
+import getDevice from '@/lib/getDevice';
 import { useRef, useState } from 'react';
 
 const VideoPlayer: React.FC<{
@@ -11,6 +12,10 @@ const VideoPlayer: React.FC<{
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
+
+  const device = getDevice();
+
+  console.log("device" , device)
 
   const [isDragging, setIsDragging] = useState(false);
 

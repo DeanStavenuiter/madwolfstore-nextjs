@@ -1,6 +1,8 @@
+
 import { prisma } from '@/lib/db/prisma';
 import authOptions from '../auth/auth';
 import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
 
 export async function getUserWithAddress() {
   const session = await getServerSession(authOptions);
@@ -45,3 +47,4 @@ export async function getUser() {
     return null;
   }
 }
+

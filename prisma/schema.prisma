@@ -44,7 +44,7 @@ model Product {
   CartItems   CartItems[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-
+  stock       Int          @default(0)
   @@map("products")
 }
 
@@ -146,6 +146,7 @@ model Order {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   total     String
+
   @@map("orders")
 }
 
