@@ -13,15 +13,18 @@ const VideoPlayer: React.FC<{
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
 
-  const device = getDevice();
+  if (window) {
+    const device = getDevice();
+  }
 
-  console.log("device" , device)
+  // console.log("device" , device)
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseOver = () => {
+  const handleMouseOver = async () => {
     if (videoRef.current?.paused) {
-      videoRef.current?.play();
+      const playVideo = await videoRef.current?.play();
+      console.log('videoRef.current?.play()', playVideo);
     }
   };
 
