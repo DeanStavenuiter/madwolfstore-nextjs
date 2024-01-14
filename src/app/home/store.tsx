@@ -1,10 +1,7 @@
 import PaginationBar from '@/components/PaginationBar';
-import PriceTag from '@/components/PriceTag';
 import ProductCard from '@/components/ProductCard';
-import VideoPlayer from '@/components/videoplayer';
 import { prisma } from '@/lib/db/prisma';
-import Image from 'next/image';
-import Link from 'next/link';
+
 
 export interface HomeProps {
   searchParams: {

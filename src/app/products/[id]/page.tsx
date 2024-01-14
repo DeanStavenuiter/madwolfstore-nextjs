@@ -51,7 +51,8 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           <div className='skeleton h-[622px] w-[350px]'></div>
         ) : (
           <VideoPlayer
-            src={product.imageUrl1}
+            movFile={product.movFile}
+            webmFile={product.webMFile}
             width={'w-[500px]'}
             height={'h-auto'}
             justifyContent={'center'}
