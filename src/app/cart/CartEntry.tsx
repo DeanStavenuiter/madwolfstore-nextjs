@@ -41,7 +41,8 @@ const CartEntry = ({
         /> */}
 
         <VideoPlayer
-          src={cartItem.product.imageUrl1}
+         movFile={cartItem.product.movFile}
+         webmFile={cartItem.product.webMFile}
           width={'w-[150px]'}
           height={'h-auto'}
           justifyContent={'start'}

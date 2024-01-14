@@ -94,6 +94,8 @@ const page = async () => {
           },
         },
         stock: stock,
+        webMFile: '',
+        movFile: '',
       },
       include: {
         sizes: true, // This includes the created ProductSizes in the response

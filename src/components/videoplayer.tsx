@@ -1,15 +1,15 @@
 'use client';
 
-import getDevice from '@/lib/getDevice';
 import { useRef, useState } from 'react';
 import useDevice from './UseDevice';
 
 const VideoPlayer: React.FC<{
-  src: string;
   width: string;
   height: string;
   justifyContent: string;
-}> = ({ src, width, height, justifyContent }) => {
+  movFile: string ;
+  webmFile: string ;
+}> = ({ width, height, justifyContent, movFile, webmFile }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
@@ -70,7 +70,8 @@ const VideoPlayer: React.FC<{
         muted
         playsInline
       >
-        <source src={src} type='video/webm' />
+        <source src={webmFile} type='video/webm' />
+        <source src={movFile} type='video/mp4'/>
         Your browser does not support the video tag.
       </video>
       <div

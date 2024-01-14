@@ -27,7 +27,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           className='h-48 object-cover'
         /> */}
         <VideoPlayer
-          src={product.imageUrl1}
+          movFile={product.movFile}
+          webmFile={product.webMFile}
           width={'w-full'}
           height={'h-full'}
           justifyContent={'start'}

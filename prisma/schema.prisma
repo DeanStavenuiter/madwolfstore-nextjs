@@ -34,6 +34,8 @@ model Product {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
+  webMFile    String
+  movFile     String
   imageUrl1   String
   imageUrl2   String?
   imageUrl3   String?
