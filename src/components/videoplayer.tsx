@@ -70,8 +70,9 @@ const VideoPlayer: React.FC<{
         muted
         playsInline
       >
-        <source src={movFile} type='video/quicktime'/>
         <source src={webmFile} type='video/webm' />
+        <source src={movFile} type='video/quicktime'/>
+        
         
         Your browser does not support the video tag.
       </video>
