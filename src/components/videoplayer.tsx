@@ -14,16 +14,17 @@ const VideoPlayer: React.FC<{
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
 
-  useDevice();
+  const device = useDevice();
+
 
   const handleVideoClick = () => {
     const video = videoRef.current;
 
     if (video && video.paused) {
-      console.log('play clicked')
+      console.log('play clicked');
       video.play();
-    } else if (video){
-      console.log('pause clicked')
+    } else if (video) {
+      console.log('pause clicked');
       video.pause();
     }
   };
@@ -37,45 +38,51 @@ const VideoPlayer: React.FC<{
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseOver = async () => {
-    if (videoRef.current?.paused) {
-      await videoRef.current?.play();
-    }
-  };
-
-  const handleMouseOut = () => {
-    if (!videoRef.current?.paused) {
-      videoRef.current?.pause();
-    }
-  };
-
-  const handleMouseDown = () => {
-    setIsDragging(true);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (isDragging && progressBarRef.current) {
-      const percentage =
-        (event.clientX - progressBarRef.current.getBoundingClientRect().left) /
-        progressBarRef.current.offsetWidth;
-      if (videoRef.current) {
-        videoRef.current.currentTime = percentage * videoRef.current.duration;
+  
+    const handleMouseOver = async () => {
+     if  (device !== 'mobile'){
+            if (videoRef.current?.paused) {
+        videoRef.current?.play();
       }
-    }
-  };
+     }
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current && progressBarFillRef.current) {
-      const percentage =
-        (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      progressBarFillRef.current.style.width = `${percentage}%`;
-    }
-  };
+    };
 
+    const handleMouseOut = () => {
+      if (device !== 'mobile'){
+      if (!videoRef.current?.paused) {
+        videoRef.current?.pause();
+      }}
+    };
+
+    // const handleMouseDown = () => {
+    //   setIsDragging(true);
+    // };
+
+    // const handleMouseUp = () => {
+    //   setIsDragging(false);
+    // };
+
+    const handleMouseMove = (event: React.MouseEvent) => {
+      if (isDragging && progressBarRef.current) {
+        const percentage =
+          (event.clientX -
+            progressBarRef.current.getBoundingClientRect().left) /
+          progressBarRef.current.offsetWidth;
+        if (videoRef.current) {
+          videoRef.current.currentTime = percentage * videoRef.current.duration;
+        }
+      }
+    };
+
+    const handleTimeUpdate = () => {
+      if (videoRef.current && progressBarFillRef.current) {
+        const percentage =
+          (videoRef.current.currentTime / videoRef.current.duration) * 100;
+        progressBarFillRef.current.style.width = `${percentage}%`;
+      }
+    };
+  
   return (
     <div
       className={`relative flex w-full sm:w-[75%] justify-${justifyContent} `}
@@ -101,8 +108,8 @@ const VideoPlayer: React.FC<{
          `}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        // onMouseDown={handleMouseDown}
+        // onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         style={{ background: 'transparent' }}
       >
