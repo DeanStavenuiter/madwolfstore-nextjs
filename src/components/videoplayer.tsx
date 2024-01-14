@@ -79,7 +79,7 @@ const VideoPlayer: React.FC<{
         playsInline
         preload='auto'
       >
-        <source src={movFile} type='video/quicktime' />
+        <source src={movFile} type='video/mp4;codecs=hvc1' />
         <source src={webmFile} type='video/webm' />
         Your browser does not support the video tag.
       </video>
