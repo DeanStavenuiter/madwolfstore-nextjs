@@ -7,8 +7,8 @@ const VideoPlayer: React.FC<{
   width: string;
   height: string;
   justifyContent: string;
-  movFile: string ;
-  webmFile: string ;
+  movFile: string;
+  webmFile: string;
 }> = ({ width, height, justifyContent, movFile, webmFile }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -18,9 +18,9 @@ const VideoPlayer: React.FC<{
 
   useEffect(() => {
     videoRef.current?.play();
-    console.log('play')
+    console.log('play');
     videoRef.current?.pause();
-    console.log('pause')
+    console.log('pause');
   }, []);
 
   // console.log("device" , device)
@@ -67,7 +67,9 @@ const VideoPlayer: React.FC<{
   };
 
   return (
-    <div className={`relative flex w-full sm:w-[75%] justify-${justifyContent} `}>
+    <div
+      className={`relative flex w-full sm:w-[75%] justify-${justifyContent} `}
+    >
       <video
         ref={videoRef}
         className={`${width} ${height}`}
@@ -77,10 +79,8 @@ const VideoPlayer: React.FC<{
         playsInline
         preload='auto'
       >
+        <source src={movFile} type='video/quicktime' />
         <source src={webmFile} type='video/webm' />
-        <source src={movFile} type='video/quicktime'/>
-        
-        
         Your browser does not support the video tag.
       </video>
       <div
