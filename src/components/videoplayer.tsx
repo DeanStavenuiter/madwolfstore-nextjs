@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useDevice from './UseDevice';
 
 const VideoPlayer: React.FC<{
@@ -16,14 +16,20 @@ const VideoPlayer: React.FC<{
 
   useDevice();
 
+  useEffect(() => {
+    videoRef.current?.play();
+    console.log('play')
+    videoRef.current?.pause();
+    console.log('pause')
+  }, []);
+
   // console.log("device" , device)
 
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseOver = async () => {
     if (videoRef.current?.paused) {
-      const playVideo = await videoRef.current?.play();
-      console.log('videoRef.current?.play()', playVideo);
+      await videoRef.current?.play();
     }
   };
 
