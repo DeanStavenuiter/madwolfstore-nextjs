@@ -12,7 +12,6 @@ export const metadata = {
 };
 
 export const addProduct = async (formData: FormData) => {
-  'use server';
 
   const session = await getServerSession(authOptions);
 
