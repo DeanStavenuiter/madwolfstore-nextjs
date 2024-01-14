@@ -11,74 +11,6 @@ export const metadata = {
   description: 'Add a new product to the store.',
 };
 
-export const addProduct = async (formData: FormData) => {
-
-  const session = await getServerSession(authOptions);
-
-  console.log('session', session);
-
-  //check for admin
-  if (!session) {
-    signOut();
-    redirect('/api/auth/signin?callbackUrl=/add-product');
-  }
-
-  if (session && session.user.role !== 'WOLF') {
-    signOut();
-    redirect('/api/auth/signin?callbackUrl=/add-product');
-  }
-
-  //get input data from form to create new product
-  const name = formData.get('name')?.toString() || '';
-  const description = formData.get('description')?.toString() || '';
-  const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
-  const imageUrl2 = formData.get('imageUrl2')?.toString() || '';
-  const imageUrl3 = formData.get('imageUrl3')?.toString() || '';
-  const imageUrl4 = formData.get('imageUrl4')?.toString() || '';
-  const price = Number(formData.get('price') || 0);
-  const type = formData.get('type')?.toString();
-  const XS = Number(formData.get('XS') || 0);
-  const S = Number(formData.get('S') || 0);
-  const M = Number(formData.get('M') || 0);
-  const L = Number(formData.get('L') || 0);
-  const XL = Number(formData.get('XL') || 0);
-  const XXL = Number(formData.get('XXL') || 0);
-  const stock = XS + S + M + L + XL + XXL;
-  //create new product
-  await prisma.product.create({
-    data: {
-      name,
-      description,
-      imageUrl1,
-      imageUrl2,
-      imageUrl3,
-      imageUrl4,
-      price,
-      type: type as Type,
-      sizes: {
-        createMany: {
-          data: [
-            { size: 'XS', quantity: XS },
-            { size: 'S', quantity: S },
-            { size: 'M', quantity: M },
-            { size: 'L', quantity: L },
-            { size: 'XL', quantity: XL },
-            { size: 'XXL', quantity: XXL },
-          ],
-        },
-      },
-      stock: stock,
-    },
-    include: {
-      sizes: true, // This includes the created ProductSizes in the response
-    },
-  });
-  return {
-    message: 'Product added successfully',
-    // redirect('/add-product');
-  };
-};
-
 const page = async () => {
   const session = await getServerSession(authOptions);
 
@@ -104,6 +36,74 @@ const page = async () => {
     signOut();
     redirect('/api/auth/signin?callbackUrl=/add-product');
   }
+
+  const addProduct = async (formData: FormData) => {
+    'use server';
+    const session = await getServerSession(authOptions);
+
+    console.log('session', session);
+
+    //check for admin
+    if (!session) {
+      signOut();
+      redirect('/api/auth/signin?callbackUrl=/add-product');
+    }
+
+    if (session && session.user.role !== 'WOLF') {
+      signOut();
+      redirect('/api/auth/signin?callbackUrl=/add-product');
+    }
+
+    //get input data from form to create new product
+    const name = formData.get('name')?.toString() || '';
+    const description = formData.get('description')?.toString() || '';
+    const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
+    const imageUrl2 = formData.get('imageUrl2')?.toString() || '';
+    const imageUrl3 = formData.get('imageUrl3')?.toString() || '';
+    const imageUrl4 = formData.get('imageUrl4')?.toString() || '';
+    const price = Number(formData.get('price') || 0);
+    const type = formData.get('type')?.toString();
+    const XS = Number(formData.get('XS') || 0);
+    const S = Number(formData.get('S') || 0);
+    const M = Number(formData.get('M') || 0);
+    const L = Number(formData.get('L') || 0);
+    const XL = Number(formData.get('XL') || 0);
+    const XXL = Number(formData.get('XXL') || 0);
+    const stock = XS + S + M + L + XL + XXL;
+    //create new product
+    await prisma.product.create({
+      data: {
+        name,
+        description,
+        imageUrl1,
+        imageUrl2,
+        imageUrl3,
+        imageUrl4,
+        price,
+        type: type as Type,
+        sizes: {
+          createMany: {
+            data: [
+              { size: 'XS', quantity: XS },
+              { size: 'S', quantity: S },
+              { size: 'M', quantity: M },
+              { size: 'L', quantity: L },
+              { size: 'XL', quantity: XL },
+              { size: 'XXL', quantity: XXL },
+            ],
+          },
+        },
+        stock: stock,
+      },
+      include: {
+        sizes: true, // This includes the created ProductSizes in the response
+      },
+    });
+    return {
+      message: 'Product added successfully',
+      // redirect('/add-product');
+    };
+  };
 
   return (
     <div className='bg bg-neutral form-control rounded-md p-4'>
@@ -308,4 +308,4 @@ const page = async () => {
   );
 };
 
-export default addProduct;
+export default page;
