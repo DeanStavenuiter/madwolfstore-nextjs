@@ -14,7 +14,7 @@ interface CartEntryProps {
 
 // Cart entry component
 const CartEntry = ({
-  cartItem: { product, quantity },
+  cartItem,
   setProductQuantity,
 }: CartEntryProps) => {
   const [isPending, startTransition] = useTransition();
@@ -41,27 +41,27 @@ const CartEntry = ({
         /> */}
 
         <VideoPlayer
-          src={product.imageUrl1}
+          src={cartItem.product.imageUrl1}
           width={'w-[150px]'}
           height={'h-auto'}
           justifyContent={'start'}
         />
         <div className='w-[50%]'>
-          <Link href={`/products/` + product.id} className='font-bold'>
-            {product.name}
+          <Link href={`/products/` + cartItem.product.id} className='font-bold'>
+            {cartItem.product.name}
           </Link>
-          <div>Price: {formatPrice(product.price)}</div>
-          <div>Size: {product.size}</div>
+          <div>Price: {formatPrice(cartItem.product.price)}</div>
+          <div>Size: {cartItem.size}</div>
           <div className='my-1 flex items-center gap-2'>
             Quantity:
             <select
               className='select select-bordered w-full max-w-[80px]'
-              defaultValue={quantity}
+              defaultValue={cartItem.quantity}
               onChange={(e) => {
                 const newQuantity = parseInt(e.currentTarget.value);
 
                 startTransition(async () => {
-                  await setProductQuantity(product.id, newQuantity);
+                  await setProductQuantity(cartItem.product.id, newQuantity);
                 });
               }}
             >
@@ -70,7 +70,7 @@ const CartEntry = ({
             </select>
           </div>
           <div className='flex items-center gap-3'>
-            Total: {formatPrice(product.price * quantity)}
+            Total: {formatPrice(cartItem.product.price * cartItem.quantity)}
             {isPending && (
               <span className='loading loading-spinner loading-sm' />
             )}

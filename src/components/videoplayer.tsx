@@ -2,6 +2,7 @@
 
 import getDevice from '@/lib/getDevice';
 import { useRef, useState } from 'react';
+import useDevice from './UseDevice';
 
 const VideoPlayer: React.FC<{
   src: string;
@@ -13,9 +14,7 @@ const VideoPlayer: React.FC<{
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarFillRef = useRef<HTMLDivElement>(null);
 
-  if (window) {
-    const device = getDevice();
-  }
+  useDevice();
 
   // console.log("device" , device)
 
@@ -66,12 +65,12 @@ const VideoPlayer: React.FC<{
       <video
         ref={videoRef}
         className={`${width} ${height}`}
-        src={src}
         onTimeUpdate={handleTimeUpdate}
         loop
         muted
         playsInline
       >
+        <source src={src} type='video/webm' />
         Your browser does not support the video tag.
       </video>
       <div

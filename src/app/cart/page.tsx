@@ -14,6 +14,8 @@ const CartPage = async () => {
   // Get cart
   const cart = await getCart();
 
+  console.log('cart', cart)
+
   return (
     <div className='flex items-center justify-center'>
       <div className='flex w-[35%] flex-col items-center justify-center '>
