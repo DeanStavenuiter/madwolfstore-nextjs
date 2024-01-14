@@ -16,11 +16,21 @@ const VideoPlayer: React.FC<{
 
   useDevice();
 
+  const handleVideoClick = () => {
+    const video = videoRef.current;
+
+    if (video && video.paused) {
+      console.log('play clicked')
+      video.play();
+    } else if (video){
+      console.log('pause clicked')
+      video.pause();
+    }
+  };
+
   useEffect(() => {
     videoRef.current?.play();
-    console.log('play');
     videoRef.current?.pause();
-    console.log('pause');
   }, []);
 
   // console.log("device" , device)
@@ -72,12 +82,13 @@ const VideoPlayer: React.FC<{
     >
       <video
         ref={videoRef}
-        className={`${width} ${height}`}
+        className={`${width} ${height} videoProduct`}
         onTimeUpdate={handleTimeUpdate}
         loop
         muted
         playsInline
         preload='auto'
+        onClick={handleVideoClick}
       >
         <source src={movFile} type='video/mp4;codecs=hvc1' />
         <source src={webmFile} type='video/webm' />

@@ -22,6 +22,11 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
 
   // Get products from database
   const products = await prisma.product.findMany({
+    // where: {
+    //   stock: {
+    //     gt: 0,
+    //   },
+    // },
     orderBy: {
       id: 'desc',
     },

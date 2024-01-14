@@ -182,13 +182,13 @@ export const PUT = async (request: Request) => {
       // console.log('newAddress', newAddress);
 
       return NextResponse.json({
-        message: 'Address created',
+        message: 'Your details have been created.',
         status: 201,
       });
     } catch (error) {
       console.log('error', error);
       return NextResponse.json({
-        message: 'Something went wrong',
+        message: 'Something went wrong.',
         error: error,
         status: 500,
       });
@@ -225,13 +225,13 @@ export const PUT = async (request: Request) => {
         // console.log('updatedAddress', updatedAddress);
 
         return NextResponse.json({
-          message: 'Your details have been updated',
+          message: 'Your details have been updated.',
           status: 201,
         });
       } catch (error) {
         console.log('error', error);
         return NextResponse.json({
-          message: 'Something went wrong',
+          message: 'Something went wrong.',
           error: error,
           status: 500,
         });

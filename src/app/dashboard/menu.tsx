@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { useState } from 'react';
 
 const Menu = () => {
@@ -9,8 +10,12 @@ const Menu = () => {
     setTitle('Orders');
   };
 
-  const handleAllProducts = () => {
+  const handleAllProducts = async() => {
     setTitle('All Products');
+
+    const response = await axios.get('/api/products');
+
+    console.log(response.data);
   };
 
   const handleAddProducts = () => {
@@ -48,6 +53,18 @@ const Menu = () => {
           className='cursor-pointer hover:underline'
         >
           <span>Add Products</span>
+        </div>
+      </div>
+      {/* main content */}
+
+      <div className='flex-grow'>
+        <h1 className='text-2xl ml-4'>{title}</h1>
+        <div className='flex flex-col items-center'>
+          <div className='my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+            {/* {(currentPage === 1 ? products : products).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))} */}
+          </div>
         </div>
       </div>
     </div>

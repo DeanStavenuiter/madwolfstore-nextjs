@@ -25,6 +25,7 @@ const Store = async (
   const products = await prisma.product.findMany({
     orderBy: {
       id: 'desc',
+      stock: 'desc',
     },
     skip:
       (currentPage - 1) * pageSize + (currentPage === 1 ? 0 : heroItemCount),

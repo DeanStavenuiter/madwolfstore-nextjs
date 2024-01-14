@@ -57,6 +57,8 @@ const page = async () => {
     //get input data from form to create new product
     const name = formData.get('name')?.toString() || '';
     const description = formData.get('description')?.toString() || '';
+    const mp4File = formData.get('mp4File')?.toString() || '';
+    const webMFile = formData.get('webMFile')?.toString() || '';
     const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
     const imageUrl2 = formData.get('imageUrl2')?.toString() || '';
     const imageUrl3 = formData.get('imageUrl3')?.toString() || '';
