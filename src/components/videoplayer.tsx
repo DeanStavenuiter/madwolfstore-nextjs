@@ -61,7 +61,7 @@ const VideoPlayer: React.FC<{
   };
 
   return (
-    <div className={`relative flex w-[50%] justify-${justifyContent} `}>
+    <div className={`relative flex w-full sm:w-[75%] justify-${justifyContent} `}>
       <video
         ref={videoRef}
         className={`${width} ${height}`}
