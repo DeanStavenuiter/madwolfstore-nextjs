@@ -16,7 +16,7 @@ export async function generateMetadata({
   return {
     title: `${product.name} | MadWolf Store`,
     description: product.description,
-    openGraph: { images: [{ url: product.imageUrl1 }] },
+    // openGraph: { images: [{ url: product.imageUrl1 }] },
   };
 }
 
