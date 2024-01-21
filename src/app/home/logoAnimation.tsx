@@ -63,8 +63,9 @@ const LogoAnimation = () => {
             // src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
             // poster={"https://madwolfstore.s3.amazonaws.com/logo/MadWolf_logo_wit.png"}
           >
-            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.mov"}/>
-            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.webm"} type='video/webm'/>
+            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation_bg.mov"}/>
+            {/* <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.webm"} type='video/webm'/> */}
+            Your browser does not support the video tag.
           </video>
         </div>
       </div>

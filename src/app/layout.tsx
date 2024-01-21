@@ -35,7 +35,7 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <body className={`${inter.className} h-full w-full`}>
+      <body className={`${inter.className} h-full w-full `}>
         <SessionProvider>
           {/* {referer && referer[referer.length-1] !== '/' && <Navbar />} */}
           <Navbar />
