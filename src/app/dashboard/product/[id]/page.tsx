@@ -71,8 +71,7 @@ const page = async ({ params: { id } }: ProductPageProps) => {
     const XXL = Number(formData.get('XXL') || 0);
     const stock = Number(formData.get('stock'));
 
-
-    console.log("stock from form", stock)
+    console.log('stock from form', stock);
     //update product
 
     const updateProduct = await prisma.product.update({
@@ -99,7 +98,6 @@ const page = async ({ params: { id } }: ProductPageProps) => {
             { where: { size: 'XXL' }, data: { quantity: XXL } },
           ],
         },
-        
       },
       include: {
         sizes: true,
@@ -126,20 +124,22 @@ const page = async ({ params: { id } }: ProductPageProps) => {
     0
   );
 
-  console.log('totalProductStock', totalProductStock)
-
+  //   console.log('totalProductStock', totalProductStock)
 
   return (
     <div className='flex flex-col justify-center'>
-      <div className='flex w-full max-w-7xl flex-col'>
-        <div className='flex w-full items-center justify-between pl-4 pr-4'>
-          <h1 className='text-2xl'>{product.name}</h1>
-          <Link href={'/dashboard'} className='hover:underline'>
-            <div>Admin Dashboard</div>
-          </Link>
+      <div className='flex flex-col justify-center'>
+        <div className='flex w-full max-w-7xl flex-col justify-center'>
+          <div className='flex w-full items-center justify-between pl-4 pr-4'>
+            <h1 className='text-2xl'>{product.name}</h1>
+            <Link href={'/dashboard'} className='hover:underline'>
+              <div>Admin Dashboard</div>
+            </Link>
+          </div>
         </div>
         <div className='divider' />
       </div>
+
       {!product ? (
         <span className='loading-spinner'></span>
       ) : (
@@ -232,107 +232,110 @@ const page = async ({ params: { id } }: ProductPageProps) => {
               <span className='label-text'>Product size and quantity</span>
             </label>
             {/* sizes */}
-            <div className='mb-3 flex flex-wrap gap-3 sm:gap-0'>
+            <div className='mb-3 flex justify-center gap-3 sm:flex-wrap  '>
               {/* XS */}
-              <label className='w-full  sm:w-1/4'>
-                <span className='btn no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className='flex w-1/2 flex-col items-center sm:w-1/4'>
+                <span className='btn no-animation w-full hover:cursor-default sm:w-1/2'>
                   XS
                 </span>
                 <select
                   required
                   name='XS'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[0].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
               {/* S */}
-              <label className=' w-full  sm:w-1/4 '>
-                <span className='btn no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className='flex w-1/2 flex-col items-center sm:w-1/4 '>
+                <span className='btn no-animation w-full hover:cursor-default sm:w-1/2'>
                   S
                 </span>
                 <select
                   required
                   name='S'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[1].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
               {/* M */}
-              <label className=' w-full  sm:w-1/4 '>
-                <span className='btn  no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className='flex w-1/2 flex-col items-center sm:w-1/4 '>
+                <span className='btn  no-animation w-full hover:cursor-default sm:w-1/2'>
                   M
                 </span>
                 <select
                   required
                   name='M'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[2].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
-              {/* product stock */}
-
-              <label className=' flex w-full items-center  sm:w-1/4 '>
-                <span className='btn  no-animation w-1/2 hover:cursor-default sm:w-20'>
-                  total stock
-                </span>
-                <input
-                //   disabled
-                  name='stock'
-                  className='input input-bordered flex w-1/2 justify-center sm:w-20'
-                  defaultValue={totalProductStock}
-                ></input>
-              </label>
             </div>
-            <div className='mb-3 flex flex-wrap gap-3 sm:gap-0'>
+            <div className='mb-3 flex justify-center gap-3 sm:flex-wrap'>
               {/* L */}
-              <label className=' w-full sm:w-1/4 '>
-                <span className='btn no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className=' flex w-1/2 flex-col items-center sm:w-1/4 '>
+                <span className='btn no-animation w-full hover:cursor-default sm:w-1/2'>
                   L
                 </span>
                 <select
                   required
                   name='L'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[3].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
               {/* XL */}
-              <label className=' w-full sm:w-1/4 '>
-                <span className='btn no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className=' flex w-1/2 flex-col items-center sm:w-1/4 '>
+                <span className='btn no-animation w-full hover:cursor-default sm:w-1/2'>
                   XL
                 </span>
                 <select
                   required
                   name='XL'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[4].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
               {/* XXL */}
-              <label className=' w-full sm:w-1/4 '>
-                <span className='btn no-animation w-1/2 hover:cursor-default sm:w-20'>
+              <label className=' flex w-1/2 flex-col items-center sm:w-1/4 '>
+                <span className='btn no-animation w-full hover:cursor-default sm:w-1/2'>
                   XXL
                 </span>
                 <select
                   required
                   name='XXL'
-                  className='select select-bordered w-1/2 sm:w-20'
+                  className='select select-bordered w-full sm:w-1/2'
                   defaultValue={sortedSizes[5].quantity}
                 >
                   {quantityOptions}
                 </select>
               </label>
             </div>
+
+            {/* product stock */}
+            <div className='flex justify-center'>
+              <label className=' flex w-1/2 flex-col items-center  sm:w-1/4 '>
+                <span className='btn  no-animation w-full hover:cursor-default sm:w-1/2'>
+                  total stock
+                </span>
+                <input
+                  //   disabled
+                  name='stock'
+                  className='input input-bordered flex w-full justify-center sm:w-1/2'
+                  defaultValue={totalProductStock}
+                ></input>
+              </label>
+            </div>
+
             <div className='mb-4 flex gap-4'>
               {/* product type */}
               <div className='w-full'>
@@ -353,7 +356,7 @@ const page = async ({ params: { id } }: ProductPageProps) => {
               </div>
 
               {/* product price */}
-              <div className='w-full'>
+              <div className='flex w-full flex-colç'>
                 <label className='label'>
                   <span className='label-text'>Product price</span>
                 </label>
@@ -367,9 +370,7 @@ const page = async ({ params: { id } }: ProductPageProps) => {
                 />
               </div>
             </div>
-            <FormSubmitButton
-              className='btn-block group-invalid:pointer-events-none group-invalid:opacity-30'
-            >
+            <FormSubmitButton className='btn-block group-invalid:pointer-events-none group-invalid:opacity-30'>
               Update Product
             </FormSubmitButton>
           </form>

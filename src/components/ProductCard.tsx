@@ -25,6 +25,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           width={'w-full'}
           height={'h-full'}
           justifyContent={'start'}
+          product={''}
+          selectedImage={''}
+          selectedAlt={''}
+          setSelectedImage={''}
+          setSelectedAlt={''}
         />
 
         <Link

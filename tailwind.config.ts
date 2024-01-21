@@ -12,6 +12,10 @@ const config: Config = {
   theme: {
     colors: {
       primary: '#f4aa3a',
+      body: {
+        // 'background-color': '#e3e6e6',
+        'background-color': 'rgb(30,35,40)',
+      },
     },
     extend: {
     colors:{
@@ -28,7 +32,8 @@ const config: Config = {
         warning: '#f79926',
         error: '#ea535a',
         body: {
-          'background-color': '#e3e6e6',
+          // 'background-color': '#e3e6e6',
+          'background-color': 'rgb(30,35,40)',
         },
       },
       keyframes: {

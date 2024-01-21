@@ -31,22 +31,24 @@ enum Type {
 
 // product model
 model Product {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  webMFile    String
-  movFile     String
-  imageUrl1   String?
-  imageUrl2   String?
-  imageUrl3   String?
-  imageUrl4   String?
-  price       Int
-  type        Type
-  sizes       productSize[]
-  CartItems   CartItems[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  stock       Int?          @default(0)
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  description2 String?
+  description3 String?
+  webMFile     String
+  movFile      String
+  imageUrl1    String?
+  imageUrl2    String?
+  imageUrl3    String?
+  imageUrl4    String?
+  price        Int
+  type         Type
+  sizes        productSize[]
+  CartItems    CartItems[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  stock        Int?          @default(0)
 
   @@map("products")
 }
