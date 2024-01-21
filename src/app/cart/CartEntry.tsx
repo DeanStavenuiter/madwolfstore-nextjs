@@ -34,6 +34,11 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
     <div>
       <div className='flex items-center '>
         <VideoPlayer
+          product={''}
+          selectedImage={''}
+          selectedAlt={''}
+          setSelectedImage={''}
+          setSelectedAlt={''}
           movFile={cartItem.product.movFile}
           webmFile={cartItem.product.webMFile}
           width={'w-[150px]'}
