@@ -60,25 +60,12 @@ const LogoAnimation = () => {
             muted
             playsInline
             preload='auto'
-            // src={'https://madwolfstore.s3.amazonaws.com/logo/logo_animation.mp4'}
+            // src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
             // poster={"https://madwolfstore.s3.amazonaws.com/logo/MadWolf_logo_wit.png"}
           >
-            <source
-              src={
-                'https://madwolfstore.s3.amazonaws.com/logo/logo_animation.mp4'
-              }
-              type='video/mp4;codecs=hvc1'
-            />
-            <source
-              src={
-                'https://madwolfstore.s3.amazonaws.com/logo/logo_animation.webm'
-              }
-              type='video/webm'
-            />
-            Your browser does not support the video tag.
-            
-</video>
-          
+            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.mov"}/>
+            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.webm"} type='video/webm'/>
+          </video>
         </div>
       </div>
 
