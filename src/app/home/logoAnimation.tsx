@@ -34,7 +34,7 @@ const LogoAnimation = () => {
               // type='video/quicktime;codecs=prepress'
             /> */}
             <source
-              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1).mp4'}
+              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.mp4'}
               type='video/mp4;codecs=hvc1'
             />
             <source
