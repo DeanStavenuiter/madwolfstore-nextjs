@@ -29,16 +29,16 @@ const LogoAnimation = () => {
       <div className='grid h-[calc(100%-10rem)] place-items-center'>
         <div className='flex animate-logoAnimation items-center justify-center'>
           <video autoPlay muted playsInline preload='auto' width={480} height={480}>
-             <source
+             {/* <source
               src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
               // type='video/quicktime;codecs=prepress'
-            />
+            /> */}
             <source
               src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1).mp4'}
               type='video/mp4;codecs=hvc1'
             />
             <source
-              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1).webm'}
+              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.webm'}
               type='video/webm'
             />       
             Your browser does not support the video tag.
