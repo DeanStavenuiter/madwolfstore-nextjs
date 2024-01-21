@@ -28,12 +28,14 @@ interface Order {
   id: number;
 }
 
-const Menu = () => {
+const Main = () => {
   const [isLoading, setIsLoading] = useState<Boolean>();
   const [title, setTitle] = useState<String>('');
   const [productData, setProductData] = useState<Product[]>([]);
   const [userData, setUserData] = useState<User[]>([]);
   const [orderData, setOrderData] = useState<Order[]>([]);
+
+  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
   const handleAllOrders = async () => {
     setTitle('Orders');
@@ -42,7 +44,7 @@ const Menu = () => {
     const response = await axios.get('/api/orders/allOrders');
 
     setOrderData(response.data.orders as Order[]);
-    console.log(response.data);
+    console.log('Order response', response.data);
     setIsLoading(false);
   };
 
@@ -63,9 +65,14 @@ const Menu = () => {
 
   const handleAllUsers = async () => {
     setTitle('All Users');
+    setIsLoading(true);
+
+    const response = await axios.get('/api/users');
+    setUserData(response.data.users as User[]);
+    console.log(response.data);
+    setIsLoading(false);
   };
 
-  console.log('productData', productData);
   return (
     <div className='flex'>
       {/* menu left */}
@@ -126,25 +133,33 @@ const Menu = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {productData.map((product: any) => (
-                        <tr key={product.id}>
-                          <td>
+                      {productData.map((product: any) => {
+                        const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+                        // Sort the sizes array for each product
+                        const sortedSizes = product.sizes.sort(
+                          (a: any, b: any) =>
+                            sizeOrder.indexOf(a.size) -
+                            sizeOrder.indexOf(b.size)
+                        );
+
+                        return (
+                          <tr key={product.id}>
                             <Link
                               href={`dashboard/product/${product.id}`}
                               className='hover:text-coolGray-200'
                             >
-                              {product.id}
+                              <td>{product.id}</td>{' '}
                             </Link>
-                          </td>
-                          <td>{product.name}</td>
-                          <td>{product.type}</td>
-                          <td>{formatPrice(product.price)}</td>
-                          <td>{product.stock}</td>
-                          {product.sizes.map((size: any) => (
-                            <td key={size.size}>{size.quantity}</td>
-                          ))}
-                        </tr>
-                      ))}
+                            <td>{product.name}</td>
+                            <td>{product.type}</td>
+                            <td>{formatPrice(product.price)}</td>
+                            <td>{product.stock}</td>
+                            {sortedSizes.map((size: any) => (
+                              <td key={size.size}>{size.quantity}</td>
+                            ))}
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -166,11 +181,32 @@ const Menu = () => {
                     <tbody>
                       {userData.map((user: any) => (
                         <tr key={user.id}>
-                          <td>{user.id}</td>
-                          <td>{user.name}</td>
+                          <td>
+                            <Link
+                              href={`/dashboard/user/${user.id}`}
+                              className='hover:text-coolGray-200'
+                            >
+                              {user.id}
+                            </Link>
+                          </td>
+                          <td>
+                            {user.firstName === null
+                              ? ' '
+                              : user.firstName + ' '}
+                            {user.lastName === null ? ' ' : user.lastName}
+                          </td>
                           <td>{user.email}</td>
-                          <td>{user.role}</td>
-                          <td>{user.orders}</td>
+                          <td>{user.role === 'WOLF' ? 'Admin' : 'User'}</td>
+                          {user.Orders.map((order: any) => (
+                            <td
+                              key={order.id}
+                              className='flex hover:text-coolGray-200'
+                            >
+                              <Link href={`/dashboard/order/${order.orderNo}`}>
+                                {order.orderNo}
+                              </Link>
+                            </td>
+                          ))}
                         </tr>
                       ))}
                     </tbody>
@@ -180,47 +216,57 @@ const Menu = () => {
             ) : title === 'Orders' ? (
               <div className='ml-4 flex flex-row flex-wrap justify-start gap-2 '>
                 <div className='overflow-x-auto'>
-                  <table className='table table-zebra'>
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th>order nr</th>
-                        <th>created at</th>
-                        <th>total price</th>
-                        <th>status</th>
-                        <th>updated at</th>
-                        <th>ordered by</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orderData.map((order: any) => (
-                        <tr key={order.id}>
-                          <td className='hover:text-coolGray-200'>
-                            <Link href={`/dashboard/order/${order.orderNo}`}>
-                              {order.orderNo}
-                            </Link>
-                          </td>
-                          <td>{convertDate(order.createdAt)}</td>
-                          <td>{order.total}</td>
-                          {order.status === 'paid' ? (
-                            <td className='text-green-600 '>paid</td>
-                          ) : order.status === 'expired' ? (
-                            <td className='text-yellow-600'>expired</td>
-                          ) : order.status === 'pending' ? (
-                            <td className=''>pending</td>
-                          ) : (
-                            <td className='text-red-600'>canceled</td>
-                          )}
-                          <td>{convertDate(order.updatedAt)}</td>
-                          <td className='hover:text-coolGray-200'>
-                            <Link href={`/dashboard/user/${order.userId}`}>
-                              {order.userId}
-                            </Link>
-                          </td>
+                  {orderData.length === 0 ? (
+                    <div className='flex items-center justify-center'>
+                      <span className='text'>No orders yet...</span>
+                    </div>
+                  ) : (
+                    <table className='table table-zebra'>
+                      {/* head */}
+                      <thead>
+                        <tr>
+                          <th>order nr</th>
+                          <th>created at</th>
+                          <th>ordered by</th>
+                          <th>total price</th>
+                          <th>status</th>
+                          <th>updated at</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {orderData.map((order: any) => (
+                          <tr key={order.id}>
+                            <td className='hover:text-coolGray-200'>
+                              <Link href={`/dashboard/order/${order.orderNo}`}>
+                                {order.orderNo}
+                              </Link>
+                            </td>
+                            <td>{convertDate(order.createdAt)}</td>
+                            <td className='hover:text-coolGray-200'>
+                              <Link href={`/dashboard/user/${order.userId}`}>
+                                {order.user.firstName
+                                  ? order.user.firstName
+                                  : ' ' + ' ' + order.user.lastName
+                                    ? order.user.lastName
+                                    : ' '}
+                              </Link>
+                            </td>
+                            <td>{order.total}</td>
+                            {order.status === 'paid' ? (
+                              <td className='text-green-600 '>paid</td>
+                            ) : order.status === 'expired' ? (
+                              <td className='text-yellow-600'>expired</td>
+                            ) : order.status === 'pending' ? (
+                              <td className=''>pending</td>
+                            ) : (
+                              <td className='text-red-600'>canceled</td>
+                            )}
+                            <td>{convertDate(order.updatedAt)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             ) : title === 'Add Products' ? (
@@ -246,12 +292,14 @@ const Menu = () => {
                     <tbody>
                       {productData.map((product: any) => (
                         <tr key={product.id}>
-                          <Link
-                            href={`dashboard/product/${product.id}`}
-                            className='hover:text-coolGray-200'
-                          >
-                            <td>{product.id}</td>
-                          </Link>
+                          <td>
+                            <Link
+                              href={`dashboard/product/${product.id}`}
+                              className='hover:text-coolGray-200'
+                            >
+                              {product.id}
+                            </Link>
+                          </td>
                           <td>{product.name}</td>
                           <td>{product.type}</td>
                           <td>{formatPrice(product.price)}</td>
@@ -275,4 +323,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Main;

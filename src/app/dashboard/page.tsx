@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 import authOptions from '../auth/auth';
-import Menu from './menu';
 import { redirect } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import Main from './main';
 
 const Dashboard = async () => {
   const session = await getServerSession(authOptions);
@@ -24,7 +24,7 @@ const Dashboard = async () => {
           <div className='divider' />
         </div>
 
-        <Menu />
+        <Main />
       </div>
     </>
   );

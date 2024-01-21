@@ -60,7 +60,7 @@ const LogoAnimation = () => {
             muted
             playsInline
             preload='auto'
-            src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
+            src={'https://madwolfstore.s3.amazonaws.com/logo/logo_animation.mp4'}
             // poster={"https://madwolfstore.s3.amazonaws.com/logo/MadWolf_logo_wit.png"}
           />
         </div>

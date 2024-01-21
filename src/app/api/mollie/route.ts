@@ -2,6 +2,7 @@ import { getUser } from '@/app/User/user';
 import { prisma } from '@/lib/db/prisma';
 import { env } from '@/lib/env';
 import { MethodInclude, createMollieClient } from '@mollie/api-client';
+import { create } from 'domain';
 import { NextResponse } from 'next/server';
 
 interface IssuerMethodResponse {
@@ -64,65 +65,57 @@ export async function POST(request: Request) {
     try {
       const orderNumber = await generateOrderNumber();
 
-      if (userSession) {
-        const cartItems = userSession.Cart.flatMap((cart) =>
-          cart.items.map((item) => ({
-            id: item.id,
-            productId: item.productId,
-            quantity: item.quantity,
-            size: item.size,
-            sizeQuantity: item.sizeQuantity,
-            orderId: item.orderId,
-          }))
-        );
+      // if (userSession) {
+      const cartItems = userSession?.Cart.flatMap((cart) =>
+        cart.items.map((item) => ({
+          id: item.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          size: item.size,
+          sizeQuantity: item.sizeQuantity,
+          orderId: item.orderId,
+        }))
+      );
 
-        // console.log('cartItems', cartItems);
+      // console.log('cartItems', cartItems);
 
-        try {
-          // create order in db with cart items and order number
-          const createOrder = await prisma.order.create({
-            data: {
-              orderNo: orderNumber,
-              status: 'pending',
-              total: `€${price}`,
-              items: {
-                create: cartItems.map((item) => ({
-                  product: {
-                    connect: { id: item.productId }, // Connect to the existing CartItems record
-                  },
-                  quantity: item.quantity,
-                  size: item.size,
-                  sizeQuantity: item.sizeQuantity,
-                })),
+      // create order in db with cart items and order number
+      const createOrder = await prisma.order.create({
+        data: {
+          orderNo: orderNumber,
+          status: 'pending',
+          total: `€${price}`,
+          paymentMethod: method,
+          items: {
+            create: cartItems?.map((item) => ({
+              product: {
+                connect: { id: item.productId }, // Connect to the existing CartItems record
               },
-              user: {
-                connect: {
-                  id: userSession.id,
-                },
-              },
+              quantity: item.quantity,
+              size: item.size,
+              sizeQuantity: item.sizeQuantity,
+            })),
+          },
+          user: {
+            connect: {
+              id: userSession?.id,
             },
+          },
+        },
+        include: {
+          items: {
             include: {
-              items: {
+              product: {
                 include: {
-                  product: true,
+                  sizes: true,
                 },
               },
             },
-          });
+          },
+        },
+      });
 
-          console.log('order in db: ', createOrder);
-
-        } catch (error) {
-          console.log(error);
-          return NextResponse.json({
-            message: 'Error creating order',
-            status: 500,
-            error: error,
-          });
-        }
-      }
-
-      // console.log('order in db: ', createOrder.items[0].product);
+      console.log('order in db: ', createOrder);
 
       //create payment in mollie api with details
       const paymentDetails = {
@@ -138,12 +131,19 @@ export async function POST(request: Request) {
           ' https://6a96-2001-1c04-3605-7700-00-ff.ngrok-free.app/api/webhook',
         metadata: {
           user_id: userSession?.id,
-          order_id: orderNumber,
+          orderNo: orderNumber,
+          order_id: createOrder.id,
           cart_id: userSession?.Cart[0].id,
           cart_items: userSession?.Cart[0].items.map((item) => ({
             id: item.id,
             productId: item.productId,
+            productName: createOrder.items.find(
+              (item) => item.product.id === item.productId
+            )?.product.name,
             quantity: item.quantity,
+            sizeId: createOrder.items[0].product.sizes.find(
+              (size) => size.size === item.size
+            )?.id,
             size: item.size,
             sizeQuantity: item.sizeQuantity,
             orderId: item.orderId,
@@ -154,6 +154,44 @@ export async function POST(request: Request) {
           address: `${formData.address}, ${formData.city}, ${formData.country}`,
         },
       };
+
+      const minQuantity = 0;
+
+      userSession?.Cart[0].items.map(async (item) => {
+        const newSize = await prisma.productSize.update({
+          where: {
+            id: createOrder.items[0].product.sizes.find(
+              (size) => size.size === item.size
+            )?.id,
+          },
+          data: {
+            quantity: {
+              decrement: item.quantity,
+            },
+            updatedAt: new Date(),
+          },
+        });
+
+        if (newSize.quantity < minQuantity) {
+          await prisma.productSize.update({
+            where: {
+              id: newSize.id,
+            },
+            data: {
+              quantity: {
+                increment: item.quantity,
+              },
+              updatedAt: new Date(),
+            },
+          });
+
+          return NextResponse.json({
+            message: `Sorry, Product: ${createOrder.items.find(
+              (item) => item.product.id === item.productId
+            )?.product.name} is out of stock. Please try again later`,
+          });
+        }
+      });
 
       const payment = await mollieClient.payments.create(paymentDetails);
 

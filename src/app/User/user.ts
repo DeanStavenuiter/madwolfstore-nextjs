@@ -33,7 +33,7 @@ export async function getUser() {
       },
       include: {
         Address: true,
-        Order: true,
+        Orders: true,
         Cart: {
           include: {
             items: true,

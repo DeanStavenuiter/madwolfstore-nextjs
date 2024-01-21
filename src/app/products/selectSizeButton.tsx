@@ -6,6 +6,7 @@ interface SelectSizeButtonProps {
   size: any;
   css: string;
   onSelectSize: (size: any) => void;
+  disabled?: boolean;
 }
 
 const SelectSizeButton = ({
@@ -77,7 +78,7 @@ const SelectSizeButton = ({
         <>
           <div
             key={size.size}
-            className={`${size.quantity === 0 ? 'btn-disabled' : ''}  
+            className={`${size.quantity <= 0 ? 'btn-disabled' : ''}  
             ${css}
             w-100 
             btn-outline-dark

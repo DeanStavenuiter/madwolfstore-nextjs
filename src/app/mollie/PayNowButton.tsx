@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface PayNowButtonProps {
   subtotal: number;
@@ -19,20 +19,20 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
   isFormValid,
   userWithAddress,
 }) => {
-
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    // console.log('payment method: ', paymentMethod);
-  }, [paymentMethod]);
+  // useEffect(() => {
+  //   // console.log('payment method: ', paymentMethod);
+  // }, [paymentMethod]);
 
   const handlePayment = async () => {
     if (isFormValid()) {
-
+      setIsLoading(true);
       const responseProfile = await axios.put('/api/account', {
         formData: formData,
         userWithAddress: userWithAddress,
-      });  
+      });
 
       // console.log('responseProfile', responseProfile);
 
@@ -57,17 +57,26 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
       }
 
       // console.log(response.data);
+      setIsLoading(false);
     }
   };
 
+  console.log('subtotal', subtotal === 0);
+
   return (
-    <button
-      className='btn btn-primary'
-      onClick={handlePayment}
-      disabled={!paymentMethod}
-    >
-      Place your order
-    </button>
+    <div className='flex justify-center'>
+      <button
+        className='btn btn-primary w-1/2'
+        onClick={handlePayment}
+        disabled={isLoading || subtotal === 0 || !paymentMethod}
+      >
+        {isLoading ? (
+          <span className='loading loading-spinner loading-sm bg-primary' />
+        ) : (
+          'Place your order'
+        )}
+      </button>
+    </div>
   );
 };
 

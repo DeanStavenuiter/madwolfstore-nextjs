@@ -19,13 +19,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     <>
       <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
-        {/* <Image
-          src={product.imageUrl1}
-          alt={product.name}
-          width={800}
-          height={400}
-          className='h-48 object-cover'
-        /> */}
         <VideoPlayer
           movFile={product.movFile}
           webmFile={product.webMFile}

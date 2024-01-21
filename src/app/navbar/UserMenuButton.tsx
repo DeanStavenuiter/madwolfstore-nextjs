@@ -25,7 +25,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
         {user ? (
           <Image
             src={user?.image || profilePicPlaceHolder}
-            alt='Procile picture'
+            alt='Profile picture'
             width={40}
             height={40}
             className='w-10 rounded-full'

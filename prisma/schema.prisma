@@ -46,7 +46,8 @@ model Product {
   CartItems   CartItems[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  stock       Int          @default(0)
+  stock       Int?          @default(0)
+
   @@map("products")
 }
 
@@ -114,7 +115,7 @@ model User {
   updatedAt           DateTime?          @updatedAt
   verificationTokenId String?            @db.ObjectId
   Address             Address[]
-  Order               Order[]
+  Orders              Order[]
 
   @@map("users")
 }
@@ -139,15 +140,16 @@ model Address {
 
 // order model
 model Order {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  orderNo   String      @unique
-  items     CartItems[]
-  user      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String      @db.ObjectId
-  status    String      @default("pending")
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  total     String
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderNo       String      @unique
+  items         CartItems[]
+  user          User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String      @db.ObjectId
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  total         String
+  paymentMethod String?
 
   @@map("orders")
 }

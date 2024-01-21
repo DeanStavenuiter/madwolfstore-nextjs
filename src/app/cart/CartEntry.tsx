@@ -3,9 +3,10 @@
 import VideoPlayer from '@/components/videoplayer';
 import { CartItemWithProduct } from '@/lib/db/cart';
 import { formatPrice } from '@/lib/format';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 
 interface CartEntryProps {
   cartItem: CartItemWithProduct;
@@ -13,15 +14,15 @@ interface CartEntryProps {
 }
 
 // Cart entry component
-const CartEntry = ({
-  cartItem,
-  setProductQuantity,
-}: CartEntryProps) => {
+const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
   const [isPending, startTransition] = useTransition();
   const quantityOptions: JSX.Element[] = [];
+  const maxQuantity =
+    cartItem.product.sizes.find((size) => size.size === cartItem.size)
+      ?.quantity ?? 10;
 
   // Generate quantity options
-  for (let i = 1; i <= 99; i++) {
+  for (let i = 1; i <= maxQuantity; i++) {
     quantityOptions.push(
       <option value={i} key={i}>
         {i}
@@ -32,17 +33,9 @@ const CartEntry = ({
   return (
     <div>
       <div className='flex items-center '>
-        {/* <Image
-          src={product.imageUrl1}
-          alt={product.name}
-          width={200}
-          height={200}
-          className='rounded-lg w-1/3 '
-        /> */}
-
         <VideoPlayer
-         movFile={cartItem.product.movFile}
-         webmFile={cartItem.product.webMFile}
+          movFile={cartItem.product.movFile}
+          webmFile={cartItem.product.webMFile}
           width={'w-[150px]'}
           height={'h-auto'}
           justifyContent={'start'}
@@ -56,7 +49,7 @@ const CartEntry = ({
           <div className='my-1 flex items-center gap-2'>
             Quantity:
             <select
-              className='select select-bordered w-full max-w-[80px]'
+              className='select select-bordered max-w-[75px] '
               defaultValue={cartItem.quantity}
               onChange={(e) => {
                 const newQuantity = parseInt(e.currentTarget.value);

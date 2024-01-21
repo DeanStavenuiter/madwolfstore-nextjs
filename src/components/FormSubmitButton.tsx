@@ -11,21 +11,24 @@ export type FormSubmitButtonProps = {
 const FormSubmitButton = ({
   children,
   className,
+  id,
   ...props
 }: FormSubmitButtonProps) => {
   const { pending, data } = useFormStatus();
 
-  console.log("data", data);
   return (
-    <button
-      {...props}
-      className={`btn btn-primary ${className} `}
-      type='submit'
-      aria-disabled={pending}
-    >
-      {pending && <span className='loading loading-spinner' />}
-      {children}
-    </button>
+    <>
+      
+      <button
+        {...props}
+        className={`btn btn-primary ${className} `}
+        type='submit'
+        aria-disabled={pending}
+      >
+        {pending && <span className='loading loading-spinner' />}
+        {children}
+      </button>
+    </>
   );
 };
 

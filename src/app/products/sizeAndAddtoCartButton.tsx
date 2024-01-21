@@ -17,20 +17,24 @@ interface Size {
 const SizeAndAddtoCartButton = ({ product }: any) => {
   const [selectedSize, setSelectedSize] = useState('');
 
-  // useEffect(() => {
-  //   console.log('Product', product);
-  // }, [selectedSize]);
+  useEffect(() => {
+    console.log('Product', product);
+  }, [selectedSize]);
 
   let allSoldOut: boolean = product.sizes.every(
     (size: Size) => size.quantity === 0
   );
 
-  // console.log('allSoldOut', allSoldOut);
+  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+  const sortedSizes = product.sizes.sort(
+    (a: any, b: any) => sizeOrder.indexOf(a.size) - sizeOrder.indexOf(b.size)
+  );
 
   return (
     <div className='flex w-full flex-col'>
       <div className=' col mb-2 mt-2 flex flex-wrap gap-1 '>
-        {product.sizes.map((size: any) => (
+        {sortedSizes.map((size: any) => (
           <div key={size.id}>
             <SelectSizeButton
               size={size}
@@ -42,13 +46,13 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
           </div>
         ))}
         {allSoldOut && (
-          <div className='text-sm text-red-500 mt-2 ml-1'>
+          <div className='ml-1 mt-2 text-sm text-red-500'>
             Sorry, this product is sold out
           </div>
         )}
       </div>
-      <PriceTag price={product.price} className='mt-2 ml-1' />
-      <p className='py-4 ml-1'>{product.description}</p>
+      <PriceTag price={product.price} className='ml-1 mt-2' />
+      <p className='ml-1 py-4'>{product.description}</p>
 
       <AddToCartButton
         productId={product.id}

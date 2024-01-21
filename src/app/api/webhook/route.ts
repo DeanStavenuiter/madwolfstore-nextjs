@@ -26,72 +26,70 @@ export async function POST(req: Request, res: Response) {
 
     // console.log('Paymentstatus in webhook api', paymentStatus);
     // console.log('PaymentId in webhook api', paymentId);
-    console.log(`Payment status is ${response.data.status}`);
+    // console.log(`Payment status is ${response.data.status}`);
 
+    // console.log('response.data', response.data);
     if (response.data.status === 'paid') {
-      // console.log(`Payment status is ${response.data.status}`);
-      // Payment was successful
-      // console.log(`Payment ${paymentId} has been paid.`);
-      console.log('Response in webhook api metadata', response.data.metadata);
-
       try {
-        const databaseActions = await prisma.$transaction([
-          //update order status to paid
-          prisma.order.update({
+        //update product sizes quantity
+        await response.data.metadata.cart_items.map(async (item: any) => {
+          await prisma.productSize.update({
             where: {
-              orderNo: response.data.metadata.order_id, // Provide the actual order ID
+              id: item.sizeId,
             },
             data: {
-              status: 'paid',
+              quantity: {
+                decrement: item.quantity,
+              },
+              updatedAt: new Date(),
+            },
+          });
+        }),
+          //update order status to paid
+          await prisma.order.update({
+            where: {
+              id: response.data.metadata.order_id,
+            },
+            data: {
+              status: response.data.status,
+              updatedAt: new Date(),
             },
           }),
-
           //update cart status to paid
-          prisma.cart.update({
+          await prisma.cart.update({
             where: {
               id: response.data.metadata.cart_id,
             },
             data: {
-              status: 'paid',
+              status: response.data.status,
             },
           }),
-
-          //update product sizes quantity
-          prisma.productSize.update({
-            where: {
-              id: response.data.metadata.cart_items.productId,
-              size: response.data.metadata.cart_items.size,
-            },
-            data: {
-              quantity: {
-                decrement: 1,
-              },
-            },
-          }),
-
           // delete all cart items
-          prisma.cartItems.deleteMany({
+          await prisma.cartItems.deleteMany({
             where: {
               cartId: response.data.metadata.cart_id,
             },
           }),
-
           //delete cart itself
-          prisma.cart.delete({
+          await prisma.cart.delete({
             where: {
               id: response.data.metadata.cart_id,
             },
-          }),
-        ]);
-      } catch (error) {
-        console.log('error prisma $transaction', error);
-      }
+          });
 
-      return NextResponse.json({
-        message: 'Payment was successful, order is paid and cart is deleted',
-        status: 200,
-      });
+        return NextResponse.json({
+          message: 'Payment was successful, order is paid and cart is deleted',
+          status: 200,
+        });
+      } catch (error) {
+        console.log('error in $transaction', error);
+        return NextResponse.json({
+          message: 'Error in $transaction',
+          status: 500,
+        });
+      }
     }
+
     if (response.data.status === 'failed') {
       // console.log(`Payment status is ${response.data.status}`);
       // console.log(`Payment ${paymentId} has failed.`);
@@ -99,7 +97,7 @@ export async function POST(req: Request, res: Response) {
       // update order status to failed
       const updateOrderStatus = await prisma.order.update({
         where: {
-          orderNo: response.data.metadata.order_id,
+          id: response.data.metadata.order_id,
         },
         data: {
           status: 'failed',
@@ -118,7 +116,7 @@ export async function POST(req: Request, res: Response) {
       // update order status to canceled
       const updateOrderStatus = await prisma.order.update({
         where: {
-          orderNo: response.data.metadata.order_id,
+          id: response.data.metadata.order_id,
         },
         data: {
           status: 'canceled',
@@ -136,7 +134,7 @@ export async function POST(req: Request, res: Response) {
       // update order status to expired
       const updateOrderStatus = await prisma.order.update({
         where: {
-          orderNo: response.data.metadata.order_id,
+          id: response.data.metadata.order_id,
         },
         data: {
           status: 'expired',
@@ -154,7 +152,7 @@ export async function POST(req: Request, res: Response) {
       // update order status to pending
       const updateOrderStatus = await prisma.order.update({
         where: {
-          orderNo: response.data.metadata.order_id,
+          id: response.data.metadata.order_id,
         },
         data: {
           status: 'pending',
@@ -172,7 +170,7 @@ export async function POST(req: Request, res: Response) {
       // update order status to open
       const updateOrderStatus = await prisma.order.update({
         where: {
-          orderNo: response.data.metadata.order_id,
+          id: response.data.metadata.order_id,
         },
         data: {
           status: 'open',

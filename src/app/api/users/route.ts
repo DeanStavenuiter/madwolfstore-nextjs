@@ -3,36 +3,35 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const orders = await prisma.order.findMany({
+    const users = await prisma.user.findMany({
       orderBy: {
         createdAt: 'desc',
       },
       include: {
-        items: {
+        Orders: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
-            product: {
+            items: {
               include: {
-                sizes: true,
+                product: true,
               },
             },
           },
         },
-        user: true,
       },
     });
 
-    console.log('orders ', orders);
-
     return NextResponse.json({
       status: 200,
-      message: 'All orders fetched',
-      orders,
+      message: 'All users fetched',
+      users,
     });
   } catch (error) {
-    console.log('orders get error ', error);
     return NextResponse.json({
       status: 500,
-      message: 'Orders did not fetch',
+      message: 'Users did not fetch',
       error,
     });
   }

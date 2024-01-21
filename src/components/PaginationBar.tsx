@@ -6,6 +6,7 @@ interface PaginationBarProps {
 }
 
 const PaginationBar = ({ currentPage, totalPages }: PaginationBarProps) => {
+  
   const maxPage = Math.min(totalPages, Math.max(currentPage + 4, 10));
   const minPage = Math.max(1, Math.min(currentPage - 5, totalPages - 9));
 

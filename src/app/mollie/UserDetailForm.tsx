@@ -6,7 +6,7 @@ import PayNowButton from './PayNowButton';
 import { countries } from '@/lib/countries';
 import axios from 'axios';
 
-const UserDetailForm = (totalPrice: any, email: any) => {
+const UserDetailForm = ({totalPrice, email}: any) => {
   const [userEmail, setUserEmail] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
@@ -14,6 +14,7 @@ const UserDetailForm = (totalPrice: any, email: any) => {
     setSelectedPaymentMethod(method);
   };
 
+  console.log("totalPrice", totalPrice)
   useEffect(() => {
     const getUserInfo = async () => {
       const response = await axios.get('/api/account');

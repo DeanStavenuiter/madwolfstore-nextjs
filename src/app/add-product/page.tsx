@@ -100,7 +100,7 @@ const page = async () => {
         movFile: '',
       },
       include: {
-        sizes: true, // This includes the created ProductSizes in the response
+        sizes: true, 
       },
     });
     return {

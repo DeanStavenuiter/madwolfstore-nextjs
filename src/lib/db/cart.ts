@@ -8,7 +8,11 @@ export type CartWithProducts = Prisma.CartGetPayload<{
   include: {
     items: {
       include: {
-        product: true;
+        product: {
+          include: {
+            sizes: true;
+          };
+        };
       };
     };
   };
@@ -16,7 +20,11 @@ export type CartWithProducts = Prisma.CartGetPayload<{
 
 export type CartItemWithProduct = Prisma.CartItemsGetPayload<{
   include: {
-    product: true;
+    product: {
+      include: {
+        sizes: true;
+      };
+    };
   };
 }>;
 
@@ -148,7 +156,7 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       })
     : null;
 
-    // console.log('localCart', localCart);
+  // console.log('localCart', localCart);
 
   if (!localCart) {
     return;
@@ -182,9 +190,8 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
       const mergedCartItems = mergeCartItems(localCart.items, userCart.items);
       // console.log('mergedCartItems', mergedCartItems);
 
-
       //we delete the user cart items
-     const deleteCartItems = await tx.cartItems.deleteMany({
+      const deleteCartItems = await tx.cartItems.deleteMany({
         where: {
           cartId: userCart.id,
         },

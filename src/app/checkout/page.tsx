@@ -19,13 +19,13 @@ const CheckOutPage = async () => {
   // price calculations
   const subTotal = cart?.subtotal || 0;
   const shippingCost = subTotal < 10000 ? 500 : 0;
-  const totalPrice = shippingCost + subTotal;
+  const totalPrice = subTotal === 0 ? 0 : shippingCost + subTotal;
 
   return (
     <div className='flex flex-col gap-4 sm:flex-row'>
       <UserDetailForm totalPrice={totalPrice} email={email} />
 
-      <div className='form-control rounded-md bg-neutral p-4 sm:w-1/3'>
+      <div className='bg-neutral form-control rounded-md p-4 sm:w-1/3'>
         <h1 className='text-xl font-bold'>Your Cart</h1>
         <div className='divider'></div>
         <div className='flex flex-col gap-4'>
@@ -38,21 +38,29 @@ const CheckOutPage = async () => {
               />
             ))}
           </div>
-          <div className='flex justify-between'>
-            <p>Subtotal: </p>
-            <p>{formatPrice(cart?.subtotal || 0)}</p>
-          </div>
+          {cart?.subtotal === 0 ? (
+            <div>
+              <p>Your cart is still empty..</p>
+            </div>
+          ) : (
+            <>
+              <div className='flex justify-between'>
+                <p>Subtotal: </p>
+                <p>{formatPrice(cart?.subtotal || 0)}</p>
+              </div>
 
-          <div className='divider'></div>
-          <div className='flex justify-between'>
-            <p>Shipping: </p>
-            <p>{formatPrice(shippingCost)}</p>
-          </div>
-          <div className='divider'></div>
-          <div className='flex justify-between'>
-            <p>Total: </p>
-            <p>{formatPrice(shippingCost + subTotal)}</p>
-          </div>
+              <div className='divider'></div>
+              <div className='flex justify-between'>
+                <p>Shipping: </p>
+                <p>{formatPrice(shippingCost)}</p>
+              </div>
+              <div className='divider'></div>
+              <div className='flex justify-between'>
+                <p>Total: </p>
+                <p>{formatPrice(shippingCost + subTotal)}</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
