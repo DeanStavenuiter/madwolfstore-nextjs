@@ -18,51 +18,24 @@ const LogoAnimation = () => {
     setTimeout(() => {
       setButtonClicked(true);
     }, 1000);
-
-    // clearTimeout();
   };
 
   setTimeout(() => {
     setSetshowButton(true);
   }, 1300);
 
-  // const handleScroll = () => {
-  //   // Get the current scroll position
-  //   const scrollY = window.scrollY;
-
-  //   // Get the total height of the document
-  //   const screenHeight = window.innerHeight;
-
-  //   // Check if the user has scrolled by the height of the document
-  //   if (scrollY >= screenHeight) {
-  //     setTimeout(() => {
-  //       setButtonClicked(true);
-  //     }, 1000);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Attach the scroll event listener when the component mounts
-  //   window.addEventListener('scroll', handleScroll);
-
-  //   // Remove the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
   return (
     <div className={`${buttonClicked ? 'hidden' : ''} h-screen `}>
       <div className='grid h-[calc(100%-10rem)] place-items-center'>
-        <div className='animate-logoAnimation flex items-center justify-center'>
-          <video
-            autoPlay
-            muted
-            playsInline
-            preload='auto'
-          >
-            <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation_bg.mov"}/>
-            {/* <source src={"https://madwolfstore.s3.amazonaws.com/logo_animation.webm"} type='video/webm'/> */}
+        <div className='flex animate-logoAnimation items-center justify-center'>
+          <video autoPlay muted playsInline preload='auto'>
+            <source
+              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+2.mp4'}
+              type='video/mp4;codecs=hvc1'
+            />
+            <source
+              src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
+            />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -70,10 +43,10 @@ const LogoAnimation = () => {
 
       {setshowButton && (
         <div
-          className='animate-Opacity grid place-items-center hover:cursor-pointer'
+          className='grid animate-Opacity place-items-center hover:cursor-pointer'
           onClick={handleClick}
         >
-          <div className='animate-bounceAnimation flex h-16 w-16 -translate-x-1/2 transform items-center justify-center rounded-full border-2 border-solid border-gray-500'>
+          <div className='flex h-16 w-16 animate-bounceAnimation items-center justify-center rounded-full border-2 border-solid border-gray-500 -translate-x-1/2 transform'>
             <span className='origin-center rotate-90 transform'>&#62;</span>
           </div>
         </div>

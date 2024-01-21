@@ -45,9 +45,9 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
           ))}
         </div>
 
-        {totalPages > 1 && (
+        {/* {totalPages > 1 && (
           <PaginationBar currentPage={currentPage} totalPages={totalPages} />
-        )}
+        )} */}
       </div>
       {/* <Footer /> */}
     </div>

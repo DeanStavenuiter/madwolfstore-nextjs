@@ -11,31 +11,31 @@ const config: Config = {
   plugins: [require('daisyui'), require('tailwindcss-3d')({ legacy: true })],
   theme: {
     colors: {
-      primary: '#f4aa3a',
+      // primary: '#f4aa3a',
       body: {
         // 'background-color': '#e3e6e6',
-        'background-color': 'rgb(30,35,40)',
+        'background-color': 'rgb(26, 36, 43)',
       },
     },
     extend: {
     colors:{
       ...colors,
     },
-      dark: {
-        'primary': '#f4aa3a',
-        secondary: '#f4f4a1',
-        accent: '#1be885',
-        neutral: '#272136',
-        'base-100': '#ffffff',
-        info: '#778ad4',
-        success: '#23b893',
-        warning: '#f79926',
-        error: '#ea535a',
-        body: {
-          // 'background-color': '#e3e6e6',
-          'background-color': 'rgb(30,35,40)',
-        },
-      },
+      // dark: {
+      //   'primary': '#f4aa3a',
+      //   secondary: '#f4f4a1',
+      //   accent: '#1be885',
+      //   neutral: '#272136',
+      //   'base-100': '#ffffff',
+      //   info: '#778ad4',
+      //   success: '#23b893',
+      //   warning: '#f79926',
+      //   error: '#ea535a',
+      //   body: {
+      //     // 'background-color': '#e3e6e6',
+      //     'background-color': 'rgb(30,35,40)',
+      //   },
+      // },
       keyframes: {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },

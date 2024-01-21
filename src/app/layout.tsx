@@ -39,9 +39,11 @@ export default function RootLayout({
         <SessionProvider>
           {/* {referer && referer[referer.length-1] !== '/' && <Navbar />} */}
           <Navbar />
-          <main className='margin-auto flex min-h-screen flex-col 
+          <main
+            className='margin-auto flex min-h-screen flex-col 
 
-          lg:p-4'>
+          lg:p-4'
+          >
             {children}
           </main>
           {/* {referer && referer[referer.length-1] !== '/' && <Footer />} */}
