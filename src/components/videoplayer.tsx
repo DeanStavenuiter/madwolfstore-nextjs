@@ -46,8 +46,14 @@ const VideoPlayer: React.FC<{
   };
 
   useEffect(() => {
-    videoRef.current?.play();
-    videoRef.current?.pause();
+    const showVideos = async () => {
+      const video = videoRef.current;
+      if (video) {
+        await video.play();
+        video.pause();
+      }
+    };
+    showVideos();
   }, []);
 
   // console.log("device" , device)
