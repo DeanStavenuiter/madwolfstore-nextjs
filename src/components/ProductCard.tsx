@@ -1,7 +1,9 @@
+'use client';
 import { Product } from '@prisma/client';
 import Link from 'next/link';
 import PriceTag from './PriceTag';
 import VideoPlayer from './videoplayer';
+import useDevice from './UseDevice';
 
 interface ProductCardProps {
   product: Product;
@@ -10,40 +12,69 @@ interface ProductCardProps {
 // Product card component
 const ProductCard = ({ product }: ProductCardProps) => {
   // Check if product is new
-  const isNew =
-    Date.now() - new Date(product.createdAt).getTime() <
-    1000 * 60 * 60 * 24 * 7;
+  // const isNew =
+  //   Date.now() - new Date(product.createdAt).getTime() <
+  //   1000 * 60 * 60 * 24 * 7;
 
+  const device = useDevice();
+
+  console.log('device', device);
   return (
-    // Link to product page
-
     <>
-      <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
-        <VideoPlayer
-          movFile={product.movFile}
-          webmFile={product.webMFile}
-          width={'w-full'}
-          height={'h-full'}
-          justifyContent={'start'}
-          product={''}
-          selectedImage={''}
-          selectedAlt={''}
-          setSelectedImage={''}
-          setSelectedAlt={''}
-        />
+      {device === 'desktop' || device === undefined  && (
+        <Link href={'/products/' + product.id}>
+          <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
+            <VideoPlayer
+              movFile={product.movFile}
+              webmFile={product.webMFile}
+              width={'w-full'}
+              height={'h-full'}
+              justifyContent={'start'}
+              product={''}
+              selectedImage={''}
+              selectedAlt={''}
+              setSelectedImage={''}
+              setSelectedAlt={''}
+            />
 
-        <Link
-          href={'/products/' + product.id}
-          className='card flex w-full justify-center bg-base-100 transition-shadow hover:shadow-xl'
-        >
-          <div className='card-body flex items-center'>
-            <h2 className='card-title'>{product.name}</h2>
-            {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
-            {/* <p>{product.description}</p> */}
-            <PriceTag price={product.price} className='mt-3' />
-          </div>
+            <div className='card-body flex items-center'>
+              <h2 className='card-title'>{product.name}</h2>
+              {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
+              {/* <p>{product.description}</p> */}
+              <PriceTag price={product.price} className='mt-3' />
+            </div>
+          </figure>
         </Link>
-      </figure>
+      )}
+
+      {device === 'mobile' && (
+        <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
+          <VideoPlayer
+            movFile={product.movFile}
+            webmFile={product.webMFile}
+            width={'w-full'}
+            height={'h-full'}
+            justifyContent={'start'}
+            product={''}
+            selectedImage={''}
+            selectedAlt={''}
+            setSelectedImage={''}
+            setSelectedAlt={''}
+          />
+
+          <Link
+            href={'/products/' + product.id}
+            className='card flex w-full justify-center bg-base-100 transition-shadow hover:shadow-xl'
+          >
+            <div className='card-body flex items-center'>
+              <h2 className='card-title'>{product.name}</h2>
+              {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
+              {/* <p>{product.description}</p> */}
+              <PriceTag price={product.price} className='mt-3' />
+            </div>
+          </Link>
+        </figure>
+      )}
     </>
   );
 };

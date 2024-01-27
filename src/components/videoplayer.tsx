@@ -15,6 +15,7 @@ const VideoPlayer: React.FC<{
   selectedAlt?: any;
   setSelectedImage?: any;
   setSelectedAlt?: any;
+  device?: any;
 }> = ({
   width,
   height,
@@ -61,19 +62,19 @@ const VideoPlayer: React.FC<{
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseOver = async () => {
-    if (device !== 'mobile') {
+    // if (device !== 'mobile') {
       if (videoRef.current?.paused) {
         videoRef.current?.play();
       }
-    }
+    // }
   };
 
   const handleMouseOut = () => {
-    if (device !== 'mobile') {
+    // if (device !== 'mobile') {
       if (!videoRef.current?.paused) {
         videoRef.current?.pause();
       }
-    }
+    // }
   };
 
   const handleMouseDown = () => {
