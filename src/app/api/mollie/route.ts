@@ -40,7 +40,11 @@ export async function POST(request: Request) {
 
   const { subtotal, method, formData } = response;
 
-  if (!subtotal.totalPrice || !method || !formData) {
+  if (!subtotal || !method || !formData) {
+    console.log('subtotal', subtotal.totalPrice);
+    console.log('method', method);
+    console.log('formData', formData);
+
     return NextResponse.json(
       {
         message: 'Missing required fields',
@@ -49,14 +53,14 @@ export async function POST(request: Request) {
     );
   }
 
-  if (subtotal.totalPrice !== undefined || subtotal.totalPrice !== null) {
-    let totalString = subtotal.totalPrice.toString().replace('.', '');
+  if (subtotal !== undefined || subtotal !== null) {
+    // let totalString = subtotal.toString().replace('.', '');
 
     // console.log('totalString', totalString);
 
-    const price = totalString.slice(0, -2) + '.' + totalString.slice(-2);
+    const price = subtotal.slice(0, -2) + '.' + subtotal.slice(-2);
 
-    // console.log('price', price);
+    console.log('price', price);
 
     const mollieClient = createMollieClient({
       apiKey: `${env.MOLLIE_API_KEY}`,
@@ -89,7 +93,7 @@ export async function POST(request: Request) {
           items: {
             create: cartItems?.map((item) => ({
               product: {
-                connect: { id: item.productId }, // Connect to the existing CartItems record
+                connect: { id: item.productId }, 
               },
               quantity: item.quantity,
               size: item.size,

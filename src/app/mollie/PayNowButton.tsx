@@ -61,7 +61,7 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
     }
   };
 
-  console.log('subtotal', subtotal === 0);
+  console.log('subtotal', subtotal);
 
   return (
     <div className='flex justify-center'>
