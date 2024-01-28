@@ -45,11 +45,11 @@ const Navbar = async () => {
             </div>
           </div>
         </Link>
-        <div className='flex w-3/4 items-center justify-between gap-2 sm:justify-end'>
+        <div className='flex w-3/4 items-center  justify-between gap-2 sm:justify-end'>
           <form action={searchProdutcs}>
             <div className='md: form-control hidden lg:block'>
               <svg
-                className='pointer-events-none absolute z-10 my-3.5 ms-4 stroke-current text-base-content opacity-60'
+                className='pointer-events-none absolute text-coolgray-400 z-10 my-3.5 ms-4 stroke-current opacity-60'
                 width='16'
                 height='16'
                 xmlns='http://www.w3.org/2000/svg'
@@ -67,7 +67,7 @@ const Navbar = async () => {
                 type='text'
                 name='searchQuery'
                 placeholder='Search...'
-                className='input input-bordered w-full min-w-[100px] pl-12'
+                className='input input-bordered w-full min-w-[100px] pl-12 bg-neutral-800'
               />
               <div className='dropdown dropdown-end'>
                 <div className='card dropdown-content card-compact z-30 mt-3 w-52 bg-base-100 shadow'>

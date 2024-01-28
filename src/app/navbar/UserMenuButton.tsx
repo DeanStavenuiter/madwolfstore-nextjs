@@ -48,7 +48,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
       </label>
       <ul
         tabIndex={0}
-        className='menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 bg-base-100 shadow'
+        className='menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 bg-neutral-800 shadow text-coolGray-400'
       >
         {user?.role === 'WOLF' ? (
           <>
@@ -57,11 +57,6 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
                 <button>Dashboard</button>
               </Link>
             </li>
-            {/* <li>
-              <Link href={'/add-product'}>
-                <button>Add product</button>
-              </Link>
-            </li> */}
           </>
         ) : (
           ''

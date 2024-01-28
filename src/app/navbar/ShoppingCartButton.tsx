@@ -24,7 +24,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
   return (
     <div className='dropdown dropdown-end'>
       <label tabIndex={0} role='button' className='btn btn-circle btn-ghost'>
-        <div className='indicator'>
+        <div className='indicator '>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-5 w-5'
@@ -40,7 +40,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
             />
           </svg>
           <div className='relative bottom-2 right-0 left-3'>
-            <span className='badge indicator-item badge-sm '>
+            <span className='badge indicator-item badge-sm bg-neutral-800 text-coolGray-100'>
               {cart?.size || 0}
             </span>
           </div>
@@ -48,7 +48,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
       </label>
       <div
         tabIndex={0}
-        className='card dropdown-content card-compact z-30 mt-3 w-52 bg-base-100 shadow'
+        className='card dropdown-content card-compact z-30 mt-3 w-52 bg-neutral-800 shadow'
       >
         <div className='card-body'>
           <span className='text-xl font-bold'>{cart?.size || 0} Items</span>
@@ -58,7 +58,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
           <div className='card-actions'>
             <Link
               href={'/cart'}
-              className='btn btn-primary btn-block'
+              className='btn btn-block bg-sky-500 hover:bg-sky-700 border-none text-coolGray-100'
               onClick={CloseDropdown}
             >
               View cart
