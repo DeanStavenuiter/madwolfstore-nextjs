@@ -64,15 +64,20 @@ export const PayNowButton: React.FC<PayNowButtonProps> = ({
   console.log('subtotal', subtotal);
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex pl-4 pr-4 sm:justify-center sm:pl-0 sm:pr-0'>
       <button
-        className='btn btn-primary w-1/2'
+        className='btn w-full border-none bg-sky-500 pl-4 pr-4 text-coolGray-100 hover:bg-sky-700 sm:w-1/2 sm:pl-0 sm:pr-0
+        disabled:text-coolGray-400 disabled:bg-[rgb(30,35,42)]'
         onClick={handlePayment}
         disabled={isLoading || subtotal === 0 || !paymentMethod}
       >
         {isLoading ? (
-          <span className='loading loading-spinner loading-sm bg-primary' />
+          <span className='loading loading-spinner loading-sm bg-sky-500' />
+        ) : !paymentMethod ? (
+          
+          'select a payment method'
         ) : (
+          
           'Place your order'
         )}
       </button>

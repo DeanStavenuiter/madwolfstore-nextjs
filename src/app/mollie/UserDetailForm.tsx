@@ -5,6 +5,7 @@ import ListPaymentMethods from './ListPaymentMethods';
 import PayNowButton from './PayNowButton';
 import { countries } from '@/lib/countries';
 import axios from 'axios';
+import useDevice from '@/components/UseDevice';
 
 const UserDetailForm = ({totalPrice, email}: any) => {
   const [userEmail, setUserEmail] = useState('');
@@ -13,6 +14,8 @@ const UserDetailForm = ({totalPrice, email}: any) => {
   const handlePaymentMethodChange = (method: string) => {
     setSelectedPaymentMethod(method);
   };
+
+  const device = useDevice();
 
   console.log("totalPrice", totalPrice)
   useEffect(() => {
@@ -125,12 +128,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             <div className='w-full'>
               {/* first name input */}
               <label className='label'>
-                <span className='label-text'>First name</span>
+                <span className='label-text text-coolGray-200'>First name</span>
               </label>
               <input
                 type='text'
                 placeholder='Your first name'
-                className={`input input-bordered w-full ${
+                className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                   errors.firstName ? 'focus:border-red-500' : ''
                 }`}
                 onChange={handleChange}
@@ -149,12 +152,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             <div className='w-full'>
               {/* last name input */}
               <label className='label'>
-                <span className='label-text'>Last name</span>
+                <span className='label-text text-coolGray-200'>Last name</span>
               </label>
               <input
                 type='text'
                 placeholder='Your last name'
-                className={`input input-bordered w-full ${
+                className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)]${
                   errors.lastName ? 'focus:border-red-500' : ''
                 }`}
                 onChange={handleChange}
@@ -174,12 +177,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
           <div>
             {/* email */}
             <label className='label'>
-              <span className='label-text'>Email</span>
+              <span className='label-text text-coolGray-200'>Email</span>
             </label>
             <input
               type='text'
               placeholder='Your email'
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                 errors.email ? 'focus:border-red-500' : ''
               }`}
               onChange={handleChange}
@@ -204,12 +207,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             {/* address */}
             <div className='sm:w-3/4'>
               <label className='label'>
-                <span className='label-text'>Street name and house number</span>
+                <span className='label-text text-coolGray-200'>Street name and house number</span>
               </label>
               <input
                 type='text'
                 placeholder='Your address'
-                className={`input input-bordered w-full ${
+                className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                   errors.address ? 'focus:border-red-500' : ''
                 }`}
                 onChange={handleChange}
@@ -229,12 +232,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             {/* post code */}
             <div className='sm:w-1/4'>
               <label className='label'>
-                <span className='label-text'>Post code</span>
+                <span className='label-text text-coolGray-200'>Post code</span>
               </label>
               <input
                 type='text'
                 placeholder='Your post code'
-                className={`input input-bordered w-full ${
+                className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                   errors.postCode ? 'focus:border-red-500' : ''
                 }`}
                 onChange={handleChange}
@@ -256,12 +259,12 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             {/* city */}
             <div className='sm:w-3/4'>
               <label className='label'>
-                <span className='label-text'>City</span>
+                <span className='label-text text-coolGray-200'>City</span>
               </label>
               <input
                 type='text'
                 placeholder='Your city'
-                className={`input input-bordered w-full ${
+                className={`input input-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                   errors.city ? 'focus:border-red-500' : ''
                 }`}
                 onChange={handleChange}
@@ -279,13 +282,13 @@ const UserDetailForm = ({totalPrice, email}: any) => {
             {/* country */}
             <div className='sm:w-1/4'>
               <label className='label'>
-                <span className='label-text'>Country</span>
+                <span className='label-text text-coolGray-200'>Country</span>
               </label>
               <select
                 name='country'
                 value={formData.country}
                 onChange={handleChange}
-                className={`select select-bordered w-full ${
+                className={`select select-bordered w-full border-coolGray-600 bg-[rgb(30,35,42)] ${
                   errors.country ? 'focus:border-red-500' : ''
                 }`}
               >

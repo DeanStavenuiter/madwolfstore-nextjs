@@ -12,7 +12,6 @@ interface UserMenuButtonProps {
 }
 
 const UserMenuButton = ({ session }: UserMenuButtonProps) => {
-
   const user = session?.user;
 
   // console.log('session', session);
@@ -48,7 +47,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
       </label>
       <ul
         tabIndex={0}
-        className='menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 bg-neutral-800 shadow text-coolGray-400'
+        className='bg-gray-900-800 menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 text-coolGray-400 bg-[rgb(30,35,42)] shadow'
       >
         {user?.role === 'WOLF' ? (
           <>

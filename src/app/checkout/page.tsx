@@ -49,12 +49,12 @@ const CheckOutPage = async () => {
                 <p>{formatPrice(cart?.subtotal || 0)}</p>
               </div>
 
-              <div className='divider'></div>
+              <div className='divider pl-5 pr-5 before:bg-coolGray-100 after:bg-coolGray-100 sm:pl-0 sm:pr-0'></div>
               <div className='flex justify-between'>
                 <p>Shipping: </p>
                 <p>{formatPrice(shippingCost)}</p>
               </div>
-              <div className='divider'></div>
+              <div className='divider pl-5 pr-5 before:bg-coolGray-100 after:bg-coolGray-100 sm:pl-0 sm:pr-0'></div>
               <div className='flex justify-between'>
                 <p>Total: </p>
                 <p>{formatPrice(shippingCost + subTotal)}</p>

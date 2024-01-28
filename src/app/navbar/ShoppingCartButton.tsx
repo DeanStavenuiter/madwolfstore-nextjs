@@ -40,7 +40,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
             />
           </svg>
           <div className='relative bottom-2 right-0 left-3'>
-            <span className='badge indicator-item badge-sm bg-neutral-800 text-coolGray-100'>
+            <span className='badge indicator-item badge-sm bg-[rgb(30,35,42)] text-coolGray-100'>
               {cart?.size || 0}
             </span>
           </div>
@@ -48,7 +48,7 @@ const ShoppingCartButton = ({ cart }: ShoppingCartButtonProps) => {
       </label>
       <div
         tabIndex={0}
-        className='card dropdown-content card-compact z-30 mt-3 w-52 bg-neutral-800 shadow'
+        className='card dropdown-content card-compact z-30 mt-3 w-52 bg-[rgb(30,35,42)] shadow'
       >
         <div className='card-body'>
           <span className='text-xl font-bold'>{cart?.size || 0} Items</span>

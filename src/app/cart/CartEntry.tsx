@@ -3,8 +3,6 @@
 import VideoPlayer from '@/components/videoplayer';
 import { CartItemWithProduct } from '@/lib/db/cart';
 import { formatPrice } from '@/lib/format';
-import axios from 'axios';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useTransition } from 'react';
 
@@ -31,8 +29,8 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
   }
 
   return (
-    <div>
-      <div className='flex items-center '>
+    <div key={cartItem.id + cartItem.quantity}>
+      <div className='flex items-center p-5 sm:gap-40'>
         <VideoPlayer
           product={''}
           selectedImage={''}
@@ -41,7 +39,7 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
           setSelectedAlt={''}
           movFile={cartItem.product.movFile}
           webmFile={cartItem.product.webMFile}
-          width={'w-[150px]'}
+          width={'w-[350px]'}
           height={'h-auto'}
           justifyContent={'start'}
         />
@@ -51,10 +49,10 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
           </Link>
           <div>Price: {formatPrice(cartItem.product.price)}</div>
           <div>Size: {cartItem.size}</div>
-          <div className='my-1 flex items-center gap-2'>
+          <div className='my-1 flex flex-col items-start sm:items-center sm:flex-row gap-2'>
             Quantity:
             <select
-              className='select select-bordered max-w-[75px] '
+              className='select select-bordered border-coolGray-200 sm:max-w-[75px] w-[75%] bg-[rgb(30,35,42)]'
               defaultValue={cartItem.quantity}
               onChange={(e) => {
                 const newQuantity = parseInt(e.currentTarget.value);
@@ -77,7 +75,7 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
         </div>
       </div>
 
-      <div className='divider'></div>
+      <div className='divider pl-5 pr-5 before:bg-coolGray-100 after:bg-coolGray-100 sm:pl-0 sm:pr-0'></div>
     </div>
   );
 };

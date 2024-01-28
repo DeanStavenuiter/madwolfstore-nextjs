@@ -1,7 +1,7 @@
 'use client';
 
+import useDevice from '@/components/UseDevice';
 import axios from 'axios';
-import { on } from 'events';
 import Image from 'next/image';
 import { use, useEffect, useState } from 'react';
 
@@ -18,6 +18,8 @@ const ListPaymentMethods: React.FC<ListPaymentMethodsProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+
+  const device = useDevice()
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -72,12 +74,12 @@ const ListPaymentMethods: React.FC<ListPaymentMethodsProps> = ({
                     value={method.id}
                     onChange={handleSelectPaymentMethod}
                   />
-                  <p>{method.description}</p>
+                  <p>{method.description.split(' ')[0]}</p>
                 </div>
 
-                {method.id === 'ideal' && (
+                {method.id === 'ideal' && device !== 'mobile' && (
                   <select
-                    className='select select-bordered select-sm ml-1 mr-1 w-1/2'
+                    className='select select-bordered select-sm ml-1 mr-1 w-1/2 border-coolGray-600 bg-[rgb(30,35,42)]'
                     aria-label='Select your bank'
                   >
                     {paymentIssuers.map((issuer: any) => (

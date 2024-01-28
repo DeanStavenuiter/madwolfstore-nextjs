@@ -1,8 +1,8 @@
 import { getUser } from '@/app/User/user';
 import { prisma } from '@/lib/db/prisma';
 import { env } from '@/lib/env';
+import { formatPrice } from '@/lib/format';
 import { MethodInclude, createMollieClient } from '@mollie/api-client';
-import { create } from 'domain';
 import { NextResponse } from 'next/server';
 
 interface IssuerMethodResponse {
@@ -54,13 +54,14 @@ export async function POST(request: Request) {
   }
 
   if (subtotal !== undefined || subtotal !== null) {
-    // let totalString = subtotal.toString().replace('.', '');
+    const subtotalString = subtotal.toString();
 
-    // console.log('totalString', totalString);
-
-    const price = subtotal.slice(0, -2) + '.' + subtotal.slice(-2);
+    const pricePayment =
+      subtotalString.slice(0, -2) + '.' + subtotalString.slice(-2);
+    const price = formatPrice(subtotal);
 
     console.log('price', price);
+    console.log('pricePayment', pricePayment);
 
     const mollieClient = createMollieClient({
       apiKey: `${env.MOLLIE_API_KEY}`,
@@ -88,12 +89,12 @@ export async function POST(request: Request) {
         data: {
           orderNo: orderNumber,
           status: 'pending',
-          total: `€${price}`,
+          total: price,
           paymentMethod: method,
           items: {
             create: cartItems?.map((item) => ({
               product: {
-                connect: { id: item.productId }, 
+                connect: { id: item.productId },
               },
               quantity: item.quantity,
               size: item.size,
@@ -125,7 +126,7 @@ export async function POST(request: Request) {
       const paymentDetails = {
         method: method,
         amount: {
-          value: price,
+          value: pricePayment,
           currency: 'EUR',
         },
         description: 'MadWolf Store',

@@ -67,7 +67,7 @@ const Navbar = async () => {
                 type='text'
                 name='searchQuery'
                 placeholder='Search...'
-                className='input input-bordered w-full min-w-[100px] pl-12 bg-neutral-800'
+                className='input input-bordered w-full min-w-[100px] pl-12 bg-[rgb(30,35,42)]'
               />
               <div className='dropdown dropdown-end'>
                 <div className='card dropdown-content card-compact z-30 mt-3 w-52 bg-base-100 shadow'>
