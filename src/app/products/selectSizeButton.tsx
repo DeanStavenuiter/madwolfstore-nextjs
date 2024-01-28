@@ -72,20 +72,31 @@ const SelectSizeButton = ({
 
   const sizeLabel = sizeMapping[size.size] || '';
 
+
   return (
     <>
       {!isLoading && (
         <>
           <div
             key={size.size}
-            className={`${size.quantity <= 0 ? 'btn-disabled' : ''}  
-            ${css}
-            w-100 
+            id='sizebtn'
+            className={`${
+              size.quantity <= 0
+                ? 'hover:bg-color-coolGray-700 hover:cursor-not-allowed flex justify-center bg-coolGray-800 bg-opacity-10 text-coolGray-100 text-opacity-30'
+                : 'btn'
+            }
             btn-outline-dark
-            bg-light text-dark btn
-          
-            rounded border py-3`}
-            onClick={() => handleSizeSelection(size.size)}
+            mb-2
+            mr-1 
+            min-w-[100px]
+            max-w-[100px]
+            rounded
+            border bg-neutral-500 bg-opacity-20 py-3 font-normal normal-case text-coolGray-100 ${css}
+            hover:bg-neutral-700
+            `}
+            onClick={
+              size.quantity > 0 ? () => handleSizeSelection(size.size) : () => {}
+            }
           >
             {sizeLabel}
           </div>

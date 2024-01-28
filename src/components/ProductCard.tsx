@@ -17,11 +17,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
   //   1000 * 60 * 60 * 24 * 7;
 
   const device = useDevice();
-
   console.log('device', device);
+  console.log('Product', product);
   return (
     <>
-      {device === 'desktop' || device === undefined  && (
+      {device === 'desktop' && (
         <Link href={'/products/' + product.id}>
           <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
             <VideoPlayer
@@ -37,11 +37,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
               setSelectedAlt={''}
             />
 
-            <div className='card-body flex items-center'>
+            <div className='card-body flex items-center gap-0 p-0'>
               <h2 className='card-title'>{product.name}</h2>
               {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
               {/* <p>{product.description}</p> */}
-              <PriceTag price={product.price} className='mt-3' />
+              <PriceTag price={product.price} />
             </div>
           </figure>
         </Link>
@@ -53,7 +53,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             movFile={product.movFile}
             webmFile={product.webMFile}
             width={'w-full'}
-            height={'h-full'}
+            height={'h-[75%]'}
             justifyContent={'start'}
             product={''}
             selectedImage={''}
@@ -66,11 +66,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
             href={'/products/' + product.id}
             className='card flex w-full justify-center bg-base-100 transition-shadow hover:shadow-xl'
           >
-            <div className='card-body flex items-center'>
-              <h2 className='card-title'>{product.name}</h2>
-              {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
-              {/* <p>{product.description}</p> */}
-              <PriceTag price={product.price} className='mt-3' />
+            <div className='absolute left-0 right-0 bottom-[120px] '>
+              <div className='card-body flex items-center gap-0 p-0'>
+                <h2 className='card-title'>{product.name}</h2>
+                {/* {isNew && <div className='badge badge-secondary'>NEW</div>} */}
+                {/* <p>{product.description}</p> */}
+                <PriceTag price={product.price} />
+              </div>
             </div>
           </Link>
         </figure>

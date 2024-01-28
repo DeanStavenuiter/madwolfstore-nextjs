@@ -110,7 +110,7 @@ const VideoPlayer: React.FC<{
   };
   return (
     <div
-      className={`relative flex w-full sm:w-[75%] justify-${justifyContent}`}
+      className={`relative sm:h-full flex w-full sm:w-[75%] justify-${justifyContent}`}
     >
       {!selectedImage ? (
         <>
@@ -130,7 +130,7 @@ const VideoPlayer: React.FC<{
           </video>
           <div
             ref={progressBarRef}
-            className={`absolute bottom-0 h-full cursor-pointer bg-gray-300 ${width}`}
+            className={`absolute top-0 ${height} sm:h-full cursor-pointer bg-gray-300 ${width}`}
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
             onMouseDown={handleMouseDown}

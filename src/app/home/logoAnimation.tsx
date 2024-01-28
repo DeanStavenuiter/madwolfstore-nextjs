@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const LogoAnimation = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -26,21 +26,28 @@ const LogoAnimation = () => {
 
   return (
     <div className={`${buttonClicked ? 'hidden' : ''} h-screen `}>
-      <div className='grid h-[calc(100%-10rem)] place-items-center'>
-        <div className='flex animate-logoAnimation items-center justify-center'>
-          <video autoPlay muted playsInline preload='auto' width={480} height={480}>
-             {/* <source
-              src={'https://madwolfstore.s3.amazonaws.com/logo_animation.mov'}
-              // type='video/quicktime;codecs=prepress'
-            /> */}
+      <div className='grid h-[calc(100%-18rem)] sm:h-[calc(100%-10rem)] place-items-center'>
+        <div className='flex animate-logoAnimation items-center justify-center pl-5 pr-5 sm:pl-0 sm:pr-0'>
+          <video
+            autoPlay
+            muted
+            playsInline
+            preload='auto'
+            width={480}
+            height={480}
+          >
             <source
-              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.mp4'}
+              src={
+                'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.mp4'
+              }
               type='video/mp4;codecs=hvc1'
             />
             <source
-              src={'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.webm'}
+              src={
+                'https://madwolfstore.s3.amazonaws.com/logo_animation+(1)_1.webm'
+              }
               type='video/webm'
-            />       
+            />
             Your browser does not support the video tag.
           </video>
         </div>

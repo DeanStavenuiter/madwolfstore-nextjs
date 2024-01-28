@@ -33,14 +33,14 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
 
   return (
     <div className='flex w-full flex-col'>
-      <div className=' col mb-2 mt-2 flex flex-wrap gap-1 max-w-[305px]'>
+      <div className=' col mb-2 mt-2 flex max-w-[320px] flex-wrap gap-1'>
         {sortedSizes.map((size: any) => (
           <div key={size.id}>
             <SelectSizeButton
               size={size}
               onSelectSize={(selectedSize) => setSelectedSize(selectedSize)}
               css={
-                size.size === selectedSize ? 'bg-neutral text-neutral-100' : ''
+                size.size === selectedSize ? 'bg-neutral text-white border-white' : 'border-none'
               }
             />
           </div>
@@ -53,17 +53,19 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
       )}
       <PriceTag price={product.price} className='ml-1 mt-2' />
       <p className='ml-1 py-4'>{product.description}</p>
-      <p className='ml-1 py-4'>
-        {product.description2 ? product.description2 : ''}
-      </p>
-      <p className='ml-1 py-4'>
-        {product.description3 ? product.description3 : ''}
-      </p>
+      {product.description2 && (
+        <p className='ml-1 py-4'>{product.description2}</p>
+      )}
+
+      {product.description3 && (
+        <p className='ml-1 py-4'>{product.description3}</p>
+      )}
 
       <AddToCartButton
         productId={product.id}
         incrementProductQuantity={incrementProductQuantity}
         selectedSize={selectedSize}
+        setSelectedSize={setSelectedSize}
       />
     </div>
   );

@@ -8,16 +8,19 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  plugins: [require('daisyui'), require('tailwindcss-3d')({ legacy: true })],
-  theme: {
-    colors: {
-      // primary: '#f4aa3a',
-      body: {
-        // 'background-color': '#e3e6e6',
-        'background-color': 'rgb(26, 36, 43)',
-      },
-    },
+  variants: {
     extend: {
+      backgroundColor: ['disabled'],
+      textColor: ['disabled'],
+    }
+  },
+  plugins: [require('daisyui'), require('tailwindcss-3d')({ legacy: true })],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      screens: {
+        dark: { raw: '(prefers-color-scheme: dark)' },
+      },
     colors:{
       ...colors,
     },

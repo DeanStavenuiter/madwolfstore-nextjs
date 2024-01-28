@@ -33,7 +33,7 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
     // take: pageSize,
   });
 
-  // console.log('products', productsWithStock.length)
+  console.log('products', productsWithStock.length)
   return (
     <div className='max-w-8xl h-full flex-grow'>
       <LogoAnimation />

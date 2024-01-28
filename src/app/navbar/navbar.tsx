@@ -29,7 +29,7 @@ const Navbar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className='animate-navbarAnimation flex justify-center bg-base-100'>
+    <div className='animate-navbarAnimation flex justify-center bg-bas-100'>
       <div className='navbar max-w-7xl gap-2 sm:flex-row sm:justify-center '>
         <Link href='/' className='w-1/4 sm:w-1/2'>
           <div className='flex items-center gap-3 text-xl'>

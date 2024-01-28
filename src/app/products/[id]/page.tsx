@@ -29,7 +29,6 @@ interface ProductPageProps {
   };
 }
 
-
 // Get product from database
 const getProduct = cache(async (id: string) => {
   const product = await prisma.product.findUnique({
