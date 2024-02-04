@@ -45,7 +45,6 @@ const Signin = () => {
         clearTimeout(timeout2);
         clearTimeout(timeout3);
       };
-
     } else {
       const timeout1 = setTimeout(() => {
         toast.dismiss();
@@ -73,12 +72,13 @@ const Signin = () => {
                 {/* name */}
                 <div className='w-full'>
                   <label className='label'>
-                    <span className='label-text'>Email</span>
+                    <span className='label-text text-coolGray-200'>Email</span>
                   </label>
                   <input
                     //   required
                     name='email'
                     type='email'
+                    placeholder='Email'
                     onChange={({ target }) =>
                       setUserInfo({
                         ...userInfo,
@@ -86,19 +86,21 @@ const Signin = () => {
                       })
                     }
                     autoComplete='true'
-                    className='peer input input-bordered mb-3 w-full'
+                    className='peer input input-bordered mb-3 w-full bg-[rgb(30,35,42)]'
                   />
                 </div>
 
                 {/* password */}
                 <div className='w-full'>
                   <label className='label'>
-                    <span className='label-text'>Password</span>
+                    <span className='label-text text-coolGray-200'>
+                      Password
+                    </span>
                   </label>
                   <input
-                    //   required
                     type='password'
                     name='password'
+                    placeholder='Password'
                     onChange={({ target }) =>
                       setUserInfo({
                         ...userInfo,
@@ -106,13 +108,16 @@ const Signin = () => {
                       })
                     }
                     autoComplete='true'
-                    className='peer input input-bordered mb-3 w-full'
+                    className='peer input input-bordered mb-3 w-full bg-[rgb(30,35,42)]'
                   />
                 </div>
                 <Toaster />
               </div>
               <div className='flex flex-col gap-5'>
-                <button className='btn btn-primary' type='submit'>
+                <button
+                  className='btn border-none bg-sky-500 text-coolGray-100 hover:bg-sky-700'
+                  type='submit'
+                >
                   Sign In
                 </button>
               </div>
@@ -141,10 +146,17 @@ const Signin = () => {
               <span>Google</span>
             </button>
             <div className='mb-3 flex justify-center'>
-              <Link href={'/auth/signup'}>Don&apos;t have an account yet?</Link>
+              <Link href={'/auth/signup'} className='hover:text-coolGray-300'>
+                Don&apos;t have an account yet?
+              </Link>
             </div>
             <div className='flex justify-center'>
-              <Link href={'/auth/forgotPassword'}>Forgot your password?</Link>
+              <Link
+                href={'/auth/forgotPassword'}
+                className='hover:text-coolGray-300'
+              >
+                Forgot your password?
+              </Link>
             </div>
           </div>
         </div>

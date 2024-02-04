@@ -27,7 +27,7 @@ const SearchPage = async({searchParams: {query}}:SearchPageProps) => {
                     }
                 },
                 {
-                    description: {
+                    description1: {
                         contains: query,
                         mode: "insensitive"
                     }

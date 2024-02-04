@@ -10,7 +10,7 @@ import AllProducts from './allProducts';
 export interface Product {
   id: number;
   name: string;
-  description: string;
+  description1: string;
   price: number;
   stock: number;
   type: string;
