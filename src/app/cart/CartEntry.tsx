@@ -37,7 +37,7 @@ const CartEntry = ({ cartItem, setProductQuantity }: CartEntryProps) => {
           selectedAlt={''}
           setSelectedImage={''}
           setSelectedAlt={''}
-          movFile={cartItem.product.movFile}
+          mp4File={cartItem.product.mp4File}
           webmFile={cartItem.product.webMFile}
           width={'w-[350px]'}
           height={'h-auto'}

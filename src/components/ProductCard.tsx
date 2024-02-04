@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <Link href={'/products/' + product.id}>
           <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
             <VideoPlayer
-              movFile={product.movFile}
+              mp4File={product.mp4File}
               webmFile={product.webMFile}
               width={'w-full'}
               height={'h-full'}
@@ -50,7 +50,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       {device === 'mobile' && (
         <figure className='card-image flex flex-col items-center sm:flex-none sm:justify-normal'>
           <VideoPlayer
-            movFile={product.movFile}
+            mp4File={product.mp4File}
             webmFile={product.webMFile}
             width={'w-full'}
             height={'h-[75%]'}

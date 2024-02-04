@@ -11,7 +11,7 @@ interface Product {
   imageUrl2: string;
   imageUrl3: string;
   imageUrl4: string;
-  movFile: string;
+  mp4File: string;
   webMFile: string;
 }
 
@@ -36,7 +36,7 @@ const WrapperVideoAndPictures = (product: any) => {
       ) : (
         <>
           <VideoPlayer
-            movFile={productObject.movFile}
+            mp4File={productObject.mp4File}
             webmFile={productObject.webMFile}
             product={productObject}
             width={'w-[500px]'}

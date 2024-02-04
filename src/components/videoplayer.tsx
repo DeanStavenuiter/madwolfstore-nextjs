@@ -8,7 +8,7 @@ const VideoPlayer: React.FC<{
   width: string;
   height: string;
   justifyContent: string;
-  movFile: string;
+  mp4File: string;
   webmFile: string;
   product: any;
   selectedImage?: any;
@@ -20,7 +20,7 @@ const VideoPlayer: React.FC<{
   width,
   height,
   justifyContent,
-  movFile,
+  mp4File,
   webmFile,
   product,
   selectedImage,
@@ -124,7 +124,7 @@ const VideoPlayer: React.FC<{
             preload='auto'
             onClick={handleVideoClick}
           >
-            <source src={movFile} type='video/mp4;codecs=hvc1' />
+            <source src={mp4File} type='video/mp4;codecs=hvc1' />
             <source src={webmFile} type='video/webm' />
             Your browser does not support the video tag.
           </video>
