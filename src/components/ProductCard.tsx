@@ -17,8 +17,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   //   1000 * 60 * 60 * 24 * 7;
 
   const device = useDevice();
-  console.log('device', device);
-  console.log('Product', product);
+  // console.log('device', device);
+  // console.log('Product', product);
   return (
     <>
       {device === 'desktop' && (

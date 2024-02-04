@@ -54,8 +54,11 @@ const page = async ({ params: { id } }: ProductPageProps) => {
     'use server';
     //get input data from form to create new product
     const name = formData.get('name')?.toString() || '';
-    const description = formData.get('description')?.toString() || '';
-    const movFile = formData.get('mp4File')?.toString() || '';
+    const description1 = formData.get('description')?.toString() || '';
+    const description2 = formData.get('description')?.toString() || '';
+    const description3 = formData.get('description')?.toString() || '';
+    const description4 = formData.get('description')?.toString() || '';
+    const mp4File = formData.get('mp4File')?.toString() || '';
     const webMFile = formData.get('webMFile')?.toString() || '';
     const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
     const imageUrl2 = formData.get('imageUrl2')?.toString() || '';
@@ -78,8 +81,11 @@ const page = async ({ params: { id } }: ProductPageProps) => {
       where: { id },
       data: {
         name,
-        description,
-        movFile,
+        description1,
+        description2,
+        description3,
+        description4,
+        mp4File,
         webMFile,
         imageUrl1,
         imageUrl2,
@@ -174,7 +180,7 @@ const page = async ({ params: { id } }: ProductPageProps) => {
                 name='description'
                 placeholder='Description'
                 className='textarea textarea-bordered mb-3 w-full text-base'
-                defaultValue={product.description}
+                defaultValue={product.description1}
               ></textarea>
               <span className='mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'>
                 Please enter a description of the product
@@ -190,7 +196,7 @@ const page = async ({ params: { id } }: ProductPageProps) => {
                 type='url'
                 placeholder='MP4 File'
                 className='input input-bordered mb-3 w-full '
-                defaultValue={product.movFile || undefined}
+                defaultValue={product.mp4File || undefined}
               />
               <input
                 name='webMFile'

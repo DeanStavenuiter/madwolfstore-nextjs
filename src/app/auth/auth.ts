@@ -97,7 +97,7 @@ declare module 'next-auth/adapters' {
           const updatedToken = {
             ...token,
             id: u.id,
-            role: u.role,
+            // role: u.role,
             emailVerified: u.emailVerified,
           };
           return Promise.resolve(updatedToken);
@@ -111,7 +111,7 @@ declare module 'next-auth/adapters' {
           user: {
             ...session.user,
             id: token.id,
-            role: token.role,
+            // role: token.role,
             emailVerified: token.emailVerified,
           },
         };

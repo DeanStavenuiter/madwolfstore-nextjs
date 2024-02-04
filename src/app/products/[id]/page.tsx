@@ -17,7 +17,7 @@ export async function generateMetadata({
   const product = await getProduct(id);
   return {
     title: `${product.name} | MadWolf Store`,
-    description: product.description,
+    description: product.description1,
     // openGraph: { images: [{ url: product.imageUrl1 }] },
   };
 }
@@ -55,9 +55,8 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           <>
             <WrapperVideoAndPictures product={product} />
           </>
-        )}
+        )}  
       </figure>
-      <div></div>
       <div className='w-full p-4 pb-6 lg:w-[50%]  lg:min-w-[368px]'>
         <div className='mb-2'>
           <Link href='/' className='flex items-center gap-3 text-xl'>

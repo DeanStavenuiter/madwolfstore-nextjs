@@ -4,9 +4,6 @@ import { NextResponse } from "next/server";
 export async function PUT(request :any ) {
     const productId  = request.nextUrl.searchParams.get('productId') ;  
     const selectedSize = request.nextUrl.searchParams.get('selectedSize') ;
-
-    console.log(productId + ' productId');
-    console.log(selectedSize + ' selectedSize');
     
     try {
       const product = await prisma.cartItems.update({

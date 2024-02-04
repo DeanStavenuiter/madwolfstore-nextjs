@@ -40,7 +40,9 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
               size={size}
               onSelectSize={(selectedSize) => setSelectedSize(selectedSize)}
               css={
-                size.size === selectedSize ? 'bg-neutral text-white border-white' : 'border-none'
+                size.size === selectedSize
+                  ? 'bg-neutral text-white border-white'
+                  : 'border-none'
               }
             />
           </div>
@@ -52,13 +54,18 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
         </div>
       )}
       <PriceTag price={product.price} className='ml-1 mt-2' />
-      <p className='ml-1 py-4'>{product.description}</p>
+      <p className='ml-1 py-4'>{product.description1}</p>
+      
       {product.description2 && (
         <p className='ml-1 py-4'>{product.description2}</p>
       )}
 
       {product.description3 && (
         <p className='ml-1 py-4'>{product.description3}</p>
+      )}
+
+      {product.description4 && (
+        <p className='ml-1 py-4'>{product.description4}</p>
       )}
 
       <AddToCartButton

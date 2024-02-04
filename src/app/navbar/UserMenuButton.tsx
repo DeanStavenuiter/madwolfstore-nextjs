@@ -6,6 +6,8 @@ import profilePicPlaceHolder from '@/assets/profile-pic-placeholder.png';
 import { signIn, signOut } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface UserMenuButtonProps {
   session: Session | null;
@@ -13,10 +15,17 @@ interface UserMenuButtonProps {
 
 const UserMenuButton = ({ session }: UserMenuButtonProps) => {
   const user = session?.user;
+  const [role, setRole] = useState(false);
 
-  // console.log('session', session);
+  useEffect(() => {
+    const getRole = async () => {
+      const response = await axios.get('/api/users/name');
+      setRole(response.data);
+      // return response.data;
+    };
 
-  // console.log("User" ,user)
+    getRole();
+  }, []);
 
   return (
     <div className='dropdown dropdown-end'>
@@ -47,9 +56,9 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
       </label>
       <ul
         tabIndex={0}
-        className='bg-gray-900-800 menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 text-coolGray-400 bg-[rgb(30,35,42)] shadow'
+        className='bg-gray-900-800 menu dropdown-content rounded-box menu-sm z-30 mt-3 w-52 bg-[rgb(30,35,42)] text-coolGray-400 shadow'
       >
-        {user?.role === 'WOLF' ? (
+        {role === true ? (
           <>
             <li>
               <Link href={'/dashboard'}>

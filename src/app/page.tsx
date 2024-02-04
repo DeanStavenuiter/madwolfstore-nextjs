@@ -38,6 +38,7 @@ const HomePage = async ({ searchParams: { page = '1' } }: HomeProps) => {
     <div className='max-w-8xl h-full flex-grow'>
       <LogoAnimation />
       {/* <Navbar /> */}
+      
       <div className='flex flex-col items-center'>
         <div className='my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
           {productsWithStock.map((product) => (

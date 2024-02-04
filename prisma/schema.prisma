@@ -33,11 +33,12 @@ enum Type {
 model Product {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  description  String
+  description1 String
   description2 String?
   description3 String?
+  description4 String?
   webMFile     String
-  movFile      String
+  mp4File      String
   imageUrl1    String?
   imageUrl2    String?
   imageUrl3    String?

@@ -6,12 +6,7 @@ import { authOptions } from '@/app/auth/auth';
 import { Type } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 
-export const metadata = {
-  title: 'Add Product | MadWolf Store',
-  description: 'Add a new product to the store.',
-};
-
-const page = async () => {
+const AddProduct = async () => {
   const session = await getServerSession(authOptions);
 
   const quantityOptions: JSX.Element[] = [];
@@ -56,7 +51,7 @@ const page = async () => {
 
     //get input data from form to create new product
     const name = formData.get('name')?.toString() || '';
-    const description = formData.get('description')?.toString() || '';
+    const description1 = formData.get('description')?.toString() || '';
     const mp4File = formData.get('mp4File')?.toString() || '';
     const webMFile = formData.get('webMFile')?.toString() || '';
     const imageUrl1 = formData.get('imageUrl1')?.toString() || '';
@@ -72,11 +67,12 @@ const page = async () => {
     const XL = Number(formData.get('XL') || 0);
     const XXL = Number(formData.get('XXL') || 0);
     const stock = XS + S + M + L + XL + XXL;
+
     //create new product
     await prisma.product.create({
       data: {
         name,
-        description,
+        description1,
         imageUrl1,
         imageUrl2,
         imageUrl3,
@@ -97,7 +93,7 @@ const page = async () => {
         },
         stock: stock,
         webMFile: '',
-        movFile: '',
+        mp4File: '',
       },
       include: {
         sizes: true, 
@@ -179,6 +175,8 @@ const page = async () => {
             className='input input-bordered mb-3 w-full '
           />
         </div>
+
+        {/* product sizes and quantity */}
         <label className='label'>
           <span className='label-text'>Product size and quantity</span>
         </label>
@@ -312,4 +310,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default AddProduct;
