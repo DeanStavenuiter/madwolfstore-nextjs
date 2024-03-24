@@ -5,7 +5,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const InputsResetPassword = () => {
   const [formData, setformData] = useState({
-    email: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,13 +40,12 @@ const InputsResetPassword = () => {
       <Toaster />
       <div className='w-full'>
         <label className='label'>
-          <span className='text-coolGray-200 label-text'>Email</span>
+          <span className='text-coolGray-200 label-text'>New Password</span>
         </label>
         <input
           required
           name='newPassword'
-          type='text'
-          autoComplete='true'
+          type='password'
           onChange={handleChange}
           className='peer input input-bordered mb-3 w-full bg-[rgb(30,35,42)]'
         />
@@ -53,13 +53,12 @@ const InputsResetPassword = () => {
 
       <div className='w-full'>
         <label className='label'>
-          <span className='text-coolGray-200 label-text'>Email</span>
+          <span className='text-coolGray-200 label-text'>Confirm Password</span>
         </label>
         <input
           required
           name='Password'
-          type='text'
-          autoComplete='true'
+          type='password'
           onChange={handleChange}
           className='peer input input-bordered mb-3 w-full bg-[rgb(30,35,42)]'
         />
@@ -71,7 +70,7 @@ const InputsResetPassword = () => {
           type='submit'
           onClick={handleSubmit}
         >
-          Send link
+          Reset Password
         </button>
       </div>
     </form>
