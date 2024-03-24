@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db/prisma';
 import crypto from 'crypto';
-import { sendVerifcationCode } from '@/lib/nodemailer';
+import { sendVerifcationCode } from '@/lib/mail/verifyEmail';
 
 export async function POST(request: Request) {
   //set emailVerified to true

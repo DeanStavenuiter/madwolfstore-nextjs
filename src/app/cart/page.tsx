@@ -2,7 +2,6 @@ import { getCart } from '@/lib/db/cart';
 import CartEntry from './CartEntry';
 import setProductQuantity from './actions';
 import { formatPrice } from '@/lib/format';
-import CheckOutButton from './CheckOutButton';
 import Link from 'next/link';
 
 export const metadata = {
@@ -35,18 +34,25 @@ const CartPage = async () => {
           <p className='mb-3 font-bold'>
             Total: {formatPrice(cart?.subtotal || 0)}
           </p>
-          {/* <form action={handlePayment}>
-          <CheckOutButton className='btn-block'>Checkout</CheckOutButton>
-        </form> */}
-
-          <Link href={'/checkout'} className='w-full pl-5 pr-5 sm:pl-0 sm:pr-0 justify-center flex'>
-            <button
-              className='btn w-full bg-sky-600 text-coolGray-100 sm:w-[200px]'
-              disabled={!cart || null || cart.items.length === 0 ? true : false}
-            >
-              Checkout
-            </button>
-          </Link>
+          
+          <button
+            className={
+              !cart || cart.items.length === 0
+                ? 'w-full cursor-not-allowed rounded-lg bg-[rgb(32,32,40)] p-2'
+                : 'btn w-full border-none bg-sky-500 text-coolGray-200 hover:bg-sky-700 disabled:cursor-not-allowed disabled:text-coolGray-300 sm:w-[200px]'
+            }
+          >
+            {!cart || cart.items.length === 0 ? (
+              'Empty Cart'
+            ) : (
+              <Link
+                href={'/checkout'}
+                className='flex w-full justify-center pl-5 pr-5 sm:pl-0 sm:pr-0'
+              >
+                Checkout
+              </Link>
+            )}
+          </button>
         </div>
       </div>
     </div>

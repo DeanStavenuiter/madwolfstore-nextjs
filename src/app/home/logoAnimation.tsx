@@ -58,7 +58,7 @@ const LogoAnimation = () => {
           className='grid animate-Opacity place-items-center hover:cursor-pointer'
           onClick={handleClick}
         >
-          <div className='flex h-16 w-16 animate-bounceAnimation items-center justify-center rounded-full border-2 border-solid border-gray-500 -translate-x-1/2 transform'>
+          <div className='flex h-16 w-16 animate-bounceAnimation items-center justify-center rounded-full border-2 border-solid border-gray-500 transform'>
             <span className='origin-center rotate-90 transform'>&#62;</span>
           </div>
         </div>

@@ -121,7 +121,7 @@ const AddProducts = () => {
     );
 
     setFormData({ ...formData, stock: stock });
-  }, [formData.sizes]); // Only run the effect when formData.sizes changes
+  }, [formData]); // Only run the effect when formData.sizes changes
 
   const [errors, setErrors] = useState({
     name: '',

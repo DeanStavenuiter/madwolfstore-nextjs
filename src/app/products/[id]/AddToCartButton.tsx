@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { incrementProductQuantity } from './actions';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface AddToCartButtonProps {
   productId: string;
@@ -22,6 +23,14 @@ const AddToCartButton = ({
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
 
+  if(success === true) {
+    toast.success('Added to Cart!', {
+      duration: 3000,
+    });
+    setSuccess(false);
+  }
+
+
   // console.log('selected size in add to cart button', selectedSize);
   return (
     <div
@@ -29,6 +38,7 @@ const AddToCartButton = ({
         !selectedSize ? 'cursor-not-allowed' : ''
       }`}
     >
+      <Toaster/>
       <button
         className={`btn w-full border-none bg-sky-500 text-coolGray-100 hover:bg-sky-700 disabled:text-coolGray-300 sm:w-[160px]
         `}
@@ -67,9 +77,6 @@ const AddToCartButton = ({
           ''
         )}
       </button>
-      {!isPending && success && (
-        <span className='ml-1 text-success'>Added to Cart!</span>
-      )}
     </div>
   );
 };

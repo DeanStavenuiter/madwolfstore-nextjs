@@ -4,6 +4,7 @@ import SelectSizeButton from './selectSizeButton';
 import PriceTag from '@/components/PriceTag';
 import AddToCartButton from './[id]/AddToCartButton';
 import { incrementProductQuantity } from './[id]/actions';
+import toast, {Toaster} from 'react-hot-toast';
 
 interface Size {
   id: string;
@@ -75,6 +76,7 @@ const SizeAndAddtoCartButton = ({ product }: any) => {
         setSelectedSize={setSelectedSize}
       />
     </div>
+
   );
 };
 

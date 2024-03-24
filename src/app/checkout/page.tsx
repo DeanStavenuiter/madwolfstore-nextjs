@@ -3,7 +3,7 @@ import React from 'react';
 import CartEntry from '../cart/CartEntry';
 import setProductQuantity from '../cart/actions';
 import { formatPrice } from '@/lib/format';
-import { getUser, getUserWithAddress } from '../User/user';
+import { getUser } from '../User/user';
 import UserDetailForm from '../mollie/UserDetailForm';
 
 const CheckOutPage = async () => {

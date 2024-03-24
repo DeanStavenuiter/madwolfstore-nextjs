@@ -30,11 +30,13 @@ const getProduct = cache(async (id: string) => {
 const page = async ({ params: { id } }: ProductPageProps) => {
   const quantityOptions: JSX.Element[] = [];
   const session = await getServerSession(authOptions);
-  //check for session
-  if (!session) {
-    signOut();
-    redirect('/api/auth/signin?callbackUrl=/add-product');
-  }
+
+  // console.log("session", session)
+  // //check for session
+  // if (!session) {
+  //   signOut();
+  //   redirect('/api/auth/signin?callbackUrl=/add-product');
+  // }
 
   //check for admin
   if (session && session.user.role !== 'WOLF') {

@@ -7,7 +7,7 @@ const CheckOutButton = ({
   ...props
 }: FormSubmitButtonProps) => {
   return (
-    <button {...props} className='btn btn-primary sm:w-[200px]'>
+    <button {...props} className='btn sm:w-[200px]'>
       {children}
     </button>
   );

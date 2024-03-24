@@ -17,7 +17,7 @@ const UserDetailForm = ({totalPrice, email}: any) => {
 
   const device = useDevice();
 
-  console.log("totalPrice", totalPrice)
+  // console.log("totalPrice", totalPrice)
   useEffect(() => {
     const getUserInfo = async () => {
       const response = await axios.get('/api/account');

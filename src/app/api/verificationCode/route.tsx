@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db/prisma';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import { sendVerifcationCode } from '@/lib/nodemailer';
+import { sendVerifcationCode } from '@/lib/mail/verifyEmail';
 
 export async function POST(request: Request) {
   //create user and send verification code

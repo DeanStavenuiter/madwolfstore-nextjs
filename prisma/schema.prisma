@@ -119,6 +119,7 @@ model User {
   verificationTokenId String?            @db.ObjectId
   Address             Address[]
   Orders              Order[]
+  resetPasswordTimer  DateTime?
 
   @@map("users")
 }
